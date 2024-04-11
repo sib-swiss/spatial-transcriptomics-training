@@ -1,0 +1,6 @@
+Fresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome Profiling
+
+Spatial Gene Expression Dataset by Space Ranger 2.0.1
+10x Genomics obtained fresh frozen (FF) mouse brain tissue blocks from Avaden Biosciences. The tissue was sectioned as described in Visium CytAssist Spatial Gene Expression for Fresh Frozen – Tissue Preparation Guide Demonstrated Protocol (CG000636). Tissue section of 10 µm was placed on a standard glass slide, and H&E-stained following methanol fixation. Sections were coverslipped with 85% glycerol, imaged, decoverslipped, followed by destaining as described in Visium CytAssist Spatial Gene Expression for Fresh Frozen – Fixation, H&E Staining, Imaging & Destaining Demonstrated Protocol (CG000614). The glass slide with tissue section was processed via Visium CytAssist instrument to transfer analytes to a Visium CytAssist Spatial Gene Expression slide with 6.5 mm Capture Area following the Visium CytAssist Spatial Gene Expression Reagent Kits for FFPE User Guide (CG000495). RIN Score: 7.0
+
+Link: https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard
