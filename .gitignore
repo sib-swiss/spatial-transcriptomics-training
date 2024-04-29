@@ -47,3 +47,17 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+/.quarto/
+
+# rstudio server files
+var-lib-rstudio-server/
+run/
+database.conf
+
+# quarto large dirs
+_freeze/
+_site/
+
+# analysis dir
+analysis/

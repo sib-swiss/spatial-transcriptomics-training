@@ -1,0 +1,28 @@
+
+# Mapping + counting (spaceranger)
+
+we downloaded the data from https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard
+
+Fresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome Profiling
+
+```{r}
+#| output: false
+library(Seurat)    
+library(umap)       
+library(ggpubr)
+library(hdf5r)
+```
+
+```{r}
+countFolder <- "raw_data/Posterior"
+analysisFolder <- "analysis"
+dir.create(analysisFolder, showWarnings = FALSE)
+```
+
+```{r}
+seu <- Load10X_Spatial(countFolder,
+                       filename = "filtered_feature_bc_matrix.h5",
+                       slice = "Posterior")
+```
+
+
