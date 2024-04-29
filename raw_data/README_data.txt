@@ -1,6 +1,14 @@
-Fresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome Profiling
+Mouse Brain Serial Section 1 (Sagittal-Posterior):
 
-Spatial Gene Expression Dataset by Space Ranger 2.0.1
-10x Genomics obtained fresh frozen (FF) mouse brain tissue blocks from Avaden Biosciences. The tissue was sectioned as described in Visium CytAssist Spatial Gene Expression for Fresh Frozen – Tissue Preparation Guide Demonstrated Protocol (CG000636). Tissue section of 10 µm was placed on a standard glass slide, and H&E-stained following methanol fixation. Sections were coverslipped with 85% glycerol, imaged, decoverslipped, followed by destaining as described in Visium CytAssist Spatial Gene Expression for Fresh Frozen – Fixation, H&E Staining, Imaging & Destaining Demonstrated Protocol (CG000614). The glass slide with tissue section was processed via Visium CytAssist instrument to transfer analytes to a Visium CytAssist Spatial Gene Expression slide with 6.5 mm Capture Area following the Visium CytAssist Spatial Gene Expression Reagent Kits for FFPE User Guide (CG000495). RIN Score: 7.0
+10x Genomics obtained fresh frozen mouse brain tissue (Strain C57BL/6) from BioIVT Asterand. The tissue was embedded and cryosectioned as described in Visium Spatial Protocols - Tissue Preparation Guide Demonstrated Protocol (CG000240). Tissue sections of 10 µm thickness from a sagittal slice of the posterior were placed on Visium Gene Expression Slides.
 
-Link: https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard
+Link: https://www.10xgenomics.com/resources/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-0-0
+
+
+
+
+Mouse Brain Serial Section 1 (Sagittal-Anterior): 
+
+10x Genomics obtained fresh frozen mouse brain tissue (Strain C57BL/6) from BioIVT Asterand. The tissue was embedded and cryosectioned as described in Visium Spatial Protocols - Tissue Preparation Guide Demonstrated Protocol (CG000240). Tissue sections of 10 µm thickness from a sagittal slice of the anterior were placed on Visium Gene Expression Slides.
+
+Link: https://www.10xgenomics.com/resources/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-0-0
