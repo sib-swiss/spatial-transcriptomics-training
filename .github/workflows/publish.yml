@@ -38,13 +38,8 @@ jobs:
       - name: Install system dependencies
         shell: bash {0}
         run: |
-            # sudo apt-get update
-            # sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-            sudo apt-get update -qq && apt-get -y --no-install-recommends install cmake libpng-dev make libicu-dev libcurl4-openssl-dev libssl-dev libhdf5-dev pandoc libglpk-dev libxml2-dev zlib1g-dev python3
-            # Rscript -e "install.packages('remotes')" -e "remotes::install_github('mdneuzerling/getsysreqs')"
-            # sysreqs=$(Rscript -e "cat(getsysreqs::apt_get_install('renv.lock', distribution = 'ubuntu', release = '20.04'))")
-            # echo $sysreqs
-            # sudo -s eval "$sysreqs"
+            sudo apt-get update
+            sudo apt-get -y --no-install-recommends install cmake libpng-dev make libicu-dev libcurl4-openssl-dev libssl-dev libhdf5-dev pandoc libglpk-dev libxml2-dev zlib1g-dev python3
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         with:
