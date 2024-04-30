@@ -9,6 +9,7 @@ on:
       - custom.scss
       - renv.lock
       - _quarto.yml
+      - .github/workflows/publish.yml
   # every week on sunday
   schedule:
     - cron: "0 0 * * SUN"
