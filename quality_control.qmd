@@ -14,7 +14,7 @@ library(hdf5r)
 ```
 
 ```{r}
-countFolder <- "raw_data/Posterior"
+countFolder <- "raw_data"
 analysisFolder <- "analysis"
 name1 <- "Anterior"
 name2 <- "Posterior"
@@ -22,8 +22,10 @@ dir.create(analysisFolder, showWarnings = FALSE)
 ```
 
 ```{r}
-seu1 <- Load10X_Spatial(paste0(countFolder, name1), filename = "filtered_feature_bc_matrix.h5", slice = name1)
-seu2 <- Load10X_Spatial(paste0(countFolder, name2), filename = "filtered_feature_bc_matrix.h5", slice = name2)
+seu1 <- Load10X_Spatial(file.path(countFolder, name1),
+                        filename = "filtered_feature_bc_matrix.h5", slice = name1)
+seu2 <- Load10X_Spatial(file.path(countFolder, name2),
+                        filename = "filtered_feature_bc_matrix.h5", slice = name2)
 ```
 
 ```{r}
