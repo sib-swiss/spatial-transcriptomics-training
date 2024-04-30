@@ -35,4 +35,8 @@ COPY renv.lock renv.lock
 # approach one
 ENV RENV_PATHS_LIBRARY renv/library
 
-RUN R -e "renv::restore(repos = 'https://cloud.r-project.org/')"
+RUN R -e "renv::restore()"
+
+# RUN R -e "renv::restore(repos = 'https://cloud.r-project.org/')"
+
+# RUN R -e "options(repos = c(CRAN = 'https://cloud.r-project.org'))"
