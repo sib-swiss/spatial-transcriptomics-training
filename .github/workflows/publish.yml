@@ -5,7 +5,7 @@ on:
   push:
     branches: main
     paths: 
-      - *.qmd
+      - "*.qmd"
       - custom.scss
       - renv.lock
       - _quarto.yml
