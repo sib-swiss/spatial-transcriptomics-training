@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "quality_control.html",
+    "href": "quality_control.html",
+    "title": "Mapping + counting (spaceranger)",
+    "section": "",
+    "text": "Mapping + counting (spaceranger)\nwe downloaded the data from https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard\nFresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome Profiling\n\nlibrary(Seurat)    \nlibrary(umap)       \nlibrary(ggpubr)\nlibrary(hdf5r)\n\n\ncountFolder &lt;- \"raw_data/Posterior\"\nanalysisFolder &lt;- \"analysis\"\ndir.create(analysisFolder, showWarnings = FALSE)\n\n\nseu &lt;- Load10X_Spatial(countFolder,\n                       filename = \"filtered_feature_bc_matrix.h5\",\n                       slice = \"Posterior\")"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SIB days tutorial: introduction to spatial transcriptomics",
+    "section": "",
+    "text": "SIB days tutorial: introduction to spatial transcriptomics\nLorem ipsum"
+  }
+]
