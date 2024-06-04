@@ -18,16 +18,8 @@ library(tidyr)
 Specify input directories and files.
 
 ```{r}
-# analysisFolder <- "analysis"
-# dir.create(analysisFolder, showWarnings = FALSE)
-# 
-# 
-# count_folder <- "raw_data"
-# slice_names <- c("Anterior", "Posterior")
-# input_paths <- file.path(count_folder, slice_names)
-# names(input_paths) <- slice_names
-# 
-# input_paths
+output_folder <- "output"
+dir.create(output_folder, showWarnings = FALSE)
 ```
 
 Load data into an seurat object. Here, we loop over the two slices, and combine it in a list of two seurat objects. 
@@ -108,7 +100,7 @@ You must judge for yourself based on your knowledge of the tissue and the above 
 ```{r}
 high_mt_spots <- Cells(seu)[seu$percent_mt > 32]
 
-SpatialPlot(seu, cells.highlight = percent_mt_filter) + NoLegend()
+SpatialPlot(seu, cells.highlight = high_mt_spots) + NoLegend()
 
 low_nfeature_spots <- Cells(seu)[seu$nFeature_Spatial < 500]
 
@@ -136,9 +128,9 @@ mitochondrial genes (prefix mt-), ribosomal proteins (starting with rp), actin a
 ```{r}
 raw_counts <- seu[["Spatial"]]$counts
 raw_counts@x <- raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p))
-most_expressed <- order(Matrix::rowSums(C), decreasing = TRUE)[30:1]
+most_expressed <- order(Matrix::rowSums(raw_counts), decreasing = TRUE)[30:1]
 
-as.matrix(C[most_expressed, ]) |>
+as.matrix(raw_counts[most_expressed, ]) |>
   t() |>
   as.matrix() |>
   boxplot(
@@ -192,9 +184,11 @@ seu <- SCTransform(
 ```
 
 ```{r}
-saveRDS(seu,
-        paste0(analysisFolder, "/normalized_Posterior.rds"))
+
 ```
+
+
+
 
 ```{r}
 SpatialFeaturePlot(seu, features = "nCount_Spatial")+
@@ -212,5 +206,31 @@ SpatialFeaturePlot(seu, features = "nCount_SCT") +
 ```{r}
 SpatialFeaturePlot(seu, features = "Ttr") +
   theme(legend.position = "right")
+```
+
+```{r}
+saveRDS(seu,
+        paste0("output/normalized_Posterior.rds"))
+```
+
+```{r}
+seu2 <- Load10X_Spatial(data.dir = "raw_data/Anterior/",
+                       slice = "Anterior")
+
+seu2 <- seu2[, seu2$nFeature_Spatial > 500 & seu2$percent_mt < 32]
+
+remove_feature <- rownames(seu2) %in% remove_genes
+seu2 <- seu2[!remove_feature, ]
+
+seu2 <- SCTransform(
+  seu2,
+  assay = "Spatial",
+  vars.to.regress = c("percent_mt"),
+  verbose = FALSE
+)
+
+saveRDS(seu,
+        paste0("output/normalized_Anterior.rds"))
+
 ```
 
