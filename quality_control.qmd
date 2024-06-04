@@ -10,29 +10,44 @@ Fresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome P
 library(Seurat)
 library(umap)
 library(ggpubr)
+library(tidyr)
 ```
 
-## Setup
+## Setup & the Seurat object
 
 Specify input directories and files.
 
 ```{r}
-countFolder <- "raw_data"
-analysisFolder <- "analysis"
-name1 <- "Anterior"
-name2 <- "Posterior"
-dir.create(analysisFolder, showWarnings = FALSE)
+# analysisFolder <- "analysis"
+# dir.create(analysisFolder, showWarnings = FALSE)
+# 
+# 
+# count_folder <- "raw_data"
+# slice_names <- c("Anterior", "Posterior")
+# input_paths <- file.path(count_folder, slice_names)
+# names(input_paths) <- slice_names
+# 
+# input_paths
 ```
 
-Load data into an seurat object
+Load data into an seurat object. Here, we loop over the two slices, and combine it in a list of two seurat objects. 
 
 ```{r}
-seu1 <- Load10X_Spatial(file.path(countFolder, name1),
-                        filename = "filtered_feature_bc_matrix.h5", slice = name1
-)
-seu2 <- Load10X_Spatial(file.path(countFolder, name2),
-                        filename = "filtered_feature_bc_matrix.h5", slice = name2
-)
+seu <- Load10X_Spatial(data.dir = "raw_data/Posterior/",
+                       slice = "Posterior")
+```
+
+```{r}
+seu
+```
+
+```{r}
+seu[["Spatial"]]$counts
+```
+
+```{r}
+SpatialPlot(seu, alpha = 0) + NoLegend()
+SpatialPlot(seu, alpha = 0.5) + NoLegend()
 ```
 
 ## Quality control
@@ -47,32 +62,18 @@ nCount_Spatial: total number of counts for a spot (i.e. library size)
 nFeature_Spatial: total number of genes expressed in a spot  
 
 ```{r}
-FeatureScatter(seu1,
+SpatialPlot(seu, features = "nCount_Spatial") +
+  theme(legend.position = "right")
+
+SpatialPlot(seu, features ="nFeature_Spatial") +
+  theme(legend.position = "right")
+
+
+FeatureScatter(seu,
                feature1 = "nCount_Spatial",
                feature2 = "nFeature_Spatial"
 ) +
-  labs(title = name1) +
-  NoLegend()
-
-
-VlnPlot(seu1,
-        features = "nFeature_Spatial"
-) +
-  labs(title = name1, y = "nFeature_Spatial", x = "") +
-  NoLegend()
-
-FeatureScatter(seu2,
-               feature1 = "nCount_Spatial",
-               feature2 = "nFeature_Spatial"
-) +
-  labs(title = name2) +
-  NoLegend()
-
-
-VlnPlot(seu2,
-        features = "nFeature_Spatial"
-) +
-  labs(title = name2, y = "nFeature_Spatial", x = "") +
+  labs(title = "All spots") +
   NoLegend()
 ```
 
@@ -82,59 +83,18 @@ Low quality/dying cells often exhibit extensive mitochondrial contamination.
 Spots with a high proportion of mitochondrial reads will be removed.
 
 ```{r}
-seu1 <- PercentageFeatureSet(seu1,
+seu <- PercentageFeatureSet(seu,
                              pattern = "^MT-|^Mt-|^mt-",
-                             col.name = "percent.mt"
+                             col.name = "percent_mt"
 )
 
-VlnPlot(seu1, features = "percent.mt") +
-  labs(title = name1, y = "percent of mitochondrial reads", x = "") +
-  NoLegend()
+SpatialFeaturePlot(seu, features = "percent_mt", alpha = 0.7) +
+  theme(legend.position = "right")
 
-SpatialFeaturePlot(seu1, features = "percent.mt") + labs(title = name1)
-
-seu2 <- PercentageFeatureSet(seu2,
-                             pattern = "^MT-|^Mt-|^mt-",
-                             col.name = "percent.mt"
-)
-
-VlnPlot(seu2, features = "percent.mt") +
-  labs(title = name2, y = "percent of mitochondrial reads", x = "") +
-  NoLegend()
-
-SpatialFeaturePlot(seu2, features = "percent.mt") + labs(title = name2)
-
+VlnPlot(seu, features = "percent_mt", layer = "counts")
 ```
 
-### Percent of ribosomal protein reads
 
-The fraction of reads from ribosomal proteins varies based on cell type and overall cell health. 
-Higher levels of RNA degradation may lead to more templating of ribosomal proteins.
-
-```{r}
-seu1 <- PercentageFeatureSet(seu1,
-                             pattern = "^RP[SL]|^MRP[SL]|^Rp[sl]|^Mrp[sl]|^rp[sl]|^mrp[sl]",
-                             col.name = "percent.rp"
-)
-
-VlnPlot(seu1, features = "percent.rp") +
-  labs(title = name1, y = "percent of ribosomal reads", x = "") +
-  NoLegend()
-
-SpatialFeaturePlot(seu1, features = "percent.rp") + labs(title = name1)
-
-seu2 <- PercentageFeatureSet(seu2,
-                             pattern = "^RP[SL]|^MRP[SL]|^Rp[sl]|^Mrp[sl]|^rp[sl]|^mrp[sl]",
-                             col.name = "percent.rp"
-)
-
-VlnPlot(seu2, features = "percent.rp") +
-  labs(title = name2, y = "percent of ribosomal reads", x = "") +
-  NoLegend()
-
-SpatialFeaturePlot(seu2, features = "percent.rp") + labs(title = name2)
-
-```
 
 ## Filtering
 
@@ -146,8 +106,20 @@ remove spots with >=32% mitocondrial counts
 You must judge for yourself based on your knowledge of the tissue and the above graphics.
 
 ```{r}
-seu.filt1 <- seu1[, seu1$nFeature_Spatial > 500 & seu1$percent.mt < 32]
-seu.filt2 <- seu2[, seu2$nFeature_Spatial > 500 & seu2$percent.mt < 32]
+high_mt_spots <- Cells(seu)[seu$percent_mt > 32]
+
+SpatialPlot(seu, cells.highlight = percent_mt_filter) + NoLegend()
+
+low_nfeature_spots <- Cells(seu)[seu$nFeature_Spatial < 500]
+
+SpatialPlot(seu, cells.highlight = low_nfeature_spots) + NoLegend()
+
+```
+
+
+```{r}
+seu <- seu[, seu$nFeature_Spatial > 500 & seu$percent_mt < 32]
+SpatialPlot(seu, alpha = 0.5) + NoLegend()
 ```
 
 ### Gene-level QC
@@ -162,25 +134,8 @@ at the normalization step. In particular, look out for MALAT1 and other nuclear 
 mitochondrial genes (prefix mt-), ribosomal proteins (starting with rp), actin and hemoglobin.
 
 ```{r}
-C <- seu.filt1[["Spatial"]]$counts
-C@x <- C@x / rep.int(colSums(C), diff(C@p))
-most_expressed <- order(Matrix::rowSums(C), decreasing = TRUE)[30:1]
-
-as.matrix(C[most_expressed, ]) |>
-  t() |>
-  as.matrix() |>
-  boxplot(
-    cex.axis = 0.5,
-    cex.lab = 0.8,
-    cex = 0.1,
-    las = 1,
-    xlab = "% total count per cell",
-    col = (scales::hue_pal())(30)[30:1],
-    horizontal = TRUE
-  )
-
-C <- seu.filt2[["Spatial"]]$counts
-C@x <- C@x / rep.int(colSums(C), diff(C@p))
+raw_counts <- seu[["Spatial"]]$counts
+raw_counts@x <- raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p))
 most_expressed <- order(Matrix::rowSums(C), decreasing = TRUE)[30:1]
 
 as.matrix(C[most_expressed, ]) |>
@@ -196,6 +151,7 @@ as.matrix(C[most_expressed, ]) |>
     horizontal = TRUE
   )
 ```
+
 
 ```{r}
 remove_genes <- c("mt-Co3", "mt-Co1",
@@ -205,49 +161,11 @@ remove_genes <- c("mt-Co3", "mt-Co1",
 ```
 
 ```{r}
-remove_feature <- rownames(seu.filt1) %in% remove_genes
-seu.filt1 <- seu.filt1[!remove_feature, ]
-
-
-remove_feature <- rownames(seu.filt2) %in% remove_genes
-seu.filt2 <- seu.filt2[!remove_feature, ]
+remove_feature <- rownames(seu) %in% remove_genes
+seu <- seu[!remove_feature, ]
 
 ```
 
-### Statistics after filtering
-
-```{r}
-stats <- c(dim(seu1)[2], dim(seu.filt1)[2])
-stats <- rbind(stats, c(dim(seu2)[2], dim(seu.filt2)[2]))
-colnames(stats) <- c("Before filtering", "After filtering")
-rownames(stats) <- c(name1, name2)
-stats 
-```
-
-### Library size versus detected genes after filtering
-
-```{r}
-FeatureScatter(seu.filt1, 
-               feature1 = "nCount_Spatial", 
-               feature2 = "nFeature_Spatial") + 
-  labs(title = name1) +
-  NoLegend() 
-
-VlnPlot(seu.filt1, features = "nFeature_Spatial")  + 
-  labs(title = name1, y = "nFeature_Spatial", x = "") + 
-  NoLegend() 
-
-FeatureScatter(seu.filt2,
-               feature1 = "nCount_Spatial",
-               feature2 = "nFeature_Spatial") +
-  labs(title = name2) +
-  NoLegend() 
-
-VlnPlot(seu.filt2, features = "nFeature_Spatial")  + 
-  labs(title = name2, y = "nFeature_Spatial", x = "") +
-  NoLegend() 
-
-```
 
 ## Normalization
 
@@ -260,71 +178,39 @@ Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Bi
 negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. 
 During the normalization, we also remove confounding sources of variation (mitochondrial and ribosomal mapping percentage).
 
-### Before normalization
-
-```{r}
-VlnPlot(seu.filt1, features = "nCount_Spatial", pt.size = 0.1) + 
-  labs(title=name1, y="nCount_Spatial", x="") + 
-  NoLegend() 
-
-SpatialFeaturePlot(seu.filt1, features = "nCount_Spatial") + 
-  labs(title = name1) +
-  theme(legend.position = "right")
-
-VlnPlot(seu.filt2, features = "nCount_Spatial", pt.size = 0.1) + 
-  labs(title=name2, y="nCount_Spatial", x="") + 
-  NoLegend() 
-
-SpatialFeaturePlot(seu.filt2, features = "nCount_Spatial") + 
-  labs(title = name2) + 
-  theme(legend.position = "right")
-
-```
-
-### After normalization
-
 Apply sctransform normalization:
 - Transformed data will be available in the SCT assay, which is set as the default after running sctransform
 - During normalization, we can also remove confounding sources of variation, for example, mitochondrial mapping percentage
 
 ```{r}
-seu.norm1 <- SCTransform(
-  seu.filt1,
+seu <- SCTransform(
+  seu,
   assay = "Spatial",
-  vars.to.regress = c("percent.mt", "percent.rp"),
+  vars.to.regress = c("percent_mt"),
   verbose = FALSE
 )
-seu.norm2 <-
-  SCTransform(
-    seu.filt2,
-    assay = "Spatial",
-    vars.to.regress = c("percent.mt", "percent.rp"),
-    verbose = FALSE
-  )
+```
 
-saveRDS(seu.norm1,
-        paste0(analysisFolder, "/normalized_", name1, ".rds"))
-saveRDS(seu.norm2,
-        paste0(analysisFolder, "/normalized_", name2, ".rds"))
+```{r}
+saveRDS(seu,
+        paste0(analysisFolder, "/normalized_Posterior.rds"))
+```
 
-VlnPlot(seu.norm1, features = "nCount_SCT", pt.size = 0.1) +
-  labs(title =
-         name1, y = "nCount_Spatial", x = "") +
-  NoLegend()
-
-SpatialFeaturePlot(seu.norm1, features = "nCount_SCT") +
-  labs(title = name1) +
+```{r}
+SpatialFeaturePlot(seu, features = "nCount_Spatial")+
+  labs(title = "Original counts") +
   theme(legend.position = "right")
 
-VlnPlot(seu.norm2, features = "nCount_SCT", pt.size = 0.1) +
-  labs(title =
-         name2, y = "nCount_Spatial", x = "") +
-  NoLegend()
 
-SpatialFeaturePlot(seu.norm2, features = "nCount_SCT") +
-  labs(title = name2) +
+SpatialFeaturePlot(seu, features = "nCount_SCT") +
+  labs(title = "Counts after SCT") +
   theme(legend.position = "right")
+
 
 ```
 
+```{r}
+SpatialFeaturePlot(seu, features = "Ttr") +
+  theme(legend.position = "right")
+```
 
