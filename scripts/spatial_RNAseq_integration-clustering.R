@@ -64,21 +64,21 @@ DimPlot(seu.norm, reduction = "umap", group.by = "orig.ident")+ ggtitle("") + No
 use.pcs  <- 50
 ElbowPlot(seu.norm, ndims=use.pcs)
 
-# The sctransform workflow performs more effective normalization, strongly removing technical effects from the data, 
-# this means that higher PCs are more likely to represent subtle, but biologically relevant, sources of heterogeneity 
-# - so including them may improve downstream analysis. Therefore, higher number of PC can be used. 
+# The sctransform workflow performs more effective normalization, strongly removing technical effects from the data,
+# this means that higher PCs are more likely to represent subtle, but biologically relevant, sources of heterogeneity
+# - so including them may improve downstream analysis. Therefore, higher number of PC can be used.
 # By default we are using the first 50 PCs
 
 
 
 # 2. Identifying clusters  #########################
-# Seurat implements a graph-based clustering approach. Distances between the spots are calculated based on 
-# previously identified PCs. Briefly, Seurat identifies clusters of spots by a shared nearest neighbor (SNN) 
-# modularity optimization based clustering algorithm. First, it identifies k-nearest neighbors (KNN) and constructs 
-# the SNN graph. Then it optimizes the modularity function to determine clusters. For a full description of the 
+# Seurat implements a graph-based clustering approach. Distances between the spots are calculated based on
+# previously identified PCs. Briefly, Seurat identifies clusters of spots by a shared nearest neighbor (SNN)
+# modularity optimization based clustering algorithm. First, it identifies k-nearest neighbors (KNN) and constructs
+# the SNN graph. Then it optimizes the modularity function to determine clusters. For a full description of the
 # algorithms, see Waltman and van Eck (2013) The European Physical Journal B.
 
-# The FindClusters function implements the procedure, and contains a resolution parameter that sets the granularity 
+# The FindClusters function implements the procedure, and contains a resolution parameter that sets the granularity
 # of the downstream clustering, with increased values leading to a greater number of clusters.
 
 # Selecting which resolution to use: -------

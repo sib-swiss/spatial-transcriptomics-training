@@ -11,6 +11,8 @@ library(Seurat)
 library(umap)
 library(ggpubr)
 library(tidyr)
+library(patchwork)
+library(ggplot2)
 ```
 
 ## Setup & the Seurat object
@@ -25,21 +27,30 @@ dir.create(output_folder, showWarnings = FALSE)
 Load data into an seurat object. Here, we loop over the two slices, and combine it in a list of two seurat objects. 
 
 ```{r}
-seu <- Load10X_Spatial(data.dir = "raw_data/Posterior/",
-                       slice = "Posterior")
+seu_list <- lapply(c("Anterior", "Posterior"), function(slice) {
+  seu <- Load10X_Spatial(data.dir = file.path("raw_data", slice),
+                  slice = slice)
+  seu$orig.ident <- slice
+  return(seu)
+})
+
 ```
 
 ```{r}
-seu
+seu <- merge(seu_list[[1]], seu_list[[2]])
+seu <- SetIdent(seu, value = "orig.ident")
 ```
 
 ```{r}
-seu[["Spatial"]]$counts
+GetAssayData(seu, assay = "Spatial", layer = "counts.1")
+GetAssayData(seu, assay = "Spatial", layer = "counts.2")
 ```
 
 ```{r}
-SpatialPlot(seu, alpha = 0) + NoLegend()
-SpatialPlot(seu, alpha = 0.5) + NoLegend()
+SpatialPlot(seu, alpha = 0) + 
+  plot_layout(guides='collect') & theme(legend.position = "none")
+SpatialPlot(seu, alpha = 0.5) + 
+  plot_layout(guides='collect') & theme(legend.position = "none")
 ```
 
 ## Quality control
@@ -55,18 +66,17 @@ nFeature_Spatial: total number of genes expressed in a spot
 
 ```{r}
 SpatialPlot(seu, features = "nCount_Spatial") +
-  theme(legend.position = "right")
+  plot_layout(guides='collect') & theme(legend.position = "right")
 
 SpatialPlot(seu, features ="nFeature_Spatial") +
-  theme(legend.position = "right")
+  plot_layout(guides='collect') & theme(legend.position = "right")
 
 
 FeatureScatter(seu,
                feature1 = "nCount_Spatial",
-               feature2 = "nFeature_Spatial"
-) +
-  labs(title = "All spots") +
-  NoLegend()
+               feature2 = "nFeature_Spatial",
+               shuffle = TRUE
+) + scale_color_viridis_d(option = "cividis")
 ```
 
 ### Percent of mitochondrial reads
@@ -80,10 +90,11 @@ seu <- PercentageFeatureSet(seu,
                              col.name = "percent_mt"
 )
 
-SpatialFeaturePlot(seu, features = "percent_mt", alpha = 0.7) +
-  theme(legend.position = "right")
+SpatialFeaturePlot(seu, features = "percent_mt", alpha = 0.7) + 
+  plot_layout(guides='collect') & theme(legend.position = "right")
 
-VlnPlot(seu, features = "percent_mt", layer = "counts")
+VlnPlot(seu, features = "percent_mt", layer = "counts") +
+  scale_fill_viridis_d(option = "E")
 ```
 
 
@@ -98,20 +109,24 @@ remove spots with >=32% mitocondrial counts
 You must judge for yourself based on your knowledge of the tissue and the above graphics.
 
 ```{r}
-high_mt_spots <- Cells(seu)[seu$percent_mt > 32]
+seu$percent_mt_keep <- seu$percent_mt < 32
 
-SpatialPlot(seu, cells.highlight = high_mt_spots) + NoLegend()
+SpatialPlot(seu, group.by = "percent_mt_keep") +
+  plot_layout(guides='collect') & theme(legend.position = "none")
+  
 
-low_nfeature_spots <- Cells(seu)[seu$nFeature_Spatial < 500]
+seu$nFeature_Spatial_keep <- seu$nFeature_Spatial > 500
 
-SpatialPlot(seu, cells.highlight = low_nfeature_spots) + NoLegend()
+SpatialPlot(seu, group.by = "nFeature_Spatial_keep") +
+  plot_layout(guides='collect') & theme(legend.position = "none")
 
 ```
 
 
 ```{r}
 seu <- seu[, seu$nFeature_Spatial > 500 & seu$percent_mt < 32]
-SpatialPlot(seu, alpha = 0.5) + NoLegend()
+SpatialPlot(seu, alpha = 0.5, group.by = "percent_mt_keep")  +
+  plot_layout(guides='collect') & theme(legend.position = "none")
 ```
 
 ### Gene-level QC
@@ -126,13 +141,13 @@ at the normalization step. In particular, look out for MALAT1 and other nuclear 
 mitochondrial genes (prefix mt-), ribosomal proteins (starting with rp), actin and hemoglobin.
 
 ```{r}
-raw_counts <- seu[["Spatial"]]$counts
-raw_counts@x <- raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p))
+most_expressed_boxplot <- function(raw_counts) {
+  raw_counts@x <- raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p))
 most_expressed <- order(Matrix::rowSums(raw_counts), decreasing = TRUE)[30:1]
 
-as.matrix(raw_counts[most_expressed, ]) |>
-  t() |>
+raw_counts[most_expressed, ] |>
   as.matrix() |>
+  t() |>
   boxplot(
     cex.axis = 0.5,
     cex.lab = 0.8,
@@ -142,6 +157,13 @@ as.matrix(raw_counts[most_expressed, ]) |>
     col = (scales::hue_pal())(30)[30:1],
     horizontal = TRUE
   )
+}
+
+
+most_expressed_boxplot(seu[["Spatial"]]$counts.1)
+
+most_expressed_boxplot(seu[["Spatial"]]$counts.2)
+
 ```
 
 
@@ -175,62 +197,42 @@ Apply sctransform normalization:
 - During normalization, we can also remove confounding sources of variation, for example, mitochondrial mapping percentage
 
 ```{r}
-seu <- SCTransform(
-  seu,
-  assay = "Spatial",
-  vars.to.regress = c("percent_mt"),
-  verbose = FALSE
-)
+seu_list <- SplitObject(seu, split.by = "orig.ident")
+
+# images aren't split with SplitObject. Resetting the images. 
+for(slice in names(seu_list)) {
+  seu_list[[slice]]@images <- setNames(
+    list(seu_list[[slice]]@images[[slice]]),
+    slice)
+}
+
+seu_list <- lapply(X = seu_list, FUN = SCTransform, assay = "Spatial",
+                   vars.to.regress = "percent_mt")
+
+seu <- merge(seu_list[[1]], seu_list[[2]])
 ```
 
-```{r}
-
-```
 
 
 
 
 ```{r}
-SpatialFeaturePlot(seu, features = "nCount_Spatial")+
-  labs(title = "Original counts") +
-  theme(legend.position = "right")
+SpatialFeaturePlot(seu, features = "nCount_Spatial") +
+  plot_layout(guides='collect') & theme(legend.position = "right")
 
 
 SpatialFeaturePlot(seu, features = "nCount_SCT") +
-  labs(title = "Counts after SCT") +
-  theme(legend.position = "right")
+  plot_layout(guides='collect') & theme(legend.position = "right")
 
 
 ```
 
 ```{r}
-SpatialFeaturePlot(seu, features = "Ttr") +
-  theme(legend.position = "right")
+SpatialFeaturePlot(seu, features = "Ttr")  +
+  plot_layout(guides='collect') & theme(legend.position = "right")
 ```
 
 ```{r}
 saveRDS(seu,
-        paste0("output/normalized_Posterior.rds"))
+        paste0("output/normalized.rds"))
 ```
-
-```{r}
-seu2 <- Load10X_Spatial(data.dir = "raw_data/Anterior/",
-                       slice = "Anterior")
-
-seu2 <- seu2[, seu2$nFeature_Spatial > 500 & seu2$percent_mt < 32]
-
-remove_feature <- rownames(seu2) %in% remove_genes
-seu2 <- seu2[!remove_feature, ]
-
-seu2 <- SCTransform(
-  seu2,
-  assay = "Spatial",
-  vars.to.regress = c("percent_mt"),
-  verbose = FALSE
-)
-
-saveRDS(seu,
-        paste0("output/normalized_Anterior.rds"))
-
-```
-
