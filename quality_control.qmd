@@ -7,33 +7,232 @@ Fresh Frozen Visium on CytAssist: Mouse Brain, Probe-Based Whole Transcriptome P
 
 ```{r}
 #| output: false
-library(Seurat)    
-library(umap)       
+library(Seurat)
+library(umap)
 library(ggpubr)
-library(hdf5r)
+library(tidyr)
+library(patchwork)
+library(ggplot2)
+```
+
+## Setup & the Seurat object
+
+Specify input directories and files.
+
+```{r}
+output_folder <- "output"
+dir.create(output_folder, showWarnings = FALSE)
+```
+
+Load data into an seurat object. Here, we loop over the two slices, and combine it in a list of two seurat objects. 
+
+```{r}
+seu_list <- lapply(c("Anterior", "Posterior"), function(slice) {
+  seu <- Load10X_Spatial(data.dir = file.path("raw_data", slice),
+                  slice = slice)
+  seu$orig.ident <- slice
+  return(seu)
+})
+
 ```
 
 ```{r}
-countFolder <- "raw_data"
-analysisFolder <- "analysis"
-name1 <- "Anterior"
-name2 <- "Posterior"
-dir.create(analysisFolder, showWarnings = FALSE)
+seu <- merge(seu_list[[1]], seu_list[[2]])
+seu <- SetIdent(seu, value = "orig.ident")
 ```
 
 ```{r}
-seu1 <- Load10X_Spatial(file.path(countFolder, name1),
-                        filename = "filtered_feature_bc_matrix.h5", slice = name1)
-seu2 <- Load10X_Spatial(file.path(countFolder, name2),
-                        filename = "filtered_feature_bc_matrix.h5", slice = name2)
+GetAssayData(seu, assay = "Spatial", layer = "counts.1")
+GetAssayData(seu, assay = "Spatial", layer = "counts.2")
 ```
 
 ```{r}
-FeatureScatter(seu1, feature1 = "nCount_Spatial", feature2 = "nFeature_Spatial") + labs(title = name1) + NoLegend() 
-VlnPlot(seu1, features = "nFeature_Spatial")  + labs(title = name1, y = "nFeature_Spatial", x = "") + NoLegend() 
+SpatialPlot(seu, alpha = 0) + 
+  plot_layout(guides='collect') & theme(legend.position = "none")
+SpatialPlot(seu, alpha = 0.5) + 
+  plot_layout(guides='collect') & theme(legend.position = "none")
+```
 
-FeatureScatter(seu2, feature1 = "nCount_Spatial", feature2 = "nFeature_Spatial") + labs(title = name2) + NoLegend() 
-VlnPlot(seu2, features = "nFeature_Spatial")  + labs(title = name2, y = "nFeature_Spatial", x = "") + NoLegend() 
+## Quality control
+
+### Library size versus detected genes
+
+A high number of detected genes can potentially indicate doublets. 
+However, depending on the celltype composition in your sample, 
+it may also reflect true biological variation among cell types.  
+
+nCount_Spatial: total number of counts for a spot (i.e. library size)  
+nFeature_Spatial: total number of genes expressed in a spot  
+
+```{r}
+SpatialPlot(seu, features = "nCount_Spatial") +
+  plot_layout(guides='collect') & theme(legend.position = "right")
+
+SpatialPlot(seu, features ="nFeature_Spatial") +
+  plot_layout(guides='collect') & theme(legend.position = "right")
+
+
+FeatureScatter(seu,
+               feature1 = "nCount_Spatial",
+               feature2 = "nFeature_Spatial",
+               shuffle = TRUE
+) + scale_color_viridis_d(option = "cividis")
+```
+
+### Percent of mitochondrial reads
+
+Low quality/dying cells often exhibit extensive mitochondrial contamination.
+Spots with a high proportion of mitochondrial reads will be removed.
+
+```{r}
+seu <- PercentageFeatureSet(seu,
+                             pattern = "^MT-|^Mt-|^mt-",
+                             col.name = "percent_mt"
+)
+
+SpatialFeaturePlot(seu, features = "percent_mt", alpha = 0.7) + 
+  plot_layout(guides='collect') & theme(legend.position = "right")
+
+VlnPlot(seu, features = "percent_mt", layer = "counts") +
+  scale_fill_viridis_d(option = "E")
 ```
 
 
+
+## Filtering
+
+### Identifying low-quality spots
+
+Remove spots with less than 500 unique feature counts 
+remove spots with >=32% mitocondrial counts
+
+You must judge for yourself based on your knowledge of the tissue and the above graphics.
+
+```{r}
+seu$percent_mt_keep <- seu$percent_mt < 32
+
+SpatialPlot(seu, group.by = "percent_mt_keep") +
+  plot_layout(guides='collect') & theme(legend.position = "none")
+  
+
+seu$nFeature_Spatial_keep <- seu$nFeature_Spatial > 500
+
+SpatialPlot(seu, group.by = "nFeature_Spatial_keep") +
+  plot_layout(guides='collect') & theme(legend.position = "none")
+
+```
+
+
+```{r}
+seu <- seu[, seu$nFeature_Spatial > 500 & seu$percent_mt < 32]
+SpatialPlot(seu, alpha = 0.5, group.by = "percent_mt_keep")  +
+  plot_layout(guides='collect') & theme(legend.position = "none")
+```
+
+### Gene-level QC
+
+Plots showing the top 30 most highly expressed genes in each sample. Each row corresponds to a gene, 
+and each boxplot corresponds to the expression of a gene (i.e. number of reads) in a single spot. 
+The vertical line in the box indicates the median expression of each gene across all spots. 
+Genes are sorted in decreasing order based on median expression.
+
+Sometimes individual genes may have very high expression and should be removed to avoid problems 
+at the normalization step. In particular, look out for MALAT1 and other nuclear lincRNAs, 
+mitochondrial genes (prefix mt-), ribosomal proteins (starting with rp), actin and hemoglobin.
+
+```{r}
+most_expressed_boxplot <- function(raw_counts) {
+  raw_counts@x <- raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p))
+most_expressed <- order(Matrix::rowSums(raw_counts), decreasing = TRUE)[30:1]
+
+raw_counts[most_expressed, ] |>
+  as.matrix() |>
+  t() |>
+  boxplot(
+    cex.axis = 0.5,
+    cex.lab = 0.8,
+    cex = 0.1,
+    las = 1,
+    xlab = "% total count per cell",
+    col = (scales::hue_pal())(30)[30:1],
+    horizontal = TRUE
+  )
+}
+
+
+most_expressed_boxplot(seu[["Spatial"]]$counts.1)
+
+most_expressed_boxplot(seu[["Spatial"]]$counts.2)
+
+```
+
+
+```{r}
+remove_genes <- c("mt-Co3", "mt-Co1",
+                  "mt-Atp6", "mt-Cytb",
+                  "mt-Co2", "mt-Nd4",
+                  "mt-Nd2", "mt-Nd1")
+```
+
+```{r}
+remove_feature <- rownames(seu) %in% remove_genes
+seu <- seu[!remove_feature, ]
+
+```
+
+
+## Normalization
+
+Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. 
+The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. 
+Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are 
+differences in cell density across the tissue. 
+
+Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized 
+negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. 
+During the normalization, we also remove confounding sources of variation (mitochondrial and ribosomal mapping percentage).
+
+Apply sctransform normalization:
+- Transformed data will be available in the SCT assay, which is set as the default after running sctransform
+- During normalization, we can also remove confounding sources of variation, for example, mitochondrial mapping percentage
+
+```{r}
+seu_list <- SplitObject(seu, split.by = "orig.ident")
+
+# images aren't split with SplitObject. Resetting the images. 
+for(slice in names(seu_list)) {
+  seu_list[[slice]]@images <- setNames(
+    list(seu_list[[slice]]@images[[slice]]),
+    slice)
+}
+
+seu_list <- lapply(X = seu_list, FUN = SCTransform, assay = "Spatial",
+                   vars.to.regress = "percent_mt")
+
+seu <- merge(seu_list[[1]], seu_list[[2]])
+```
+
+
+
+
+
+```{r}
+SpatialFeaturePlot(seu, features = "nCount_Spatial") +
+  plot_layout(guides='collect') & theme(legend.position = "right")
+
+
+SpatialFeaturePlot(seu, features = "nCount_SCT") +
+  plot_layout(guides='collect') & theme(legend.position = "right")
+
+
+```
+
+```{r}
+SpatialFeaturePlot(seu, features = "Ttr")  +
+  plot_layout(guides='collect') & theme(legend.position = "right")
+```
+
+```{r}
+saveRDS(seu,
+        paste0("output/normalized.rds"))
+```
