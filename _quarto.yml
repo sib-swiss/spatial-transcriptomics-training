@@ -20,8 +20,9 @@ website:
       - href: course_schedule.qmd
       - text: "Course material"
         menu:
-          - href: "quality_control.qmd"
-          - href: "normalization_scaling.qmd"
+          - href: "1_setup.qmd"
+          - href: "2_quality_control.qmd"
+          - href: "3_integration_clustering.qmd"
     right:
       - icon: github
         href: https://github.com/sib-swiss/spatial-transcriptomics-training/

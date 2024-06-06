@@ -63,4 +63,7 @@ _site/
 # analysis dir
 analysis/
 output/
+course_data/
+
+.DS_Store
 
