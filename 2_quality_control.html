@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.555">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
 <title>Spatial transcriptomics - Quality control</title>
 <style>
 code{white-space: pre-wrap;}
@@ -56,7 +53,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -73,8 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -100,18 +95,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
-
-
+}</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Spatial transcriptomics</span>
@@ -123,7 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -139,8 +128,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-course-material" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Course material</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-course-material">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-course-material">
+<li>
     <a class="dropdown-item" href="./1_setup.html">
  <span class="dropdown-text">Setup</span></a>
   </li>  
@@ -153,22 +142,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Integration and clustering</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
     <a class="nav-link" href="https://github.com/sib-swiss/spatial-transcriptomics-training/"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -176,49 +163,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="./assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#quality-reports" id="toc-quality-reports" class="nav-link active" data-scroll-target="#quality-reports">Quality reports</a></li>
-  <li><a href="#loading-the-data-into-seurat" id="toc-loading-the-data-into-seurat" class="nav-link" data-scroll-target="#loading-the-data-into-seurat">Loading the data into Seurat</a>
+<li><a href="#quality-reports" id="toc-quality-reports" class="nav-link active" data-scroll-target="#quality-reports">Quality reports</a></li>
+  <li>
+<a href="#loading-the-data-into-seurat" id="toc-loading-the-data-into-seurat" class="nav-link" data-scroll-target="#loading-the-data-into-seurat">Loading the data into Seurat</a>
   <ul class="collapse">
-  <li><a href="#the-seurat-object" id="toc-the-seurat-object" class="nav-link" data-scroll-target="#the-seurat-object">The <code>Seurat</code> object</a></li>
-  </ul></li>
-  <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a>
-  <ul class="collapse">
-  <li><a href="#library-size-versus-detected-genes" id="toc-library-size-versus-detected-genes" class="nav-link" data-scroll-target="#library-size-versus-detected-genes">Library size versus detected genes</a></li>
-  <li><a href="#percent-of-mitochondrial-umi" id="toc-percent-of-mitochondrial-umi" class="nav-link" data-scroll-target="#percent-of-mitochondrial-umi">Percent of mitochondrial UMI</a></li>
-  </ul></li>
-  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering">Filtering</a>
-  <ul class="collapse">
-  <li><a href="#identifying-low-quality-spots" id="toc-identifying-low-quality-spots" class="nav-link" data-scroll-target="#identifying-low-quality-spots">Identifying low-quality spots</a></li>
-  <li><a href="#gene-level-qc" id="toc-gene-level-qc" class="nav-link" data-scroll-target="#gene-level-qc">Gene-level QC</a></li>
-  </ul></li>
-  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
+<li><a href="#the-seurat-object" id="toc-the-seurat-object" class="nav-link" data-scroll-target="#the-seurat-object">The <code>Seurat</code> object</a></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a>
+  <ul class="collapse">
+<li><a href="#library-size-versus-detected-genes" id="toc-library-size-versus-detected-genes" class="nav-link" data-scroll-target="#library-size-versus-detected-genes">Library size versus detected genes</a></li>
+  <li><a href="#percent-of-mitochondrial-umi" id="toc-percent-of-mitochondrial-umi" class="nav-link" data-scroll-target="#percent-of-mitochondrial-umi">Percent of mitochondrial UMI</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering">Filtering</a>
+  <ul class="collapse">
+<li><a href="#identifying-low-quality-spots" id="toc-identifying-low-quality-spots" class="nav-link" data-scroll-target="#identifying-low-quality-spots">Identifying low-quality spots</a></li>
+  <li><a href="#gene-level-qc" id="toc-gene-level-qc" class="nav-link" data-scroll-target="#gene-level-qc">Gene-level QC</a></li>
+  </ul>
+</li>
+  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Quality control</h1>
 </div>
 
@@ -233,11 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
-<section id="quality-reports" class="level2">
-<h2 class="anchored" data-anchor-id="quality-reports">Quality reports</h2>
+</header><section id="quality-reports" class="level2"><h2 class="anchored" data-anchor-id="quality-reports">Quality reports</h2>
 <p>In the <code>course_data</code> directories you can find an html report named <code>web_summary.html</code> that gives information about the cellranger run.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -270,52 +248,50 @@ Answer
 <ul>
 <li>Antherior: 2695</li>
 <li>Posterior: 3355</li>
-</ul></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 </div>
-</section>
-<section id="loading-the-data-into-seurat" class="level2">
-<h2 class="anchored" data-anchor-id="loading-the-data-into-seurat">Loading the data into Seurat</h2>
+</section><section id="loading-the-data-into-seurat" class="level2"><h2 class="anchored" data-anchor-id="loading-the-data-into-seurat">Loading the data into Seurat</h2>
 <p>We first load the required packages, among which <code>Seurat</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we, load the data into two Seurat objects. Here, we loop over the two slices, and combine it in a list of two seurat objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seu_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"Anterior"</span>, <span class="st">"Posterior"</span>), <span class="cf">function</span>(slice) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load the invidual slices</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  seu <span class="ot">&lt;-</span> <span class="fu">Load10X_Spatial</span>(<span class="at">data.dir =</span> <span class="fu">file.path</span>(<span class="st">"course_data"</span>, slice),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">slice =</span> slice)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set the identity of the spots to the slice identifier</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  seu<span class="sc">$</span>orig.ident <span class="ot">&lt;-</span> slice</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(seu)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Anterior"</span>, <span class="st">"Posterior"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">slice</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># load the invidual slices</span></span>
+<span>  <span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Load10X_Spatial.html">Load10X_Spatial</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"course_data"</span>, <span class="va">slice</span><span class="op">)</span>,</span>
+<span>                  slice <span class="op">=</span> <span class="va">slice</span><span class="op">)</span></span>
+<span>  <span class="co"># set the identity of the spots to the slice identifier</span></span>
+<span>  <span class="va">seu</span><span class="op">$</span><span class="va">orig.ident</span> <span class="op">&lt;-</span> <span class="va">slice</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e.&nbsp;Posterior or Antherior).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seu <span class="ot">&lt;-</span> <span class="fu">merge</span>(seu_list[[<span class="dv">1</span>]], seu_list[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">seu_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Some cell names are duplicated across objects provided. Renaming to
 enforce unique cell names.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>seu <span class="ot">&lt;-</span> <span class="fu">SetIdent</span>(seu, <span class="at">value =</span> <span class="st">"orig.ident"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/Idents.html">SetIdent</a></span><span class="op">(</span><span class="va">seu</span>, value <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="the-seurat-object" class="level3">
-<h3 class="anchored" data-anchor-id="the-seurat-object">The <code>Seurat</code> object</h3>
-<p>The <code>seu</code> object we have created has the class <code>Seurat</code>. The object contains multi-level slots and lists. Each <code>Seurat</code> object contains exactly the same slots that are specified in the image below (get slot descriptions by typing <code>?SeuratObject::Seurat</code>). You can get the information inside a slot with <code>@</code>, in the same way as you would use the <code>$</code> for lists (e.g.&nbsp;<code>seu@meta.data</code> will return the a data frame with information on each cell). Slots can be filled with other R objects, like lists, vectors, data frames or any other class. Here’s an overview of all slots that are in a <code>Seurat</code> object:</p>
+<section id="the-seurat-object" class="level3"><h3 class="anchored" data-anchor-id="the-seurat-object">The <code>Seurat</code> object</h3>
+<p>The <code>seu</code> object we have created has the class <code>Seurat</code>. The object contains multi-level slots and lists. Each <code>Seurat</code> object contains exactly the same slots that are specified in the image below (get slot descriptions by typing <code><a href="https://rdrr.io/pkg/SeuratObject/man/Seurat-class.html">?SeuratObject::Seurat</a></code>). You can get the information inside a slot with <code>@</code>, in the same way as you would use the <code>$</code> for lists (e.g.&nbsp;<code>seu@meta.data</code> will return the a data frame with information on each cell). Slots can be filled with other R objects, like lists, vectors, data frames or any other class. Here’s an overview of all slots that are in a <code>Seurat</code> object:</p>
 <p><img src="assets/images/seurat_object.png" class="img-fluid"></p>
 <p>In addition to the original count table and image, the <code>Seurat</code> object can therefore store a lot of information that is generated during your analysis, like results of a normalization (<code>@assays$RNA@data</code>) a PCA or UMAP (<code>@reductions</code>) and the clustering (<code>@graphs</code>). It also tracks all the commands that have been used to generate the object in its current state (<code>@commands</code>). Therefore, while going through the analysis steps, the same object gets more and more of its slots filled. Because most <code>Seurat</code> functions return the input object + adjusted slots, we can use this syntax:</p>
 <pre><code>seurat_object &lt;- Seurat::function(seurat_object)</code></pre>
 <p>So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because <code>Seurat</code> adds information to the input object, and returns is. We will use this syntax for the first time at <a href="3_normalization_scaling.qmd">Normalization and scaling</a>.</p>
 <p>In order to check out the count data that is stored in our Seurat object, we can run <code>GetAssayData</code>, in which we specify the assay and the layer from which we extract the counts. Since we have a combined object we have two layers with counts, <code>counts.1</code> corresponding to <code>Anterior</code> and <code>counts.2</code> corresponding to <code>Posterior</code>. Let’s have a look at the counts from the Anterior slice:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">GetAssayData</span>(seu, <span class="at">assay =</span> <span class="st">"Spatial"</span>, <span class="at">layer =</span> <span class="st">"counts.1"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.1"</span><span class="op">)</span></span>
+<span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10 x 10 sparse Matrix of class "dgCMatrix"</code></pre>
 </div>
@@ -363,9 +339,9 @@ Answer
 <div class="callout-body-container callout-body">
 <p>We can get the median counts like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">GetAssayData</span>(seu, <span class="at">assay =</span> <span class="st">"Spatial"</span>, <span class="at">layer =</span> <span class="st">"counts.2"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>median_counts <span class="ot">&lt;-</span> <span class="fu">colSums</span>(counts) <span class="sc">|&gt;</span> <span class="fu">median</span>()</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>median_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.2"</span><span class="op">)</span></span>
+<span><span class="va">median_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">median_counts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15783</code></pre>
 </div>
@@ -376,32 +352,27 @@ Answer
 </div>
 <p>The original H&amp;E slice are also part of the Seurat object, and we can visualize those:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>And we can plot any feature as an overlay, for example, here we have the number of UMI per spot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">features =</span> <span class="st">"nCount_Spatial"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, features <span class="op">=</span> <span class="st">"nCount_Spatial"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="quality-control" class="level2">
-<h2 class="anchored" data-anchor-id="quality-control">Quality control</h2>
+</section></section><section id="quality-control" class="level2"><h2 class="anchored" data-anchor-id="quality-control">Quality control</h2>
 <p>We can assess the quality of our data at the level of the spots (i.e.&nbsp;the columns in the count matrix) and the genes (the rows). Typically, most quality assessment is done on the level of the spots. Data per spot is stored in the <code>@meta.data</code> slot. This is a <code>data.frame</code> where the rows correspond to the spots, and each column contains data per spot. By loading the data as <code>Seurat</code> object, we have already pre-filled a few meta data columns</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -429,7 +400,7 @@ Answer
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>seu<span class="sc">@</span>meta.data <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span><span class="op">@</span><span class="va">meta.data</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     orig.ident nCount_Spatial nFeature_Spatial
 AAACAAGTATCTCCCA-1_1   Anterior          13991             4462
@@ -443,39 +414,38 @@ AAACATGGTGAGAGGA-1_1   Anterior          22148             6518</code></pre>
 <p>Here, we have the following information:</p>
 <ul>
 <li>rownames: spot barcode (= identifier)</li>
-<li><code>orig.ident</code>: the slice identifier</li>
-<li><code>nCount_Spatial</code>: the total number of UMI for each spot</li>
-<li><code>nFeature_Spatial</code>: the total number of detected genes per spot</li>
+<li>
+<code>orig.ident</code>: the slice identifier</li>
+<li>
+<code>nCount_Spatial</code>: the total number of UMI for each spot</li>
+<li>
+<code>nFeature_Spatial</code>: the total number of detected genes per spot</li>
 </ul>
 </div>
 </div>
 </div>
-<section id="library-size-versus-detected-genes" class="level3">
-<h3 class="anchored" data-anchor-id="library-size-versus-detected-genes">Library size versus detected genes</h3>
+<section id="library-size-versus-detected-genes" class="level3"><h3 class="anchored" data-anchor-id="library-size-versus-detected-genes">Library size versus detected genes</h3>
 <p>We can use these columns to plot spot metadata. Everytime there is a function in <code>Seurat</code> that contains an option <code>feature</code> we can fill it out, like in <code>FeatureScatter</code>, that we can use to plot the number of genes versus the number of UMI.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FeatureScatter</span>(seu,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">feature1 =</span> <span class="st">"nCount_Spatial"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">feature2 =</span> <span class="st">"nFeature_Spatial"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">shuffle =</span> <span class="cn">TRUE</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"cividis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeatureScatter.html">FeatureScatter</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<span>               feature1 <span class="op">=</span> <span class="st">"nCount_Spatial"</span>,</span>
+<span>               feature2 <span class="op">=</span> <span class="st">"nFeature_Spatial"</span>,</span>
+<span>               shuffle <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="percent-of-mitochondrial-umi" class="level3">
-<h3 class="anchored" data-anchor-id="percent-of-mitochondrial-umi">Percent of mitochondrial UMI</h3>
+</section><section id="percent-of-mitochondrial-umi" class="level3"><h3 class="anchored" data-anchor-id="percent-of-mitochondrial-umi">Percent of mitochondrial UMI</h3>
 <p>A high percentage of mitochondrial UMI can point to low quality spots, because damaged cells typically leak out cytoplasmic mRNA, while the mitochondria stay inside. We can calculate the percentage of mitochondria like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>seu <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(seu,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">pattern =</span> <span class="st">"^MT-|^Mt-|^mt-"</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">col.name =</span> <span class="st">"percent_mt"</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PercentageFeatureSet.html">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<span>                             pattern <span class="op">=</span> <span class="st">"^MT-|^Mt-|^mt-"</span>,</span>
+<span>                             col.name <span class="op">=</span> <span class="st">"percent_mt"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -505,7 +475,7 @@ Answer
 <div class="callout-body-container callout-body">
 <p>A column names <code>percent_mt</code> appeared.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seu<span class="sc">@</span>meta.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">seu</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     orig.ident nCount_Spatial nFeature_Spatial percent_mt
 AAACAAGTATCTCCCA-1_1   Anterior          13991             4462  10.871274
@@ -518,15 +488,14 @@ AAACATGGTGAGAGGA-1_1   Anterior          22148             6518  10.791042</code
 </div>
 <p>We can create the scatterplot like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FeatureScatter</span>(seu,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">feature1 =</span> <span class="st">"nCount_Spatial"</span>,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">feature2 =</span> <span class="st">"percent_mt"</span>,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">shuffle =</span> <span class="cn">TRUE</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"cividis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeatureScatter.html">FeatureScatter</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<span>               feature1 <span class="op">=</span> <span class="st">"nCount_Spatial"</span>,</span>
+<span>               feature2 <span class="op">=</span> <span class="st">"percent_mt"</span>,</span>
+<span>               shuffle <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -536,146 +505,131 @@ AAACATGGTGAGAGGA-1_1   Anterior          22148             6518  10.791042</code
 </div>
 <p>Now we have to decide whether we want to filter away spots with high mitochondrial counts, and if so, at what threshold. In order to make a decision, it makes sense to plot the mitochondrial counts in a spatial context, so we can check whether it correpsonds to spatial features:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">features =</span> <span class="st">"percent_mt"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, features <span class="op">=</span> <span class="st">"percent_mt"</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We can see that a high percentage of mitochondrial counts correspond with the hippocampus, and the sides of the out areas of the cortex. In the posterior slice, there is a clear spatial context and there is no clear indication for spots being damaged, we will not filter out spots based on mitochondrial UMI. However, in the Anterior slice, we see a spot outside the main area (just above the olfactory bulb) that seems to have ended up there because of debris.</p>
-</section>
-</section>
-<section id="filtering" class="level2">
-<h2 class="anchored" data-anchor-id="filtering">Filtering</h2>
-<section id="identifying-low-quality-spots" class="level3">
-<h3 class="anchored" data-anchor-id="identifying-low-quality-spots">Identifying low-quality spots</h3>
+</section></section><section id="filtering" class="level2"><h2 class="anchored" data-anchor-id="filtering">Filtering</h2>
+<section id="identifying-low-quality-spots" class="level3"><h3 class="anchored" data-anchor-id="identifying-low-quality-spots">Identifying low-quality spots</h3>
 <p>We decide to filter out the spot that is high in UMI counts in the Anterior slice and in addition, we will filter spots that have fewer than 500 genes expressed. In order to visualize the spots we create two more columns in the <code>@meta.data</code> slot that represent which cell are filtered out. s</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the high mt spot in anterior</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>seu<span class="sc">$</span>percent_mt_keep <span class="ot">&lt;-</span> <span class="sc">!</span>(seu<span class="sc">$</span>orig.ident <span class="sc">==</span> <span class="st">"Anterior"</span> <span class="sc">&amp;</span> seu<span class="sc">$</span>percent_mt <span class="sc">&gt;</span> <span class="dv">38</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">group.by =</span> <span class="st">"percent_mt_keep"</span>) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"Filter % mitochondrial UMI"</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># defining the high mt spot in anterior</span></span>
+<span><span class="va">seu</span><span class="op">$</span><span class="va">percent_mt_keep</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="op">(</span><span class="va">seu</span><span class="op">$</span><span class="va">orig.ident</span> <span class="op">==</span> <span class="st">"Anterior"</span> <span class="op">&amp;</span> <span class="va">seu</span><span class="op">$</span><span class="va">percent_mt</span> <span class="op">&gt;</span> <span class="fl">38</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Filter % mitochondrial UMI"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the low number of genes</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>seu<span class="sc">$</span>nFeature_Spatial_keep <span class="ot">&lt;-</span> seu<span class="sc">$</span>nFeature_Spatial <span class="sc">&gt;</span> <span class="dv">100</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">group.by =</span> <span class="st">"nFeature_Spatial_keep"</span>) <span class="sc">+</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"Filter % low number of features"</span>) <span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># defining the low number of genes</span></span>
+<span><span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial_keep</span> <span class="op">&lt;-</span> <span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial</span> <span class="op">&gt;</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, group.by <span class="op">=</span> <span class="st">"nFeature_Spatial_keep"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Filter % low number of features"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Now, we remove the spots, and visualize the spots that are left over:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>seu <span class="ot">&lt;-</span> seu[, seu<span class="sc">$</span>percent_mt_keep <span class="sc">&amp;</span> seu<span class="sc">$</span>nFeature_Spatial_keep]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="va">seu</span><span class="op">[</span>, <span class="va">seu</span><span class="op">$</span><span class="va">percent_mt_keep</span> <span class="op">&amp;</span> <span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial_keep</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Not validating Seurat objects
 Not validating Seurat objects</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">group.by =</span> <span class="st">"percent_mt_keep"</span>)  <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="gene-level-qc" class="level3">
-<h3 class="anchored" data-anchor-id="gene-level-qc">Gene-level QC</h3>
+</section><section id="gene-level-qc" class="level3"><h3 class="anchored" data-anchor-id="gene-level-qc">Gene-level QC</h3>
 <p>Some genes can be expressed in very high percentages and therefore have a large effect on the normalization. In order to see whether there are genes that are very high expressed we can plot them by percentage of the total counts per spot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>most_expressed_boxplot <span class="ot">&lt;-</span> <span class="cf">function</span>(raw_counts) {</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  raw_counts<span class="sc">@</span>x <span class="ot">&lt;-</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    raw_counts<span class="sc">@</span>x <span class="sc">/</span> <span class="fu">rep.int</span>(<span class="fu">colSums</span>(raw_counts), <span class="fu">diff</span>(raw_counts<span class="sc">@</span>p)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  most_expressed <span class="ot">&lt;-</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">order</span>(Matrix<span class="sc">::</span><span class="fu">rowSums</span>(raw_counts), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">30</span><span class="sc">:</span><span class="dv">1</span>]</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  raw_counts[most_expressed,] <span class="sc">|&gt;</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">boxplot</span>(</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.5</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.lab =</span> <span class="fl">0.8</span>,</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex =</span> <span class="fl">0.1</span>,</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">las =</span> <span class="dv">1</span>,</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">"% total count per spot"</span>,</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> (scales<span class="sc">::</span><span class="fu">hue_pal</span>())(<span class="dv">30</span>)[<span class="dv">30</span><span class="sc">:</span><span class="dv">1</span>],</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">horizontal =</span> <span class="cn">TRUE</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="fu">most_expressed_boxplot</span>(seu[[<span class="st">"Spatial"</span>]]<span class="sc">$</span>counts<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">most_expressed_boxplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">&lt;-</span></span>
+<span>    <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep.int</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">@</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span>  <span class="va">most_expressed</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">30</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="va">raw_counts</span><span class="op">[</span><span class="va">most_expressed</span>,<span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span></span>
+<span>      cex.axis <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>      cex.lab <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>      cex <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>      las <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      xlab <span class="op">=</span> <span class="st">"% total count per spot"</span>,</span>
+<span>      col <span class="op">=</span> <span class="op">(</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pal_hue.html">hue_pal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">[</span><span class="fl">30</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>      horizontal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">most_expressed_boxplot</span>(seu[[<span class="st">"Spatial"</span>]]<span class="sc">$</span>counts<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>As we don’t see very high expression percentages, and it happens for expected genes (e.g.&nbsp;Bc1), we decide to keep all genes in the analysis.</p>
-</section>
-</section>
-<section id="normalization" class="level2">
-<h2 class="anchored" data-anchor-id="normalization">Normalization</h2>
+</section></section><section id="normalization" class="level2"><h2 class="anchored" data-anchor-id="normalization">Normalization</h2>
 <p>Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are differences in cell density across the tissue.</p>
 <p>Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).</p>
 <p>We need to apply <code>SCTransform</code> on each individual slice. Therefore, we split the object back into a list (with <code>SplitObject</code>). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply <code>SCTransform</code> on the individual slices and merge the objects back together with <code>merge</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>seu_list <span class="ot">&lt;-</span> <span class="fu">SplitObject</span>(seu, <span class="at">split.by =</span> <span class="st">"orig.ident"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SplitObject.html">SplitObject</a></span><span class="op">(</span><span class="va">seu</span>, split.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Not validating Seurat objects
 Not validating Seurat objects
 Not validating Seurat objects
 Not validating Seurat objects</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># images aren't split with SplitObject. Resetting the images. </span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(slice <span class="cf">in</span> <span class="fu">names</span>(seu_list)) {</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  seu_list[[slice]]<span class="sc">@</span>images <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(seu_list[[slice]]<span class="sc">@</span>images[[slice]]),</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    slice)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># bugfix based on https://github.com/satijalab/seurat/issues/8216</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  seu_list[[slice]][[<span class="st">"RNA"</span>]] <span class="ot">&lt;-</span> seu_list[[slice]][[<span class="st">"Spatial"</span>]]</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">DefaultAssay</span>(seu_list[[slice]]) <span class="ot">&lt;-</span> <span class="st">"RNA"</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># images aren't split with SplitObject. Resetting the images. </span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">slice</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>    <span class="va">slice</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># bugfix based on https://github.com/satijalab/seurat/issues/8216</span></span>
+<span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"RNA"</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>seu_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="at">X =</span> seu_list, <span class="at">FUN =</span> SCTransform, <span class="at">assay =</span> <span class="st">"RNA"</span>,</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">vars.to.regress =</span> <span class="st">"percent_mt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">seu_list</span>, FUN <span class="op">=</span> <span class="va">SCTransform</span>, assay <span class="op">=</span> <span class="st">"RNA"</span>,</span>
+<span>                   vars.to.regress <span class="op">=</span> <span class="st">"percent_mt"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
@@ -708,7 +662,7 @@ Answer
 <div class="callout-body-container callout-body">
 <p>Just by typing the object name (<code>seu</code>) we see which layers are in there:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Assays</span>(seu_list[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/ObjectAccess.html">Assays</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Spatial" "RNA"     "SCT"    </code></pre>
 </div>
@@ -719,31 +673,27 @@ Answer
 </div>
 <p>Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g.&nbsp;<code>Ttr</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SpatialPlot</span>(seu_list<span class="sc">$</span>Anterior, <span class="at">features =</span> <span class="st">"Ttr"</span>) <span class="sc">+</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SpatialPlot</span>(seu_list<span class="sc">$</span>Posterior, <span class="at">features =</span> <span class="st">"Ttr"</span>) <span class="sc">+</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">'collect'</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="2_quality_control_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>After quality control and transformation, we can save the output as an rds files:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>output_folder <span class="ot">&lt;-</span> <span class="st">"output"</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(output_folder, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(seu_list,</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="st">"output/normalized.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"output"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">output_folder</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">seu_list</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"output/normalized.rds"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1153,7 +1103,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-
 
 
 
