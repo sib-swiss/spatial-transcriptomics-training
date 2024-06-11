@@ -154,8 +154,6 @@ seu_list$Anterior <-
     selection.method = "moransi"
   )
 
-sf <- SpatiallyVariableFeatures(seu_list$Anterior)
-
 spatialFeatures <-
   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE)
 spatialFeatures <-
