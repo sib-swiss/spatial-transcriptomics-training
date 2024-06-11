@@ -52,7 +52,8 @@ seu_int <- IntegrateData(anchors, normalization.method = "SCT")
 seu_int <- FindVariableFeatures(seu_int)
 seu_int <- RunPCA(seu_int, npcs = 50, verbose = FALSE)
 seu_int <- RunUMAP(seu_int, reduction = "pca", dims = 1:50)
-DimPlot(seu_int, reduction = "umap")
+DimPlot(seu_int, reduction = "umap") + 
+  scale_color_viridis_d(option = "cividis")
 ```
 
 
