@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Spatial transcriptomics</title>
+<title>Spatial transcriptomics - Setup</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -138,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Setup</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -161,21 +195,154 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#sib-days-tutorial-introduction-to-spatial-transcriptomics" id="toc-sib-days-tutorial-introduction-to-spatial-transcriptomics" class="nav-link active" data-scroll-target="#sib-days-tutorial-introduction-to-spatial-transcriptomics">SIB days tutorial: introduction to spatial transcriptomics</a></li>
+  <li><a href="#material" id="toc-material" class="nav-link active" data-scroll-target="#material">Material</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#login-and-set-up" id="toc-login-and-set-up" class="nav-link" data-scroll-target="#login-and-set-up">Login and set up</a></li>
+  <li><a href="#create-a-project" id="toc-create-a-project" class="nav-link" data-scroll-target="#create-a-project">Create a project</a></li>
+  <li><a href="#downloading-the-course-data" id="toc-downloading-the-course-data" class="nav-link" data-scroll-target="#downloading-the-course-data">Downloading the course data</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Setup</h1>
+</div>
 
 
 
-<section id="sib-days-tutorial-introduction-to-spatial-transcriptomics" class="level1">
-<h1>SIB days tutorial: introduction to spatial transcriptomics</h1>
-<p>Lorem ipsum</p>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<section id="material" class="level2">
+<h2 class="anchored" data-anchor-id="material">Material</h2>
+<!-- {{< downloadthis assets/pdf/01_introduction.pdf "01_introduction" "Download the presentation" "filetype-pdf" >}} -->
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="login-and-set-up" class="level3">
+<h3 class="anchored" data-anchor-id="login-and-set-up">Login and set up</h3>
+<p>Log in to Rstudio server with the provided link, username and password.</p>
+</section>
+<section id="create-a-project" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-project">Create a project</h3>
+<p>Now that you have access to an environment with the required installations, we will set up a project in a new directory. On the top right choose the button <strong>Project (None)</strong> and select <strong>New Project…</strong></p>
+<p><img src="assets/images/create_new_project.png" class="img-fluid" width="200"></p>
+<p>Continue by choosing <strong>New Directory</strong></p>
+<p><img src="assets/images/choose_new_directory.png" class="img-fluid" width="300"></p>
+<p>As project type select <strong>New Project</strong></p>
+<p><img src="assets/images/choose_new_project.png" class="img-fluid" width="300"></p>
+<p>Finally, type in the project name. This should be <code>spatial_transcriptomics_course</code>. Finish by clicking <strong>Create Project</strong>.</p>
+<p><img src="assets/images/define_directory_name.png" class="img-fluid" width="300"></p>
+<p>Now that we have setup a project and a project directory (it is in <code>/home/rstudio/spatial_transcriptomics_course</code>), we can download the data that is required for this course. We will use the built-in terminal of Rstudio. To do this, select the <strong>Terminal</strong> tab:</p>
+<p><img src="assets/images/select_terminal_tab.png" class="img-fluid" width="300"></p>
+</section>
+<section id="downloading-the-course-data" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-the-course-data">Downloading the course data</h3>
+<p>To download and extract the dataset, copy-paste these commands inside the terminal tab:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> course_data/Anterior</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> course_data/Posterior</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Anterior</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> course_data/Anterior</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">LINK_PREFIX</span><span class="op">=</span>https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Anterior/V1_Mouse_Brain_Sagittal_Anterior</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> filtered_feature_bc_matrix.h5 <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_filtered_feature_bc_matrix.h5</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> spatial.tar.gz <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_spatial.tar.gz</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> web_summary.html <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_web_summary.html</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xf</span> spatial.tar.gz</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> spatial.tar.gz</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../Posterior</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="va">LINK_PREFIX</span><span class="op">=</span>https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Posterior/V1_Mouse_Brain_Sagittal_Posterior</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> filtered_feature_bc_matrix.h5 <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_filtered_feature_bc_matrix.h5</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> spatial.tar.gz <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_spatial.tar.gz</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> web_summary.html <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_web_summary.html</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xf</span> spatial.tar.gz</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> spatial.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Have a look at the data directory you have downloaded. It should contain the following:</p>
+<pre><code>course_data/
+├── Anterior
+│   ├── filtered_feature_bc_matrix.h5
+│   ├── spatial
+│   │   ├── aligned_fiducials.jpg
+│   │   ├── detected_tissue_image.jpg
+│   │   ├── scalefactors_json.json
+│   │   ├── tissue_hires_image.png
+│   │   ├── tissue_lowres_image.png
+│   │   └── tissue_positions_list.csv
+│   └── web_summary.html
+└── Posterior
+    ├── filtered_feature_bc_matrix.h5
+    ├── spatial
+    │   ├── aligned_fiducials.jpg
+    │   ├── detected_tissue_image.jpg
+    │   ├── scalefactors_json.json
+    │   ├── tissue_hires_image.png
+    │   ├── tissue_lowres_image.png
+    │   └── tissue_positions_list.csv
+    └── web_summary.html
+
+4 directories, 16 files</code></pre>
+<p>In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="assets/images/mouse_brain_sagittal.png" class="img-fluid figure-img"></p>
+<figcaption>Mouse brain sagittal</figcaption>
+</figure>
+</div>
+<p>You can find an interactive map with all brain regions at the <a href="http://atlas.brain-map.org/atlas?atlas=2&amp;plate=100883804#atlas=2&amp;plate=100884129&amp;resolution=19.04&amp;x=7671.818403764205&amp;y=4000&amp;zoom=-4&amp;structure=549">Allen Brain Atlas</a></p>
+<p>Our slices contain the anterior and posterior sides of the sagittal section of the mouse brain:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="raw_data/Anterior/spatial/tissue_lowres_image.png" class="img-fluid figure-img"></p>
+<figcaption>Anterior</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="raw_data/Posterior/spatial/tissue_lowres_image.png" class="img-fluid figure-img"></p>
+<figcaption>Posterior</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>This data is provided by 10x genomics, and further information, like material and methods can be found here:</p>
+<ul>
+<li>Antherior: <a href="https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0">https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0</a></li>
+<li>Posterior: <a href="https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0">https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0</a></li>
+</ul>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
