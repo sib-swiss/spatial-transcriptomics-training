@@ -10,6 +10,7 @@ library(Seurat)
 library(ggplot2)
 library(clustree)
 library(patchwork)
+library(dplyr)
 ```
 
 ```{r}
@@ -110,6 +111,13 @@ SpatialDimPlot(seu_int,
 SpatialDimPlot(seu_int, 
                alpha = 0.6,
                cells.highlight = CellsByIdentities(object = seu_int,
+                                                   idents = 4)) + 
+  plot_layout(guides='collect') &
+  theme(legend.position = "none") 
+
+SpatialDimPlot(seu_int, 
+               alpha = 0.6,
+               cells.highlight = CellsByIdentities(object = seu_int,
                                                    idents = 0)) + 
   plot_layout(guides='collect') &
   theme(legend.position = "none") 
@@ -125,6 +133,15 @@ SpatialPlot(seu_int, features = "Fth1")
 # oligodendrocytes, myenilated neurons
 ```
 
+```{r}
+#| fig-width: 9
+top_specific_markers <- all_marks |>
+  group_by(cluster) |>
+  top_n(3, avg_log2FC)
+
+DotPlot(seu_int, features = top_specific_markers$gene) +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
 
 
 ```{r}
