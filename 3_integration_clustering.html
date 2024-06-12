@@ -207,46 +207,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">seu_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span>,</span>
-<span>                           <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span>,</span>
+<span>                           <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"SCT"</span>, npcs <span class="op">=</span> <span class="fl">50</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">seu</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
-To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
-This message will be shown once per session</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:43:01 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:43:01 Read 6039 rows and found 50 numeric columns</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:43:01 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:43:01 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>0%   10   20   30   40   50   60   70   80   90   100%</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[----|----|----|----|----|----|----|----|----|----|</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>**************************************************|
-15:43:02 Writing NN index file to temp file /tmp/Rtmp85czkR/file1bda62ea7d7b
-15:43:02 Searching Annoy index using 1 thread, search_k = 3000
-15:43:04 Annoy recall = 100%
-15:43:04 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-15:43:05 Initializing from normalized Laplacian + noise (using RSpectra)
-15:43:05 Commencing optimization for 500 epochs, with 245842 positive edges
-15:43:11 Optimization finished</code></pre>
-</div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, group.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, group.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -254,7 +221,7 @@ This message will be shown once per session</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, group.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, group.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -264,171 +231,23 @@ This message will be shown once per session</code></pre>
 </div>
 </div>
 <section id="integration" class="level2"><h2 class="anchored" data-anchor-id="integration">Integration</h2>
+<p>You can safely ignore the warning: <code>Warning: Different cells and/or features from existing assay SCT</code>. See <a href="https://github.com/satijalab/seurat/issues/7145">this issue</a>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SelectIntegrationFeatures.html">SelectIntegrationFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SelectIntegrationFeatures.html">SelectIntegrationFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">)</span></span>
 <span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PrepSCTIntegration.html">PrepSCTIntegration</a></span><span class="op">(</span><span class="va">seu_list</span>, anchor.features <span class="op">=</span> <span class="va">features</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">anchors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindIntegrationAnchors.html">FindIntegrationAnchors</a></span><span class="op">(</span></span>
 <span>  <span class="va">seu_list</span>,</span>
 <span>  normalization.method <span class="op">=</span> <span class="st">"SCT"</span>,</span>
 <span>  anchor.features <span class="op">=</span> <span class="va">features</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Finding all pairwise anchors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Running CCA</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Merging objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Adding image data that isn't associated with any assays
-Adding image data that isn't associated with any assays</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Finding neighborhoods</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Finding anchors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>    Found 5685 anchors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Filtering anchors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>    Retained 4438 anchors</code></pre>
-</div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/IntegrateData.html">IntegrateData</a></span><span class="op">(</span><span class="va">anchors</span>, normalization.method <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Different cells and/or features from existing assay SCT</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Different cells and/or features from existing assay SCT</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Merging dataset 1 into 2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Adding image data that isn't associated with any assays
-Adding image data that isn't associated with any assays</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Extracting anchors for merged samples</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Adding image data that isn't associated with any assays
-Adding image data that isn't associated with any assays</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Finding integration vectors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Finding integration vector weights</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Integrating data</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Assay integrated changing from Assay to SCTAssay</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Different cells and/or features from existing assay SCT</code></pre>
-</div>
+<span><span class="op">)</span></span>
+<span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/IntegrateData.html">IntegrateData</a></span><span class="op">(</span><span class="va">anchors</span>, normalization.method <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not all features provided are in this Assay object, removing the
-following feature(s): Gabra6, Cnpy1, Hoxb5, Slc6a5, Hoxa5, Il20rb, Serping1,
-H2-Aa, Il16, Apol11b, Emp3, Col3a1, Crtam, Gbx2, Grp, Plekhd1, Hoxb6, Gm49980,
-Eln, A2m, Cldn2, Omd, H2-Q1, Gm13944, Slc26a7, Gm5083, Sln, Ptprr, H2-Ab1,
-Mmp24, Zfp385c, Prr32, Mrc2, Pxn, Eps8l2, Mpp3, En2, Ranbp3l, Cit, Chd7, Smg1,
-Tle2, Tmem266, Tspan4, Rps6ka1, Kcnk3, Wdr86, Rnf19b, Cp, Rsad2, Gstm2, Osr1,
-Bcl2l15, Cyp27a1, Asgr1, Rgl3, Foxc2, Dpysl4, Ltbp2, Mybpc3, Sncg, Dynlrb2,
-Mapk12, Barhl2, Stap2, Slc38a5, Cdh1, Cdh15, Krt18, Nrk, Cma1, Pf4, Mab21l1,
-Car7, Elovl7, Fam180a, Ifit1, Tgm2, Dapl1, Sema3b, Ebf3, Vgll3, Tent5c, Atl2,
-Lcn2, Mob3b, Carns1, Col6a2, Saa3, Dsp, Wnt6, Cnksr3, Prox1, Slc41a3, Clec3b,
-Sh3bgr, Mrc1, Tlx3, Fgfbp1, Tafa4, Ptpn22, Ndst3, Cfap126, Kank2, Insc, Zbtb46,
-Barhl1, Fgl2, Slc16a11, Col8a2, Boc, H2-Eb1, Prrg1, Lrg1, Slc22a4, Celf5, Dao,
-Sned1, Abhd16a, Casq2, Wif1, Lct, Crispld2, Nppc, Adamtsl4, Krt25, Mustn1,
-Emilin2, Ntn1, Tfap2b, Tinagl1, Plpp2, Hotairm1, Mpzl2, Adamts4, Cpm, Cyp2j12,
-St18, Plcb3, Ccnl2, Ajm1, Rffl, Klhl4, Zfp521, Uncx, Lum, Stat2, Gprc5c, Il22,
-Irx2, Ddr2, Trim67, Rmdn3, Khnyn, Srgap2, Igsf1, Pcbp4, Ninj2, Gm34466, Lbx1,
-Rnf152, Pabpc1, Cdk5r1, Trim3, Porcn, Ccl19, Afap1l2, 1700023F06Rik, Mafa,
-Ldlrap1, Vav3, Aven, Rftn1, Ccdc28b, Scx, Galnt15, Lef1, Sptb, Htra3, Mus81,
-Thbs4, Steap1, Epn3, Serinc2, Jph4, Rcn3, Mab21l2, Rasgrp3, Abca7, Nkx2-9,
-Cd70, Reep2, Ehd1, Plekhh3, 1700063D05Rik, 2410124H12Rik, Mrln, Ppp1r9b,
-Cdk5rap2, Tbata, Cd38, Trim36, Smarcd2, Gypa, Anxa1, Svep1, Kcnk10, Cox8b,
-Crlf1, Foxd1, Igsf9b, Smco3, Cspg5, Ifit3, Gm12326, Cntn6, Exoc3l, Pdlim1,
-Pde9a, Pla2g4a, Tgfbr3, Ap1s1, Slc16a8, Nipal4, Gbp2, Mindy1, Tspan11, Pln,
-Paxx, Adamtsl3, Clip3, Mdfic, Erg28, Fzd7, Hhatl, Kctd9, Bmp2k, Enpp1, Ldoc1,
-Smpx, Abca4, Prkce, Tmem240, Prdm6, Skor1, Aqp6, Abcc8, Pitpnm1, Creb5, Acvr2a,
-Pkd1, H1f0, Cdc42bpg, Dbn1, Acy3, Tmem229b, Arhgef7, Vstm4, Gm14033, Tecpr1,
-Pcca, Bmp4, Egfl8, Tmem62, Neb, Tfeb, Hnrnpm, Cyp2f2, Fzd1, Pcolce2,
-A930017K11Rik, Zic4, Foxo3, Flt3, Slc9a3, Klhl33, E330009J07Rik, Mybpc1,
-Col27a1, Ccdc107, Snx33, Opn3, Cgnl1, Gpr182, B3gnt5, Dusp10, Hoxb2, Olfml2a,
-Tns2, Rbm47, Stk10, Csf1, Cd44, Arap1, Slc26a2, Rec8, Ppfibp2, Tnfrsf12a,
-Vamp5, Nrtn, Asah2, Gm9732, Rif1, Gm29521, Foxo4, Nid1, Tbc1d4, Ret,
-D16Ertd472e, Ldlr, Akap8, Ccdc13, Uaca, Fads6, Ldlrad3, Ctsk, Card19, Myt1,
-St6galnac3, Neu4, Hoxa4, Pdrg1, Zbtb7b, Gng8, Clstn3, Icam1, Adam33, Ccdc120,
-Slitrk6, Plekhf1, Fibin, Cdk16, Nkx2-2, Bcdin3d, Cyp51, Gm3294, Sfrp5, Tmem189,
-Sptssb, Ppfia1, Fam49a, Syt9, Hipk2, Syt12, Tusc3, Clgn, Bmp5, Cspg4, Coro2b,
-Sycp1, Aopep, Esyt1, Prox1os, Ece1, Creb3l2, Sla, Mpp6, Dock5, Heg1, Ptgis,
-Odf2, Nhlh2, Echdc2, Angptl2, Fam13a, Ccdc63, Gas7, Prkcq, Alms1, Msx2, Nfe2l3,
-Xrcc3, Cldn14, Rorc, Tmem179, Galnt7, Mxra8, Pnmal1, Map3k12, Gja4, Bag3,
-Rimkla, Folh1, Ctsc, Pkp3, Npepl1, St6galnac4, Fam57a, Hr, Ttll5, Dnase2a,
-Rell1, Zfhx4, Spag1, Tubgcp6, Tarbp2, Rbms3, Ecm1, Hoxc4, Wtip, Atoh7, Car15,
-Tnfsf13, Dmtn, Adamts1, Epb41l4b, Lama1, Nkd1, Triobp, Fndc10, Gramd3, Akain1,
-Selenos, Cbarp, Zdhhc14, Gm33727, Raly, Bfsp2, Prkd3, Kif26b, Fam189a2, Zfp692,
-Gm26673, Arhgap31, Slc25a13, Creg1, Jpt2, Aspg, Tmem144, Xaf1, Unc13a, Cox7a1,
-Fgf7, Cytl1, Slc12a7, Wfdc17, Rbm3, Idi1, Samd5, Inpp4a, Slc9a2, Cdh19, Chd9,
-B230312C02Rik, Sorbs3, Foxn2, BC039966, Gas1, Kazald1, Ccdc74a, Lurap1, Cln8,
-4930506C21Rik, Vwa5a, Sptbn4, Trabd, Gmppa, Ccdc163, Mylk, Irx3, Plagl1, Pifo,
-Crybg3, Msn, Tcirg1, Pde3a, Irx1, Nat8f1, Srrm3, Tmem132c, Rps23, Mcc, Sspn,
-Gm28050, A230009B12Rik, Sh3d19, Srsf1, Dusp16, Aga, Apbb2, Kcnj12, Igflr1,
-Chil1, Ankrd34b, Bche, Olig3, Mpp7, Phyhd1, Col5a1, Sh3glb2, Pld1, Cidea,
-Fbxl22, Sprr1a, Ctnnal1, Lbr, Wnt3, Car13, Emp2, Zfand5, Ensa, Nab1</code></pre>
-</div>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span><span class="va">seu_int</span>, npcs <span class="op">=</span> <span class="fl">50</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">seu_int</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:49:37 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:49:37 Read 6039 rows and found 50 numeric columns</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:49:37 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>15:49:37 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>0%   10   20   30   40   50   60   70   80   90   100%</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[----|----|----|----|----|----|----|----|----|----|</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>**************************************************|
-15:49:38 Writing NN index file to temp file /tmp/Rtmp85czkR/file1bda3a9d0f3f
-15:49:38 Searching Annoy index using 1 thread, search_k = 3000
-15:49:40 Annoy recall = 100%
-15:49:40 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-15:49:41 Initializing from normalized Laplacian + noise (using RSpectra)
-15:49:41 Commencing optimization for 500 epochs, with 256500 positive edges
-15:49:47 Optimization finished</code></pre>
-</div>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, reduction <span class="op">=</span> <span class="st">"umap"</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span></span>
+<span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span><span class="va">seu_int</span>, npcs <span class="op">=</span> <span class="fl">50</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">seu_int</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, reduction <span class="op">=</span> <span class="st">"umap"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -441,7 +260,7 @@ Fbxl22, Sprr1a, Ctnnal1, Lbr, Wnt3, Car13, Emp2, Zfand5, Ensa, Nab1</code></pre>
 <p>Seurat implements a graph-based clustering approach. Distances between the spots are calculated based on previously identified PCs. Briefly, Seurat identifies clusters of spots by a shared nearest neighbor (SNN) modularity optimization based clustering algorithm. First, it identifies k-nearest neighbors (KNN) and constructs the SNN graph. Then it optimizes the modularity function to determine clusters. For a full description of the algorithms, see Waltman and van Eck (2013) The European Physical Journal B.</p>
 <p>The FindClusters function implements the procedure, and contains a resolution parameter that sets the granularity of the downstream clustering, with increased values leading to a greater number of clusters.</p>
 <div class="cell">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">resolution_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">1</span>,<span class="fl">0.1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">resolution_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">1</span>,<span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span><span class="va">seu_int</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Computing nearest neighbor graph</code></pre>
@@ -449,12 +268,12 @@ Fbxl22, Sprr1a, Ctnnal1, Lbr, Wnt3, Car13, Emp2, Zfand5, Ensa, Nab1</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>Computing SNN</code></pre>
 </div>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
 <span>                          resolution <span class="op">=</span> <span class="va">resolution_vector</span>,</span>
 <span>                          verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://lazappi.github.io/clustree/reference/clustree.html">clustree</a></span><span class="op">(</span><span class="va">seu_int</span>, prefix <span class="op">=</span> <span class="st">"integrated_snn_res."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://lazappi.github.io/clustree/reference/clustree.html">clustree</a></span><span class="op">(</span><span class="va">seu_int</span>, prefix <span class="op">=</span> <span class="st">"integrated_snn_res."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="3_integration_clustering_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
@@ -463,7 +282,7 @@ Fbxl22, Sprr1a, Ctnnal1, Lbr, Wnt3, Car13, Emp2, Zfand5, Ensa, Nab1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="st">"integrated_snn_res.0.4"</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="st">"integrated_snn_res.0.4"</span></span>
 <span><span class="va">nclust</span> <span class="op">&lt;-</span> <span class="va">seu_int</span><span class="op">[[</span><span class="va">res</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">cluster_cols</span> <span class="op">&lt;-</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/viridis_pal.html">viridis_pal</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span><span class="op">(</span><span class="va">nclust</span><span class="op">)</span></span>
 <span></span>
@@ -477,16 +296,10 @@ Fbxl22, Sprr1a, Ctnnal1, Lbr, Wnt3, Car13, Emp2, Zfand5, Ensa, Nab1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, group.by <span class="op">=</span> <span class="va">res</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, group.by <span class="op">=</span> <span class="va">res</span>, pt.size.factor <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="3_integration_clustering_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
@@ -495,11 +308,11 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/Idents.html">Idents</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"integrated_snn_res.0.4"</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"integrated_snn_res.0.4"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, </span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
-<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
+<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
 <span>                                                   idents <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -509,9 +322,9 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, </span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, </span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
-<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
+<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
 <span>                                                   idents <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -521,9 +334,9 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, </span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, </span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
-<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
+<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu_int</span>,</span>
 <span>                                                   idents <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -535,105 +348,21 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PrepSCTFindMarkers.html">PrepSCTFindMarkers</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Found 2 SCT models. Recorrecting SCT counts using minimum median counts: 15825</code></pre>
-</div>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">all_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindAllMarkers.html">FindAllMarkers</a></span><span class="op">(</span><span class="va">seu_int</span>, only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, logfc.threshold <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 0</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.2, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 4</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 5</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 7</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 8</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 9</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 10</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 11</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Calculating cluster 12</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in mean.fxn(object[features, cells.1, drop = FALSE]): NaNs produced</code></pre>
-</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PrepSCTFindMarkers.html">PrepSCTFindMarkers</a></span><span class="op">(</span><span class="va">seu_int</span><span class="op">)</span></span>
+<span><span class="va">all_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindAllMarkers.html">FindAllMarkers</a></span><span class="op">(</span><span class="va">seu_int</span>, only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, logfc.threshold <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, features <span class="op">=</span> <span class="st">"Fth1"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_int</span>, features <span class="op">=</span> <span class="st">"Fth1"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="3_integration_clustering_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># oligodendrocytes, myenilated neurons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># oligodendrocytes, myenilated neurons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">top_specific_markers</span> <span class="op">&lt;-</span> <span class="va">all_marks</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">top_specific_markers</span> <span class="op">&lt;-</span> <span class="va">all_marks</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">3</span>, <span class="va">avg_log2FC</span><span class="op">)</span></span>
 <span></span>
@@ -647,7 +376,7 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SCT"</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SCT"</span></span>
 <span></span>
 <span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindSpatiallyVariableFeatures.html">FindSpatiallyVariableFeatures</a></span><span class="op">(</span></span>
@@ -658,8 +387,11 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 <div class="cell-output cell-output-stderr">
 <pre><code>Computing Moran's I</code></pre>
 </div>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spatialFeatures</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/VariableFeatures.html">SVFInfo</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, method <span class="op">=</span> <span class="st">"moransi"</span>, status <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in dist(x = pos): NAs introduced by coercion</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spatialFeatures</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">SVFInfo</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, method <span class="op">=</span> <span class="st">"moransi"</span>, status <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">spatialFeatures</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">spatialFeatures</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span></span>
 <span></span>

@@ -216,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><section id="quality-reports" class="level2"><h2 class="anchored" data-anchor-id="quality-reports">Quality reports</h2>
-<p>In the <code>course_data</code> directories you can find an html report named <code>web_summary.html</code> that gives information about the cellranger run.</p>
+<p>In the <code>course_data</code> directories you can find an html report named <code>web_summary.html</code> that gives information about the spaceranger run.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -243,10 +243,10 @@ Answer
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li>For both the Antherior and Posterior parts of the slice are outside the captured region</li>
+<li>For both the Anterior and Posterior parts of the slice are outside the captured region</li>
 <li>Also not all spots are on a slice, the number of spots per slice:
 <ul>
-<li>Antherior: 2695</li>
+<li>Anterior: 2695</li>
 <li>Posterior: 3355</li>
 </ul>
 </li>
@@ -273,24 +273,24 @@ Answer
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e.&nbsp;Posterior or Antherior).</p>
+<p>After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e.&nbsp;Posterior or Anterior).</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">seu_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Some cell names are duplicated across objects provided. Renaming to
 enforce unique cell names.</code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/Idents.html">SetIdent</a></span><span class="op">(</span><span class="va">seu</span>, value <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">SetIdent</a></span><span class="op">(</span><span class="va">seu</span>, value <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="the-seurat-object" class="level3"><h3 class="anchored" data-anchor-id="the-seurat-object">The <code>Seurat</code> object</h3>
-<p>The <code>seu</code> object we have created has the class <code>Seurat</code>. The object contains multi-level slots and lists. Each <code>Seurat</code> object contains exactly the same slots that are specified in the image below (get slot descriptions by typing <code><a href="https://rdrr.io/pkg/SeuratObject/man/Seurat-class.html">?SeuratObject::Seurat</a></code>). You can get the information inside a slot with <code>@</code>, in the same way as you would use the <code>$</code> for lists (e.g.&nbsp;<code>seu@meta.data</code> will return the a data frame with information on each cell). Slots can be filled with other R objects, like lists, vectors, data frames or any other class. Here’s an overview of all slots that are in a <code>Seurat</code> object:</p>
+<p>The <code>seu</code> object we have created has the class <code>Seurat</code>. The object contains multi-level slots and lists. Each <code>Seurat</code> object contains exactly the same slots that are specified in the image below (get slot descriptions by typing <code><a href="https://mojaveazure.github.io/seurat-object/reference/Seurat-class.html">?SeuratObject::Seurat</a></code>). You can get the information inside a slot with <code>@</code>, in the same way as you would use the <code>$</code> for lists (e.g.&nbsp;<code>seu@meta.data</code> will return the a data frame with information on each cell). Slots can be filled with other R objects, like lists, vectors, data frames or any other class. Here’s an overview of all slots that are in a <code>Seurat</code> object:</p>
 <p><img src="assets/images/seurat_object.png" class="img-fluid"></p>
 <p>In addition to the original count table and image, the <code>Seurat</code> object can therefore store a lot of information that is generated during your analysis, like results of a normalization (<code>@assays$RNA@data</code>) a PCA or UMAP (<code>@reductions</code>) and the clustering (<code>@graphs</code>). It also tracks all the commands that have been used to generate the object in its current state (<code>@commands</code>). Therefore, while going through the analysis steps, the same object gets more and more of its slots filled. Because most <code>Seurat</code> functions return the input object + adjusted slots, we can use this syntax:</p>
 <pre><code>seurat_object &lt;- Seurat::function(seurat_object)</code></pre>
-<p>So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because <code>Seurat</code> adds information to the input object, and returns is. We will use this syntax for the first time at <a href="3_normalization_scaling.qmd">Normalization and scaling</a>.</p>
+<p>So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because <code>Seurat</code> adds information to the input object, and returns is.</p>
 <p>In order to check out the count data that is stored in our Seurat object, we can run <code>GetAssayData</code>, in which we specify the assay and the layer from which we extract the counts. Since we have a combined object we have two layers with counts, <code>counts.1</code> corresponding to <code>Anterior</code> and <code>counts.2</code> corresponding to <code>Posterior</code>. Let’s have a look at the counts from the Anterior slice:</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.1"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.1"</span><span class="op">)</span></span>
 <span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10 x 10 sparse Matrix of class "dgCMatrix"</code></pre>
@@ -339,7 +339,7 @@ Answer
 <div class="callout-body-container callout-body">
 <p>We can get the median counts like this:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.2"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">seu</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span>, layer <span class="op">=</span> <span class="st">"counts.2"</span><span class="op">)</span></span>
 <span><span class="va">median_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">median_counts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -548,10 +548,36 @@ AAACATGGTGAGAGGA-1_1   Anterior          22148             6518  10.791042</code
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="va">seu</span><span class="op">[</span>, <span class="va">seu</span><span class="op">$</span><span class="va">percent_mt_keep</span> <span class="op">&amp;</span> <span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial_keep</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating Seurat objects
-Not validating Seurat objects</code></pre>
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
 </div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span><span class="op">)</span>  <span class="op">+</span></span>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Seurat objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Seurat objects</code></pre>
+</div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span><span class="op">)</span>  <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -563,7 +589,7 @@ Not validating Seurat objects</code></pre>
 </section><section id="gene-level-qc" class="level3"><h3 class="anchored" data-anchor-id="gene-level-qc">Gene-level QC</h3>
 <p>Some genes can be expressed in very high percentages and therefore have a large effect on the normalization. In order to see whether there are genes that are very high expressed we can plot them by percentage of the total counts per spot:</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">most_expressed_boxplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">most_expressed_boxplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep.int</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">@</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
 <span>  <span class="va">most_expressed</span> <span class="op">&lt;-</span></span>
@@ -591,7 +617,7 @@ Not validating Seurat objects</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
@@ -605,14 +631,40 @@ Not validating Seurat objects</code></pre>
 <p>Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).</p>
 <p>We need to apply <code>SCTransform</code> on each individual slice. Therefore, we split the object back into a list (with <code>SplitObject</code>). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply <code>SCTransform</code> on the individual slices and merge the objects back together with <code>merge</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SplitObject.html">SplitObject</a></span><span class="op">(</span><span class="va">seu</span>, split.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SplitObject.html">SplitObject</a></span><span class="op">(</span><span class="va">seu</span>, split.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Not validating Seurat objects
 Not validating Seurat objects
-Not validating Seurat objects
 Not validating Seurat objects</code></pre>
 </div>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># images aren't split with SplitObject. Resetting the images. </span></span>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Seurat objects</code></pre>
+</div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># images aren't split with SplitObject. Resetting the images. </span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">slice</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -620,7 +672,7 @@ Not validating Seurat objects</code></pre>
 <span>  </span>
 <span>  <span class="co"># bugfix based on https://github.com/satijalab/seurat/issues/8216</span></span>
 <span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"RNA"</span></span>
+<span>  <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"RNA"</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
@@ -628,7 +680,7 @@ Not validating Seurat objects</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
 </div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">seu_list</span>, FUN <span class="op">=</span> <span class="va">SCTransform</span>, assay <span class="op">=</span> <span class="st">"RNA"</span>,</span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">seu_list</span>, FUN <span class="op">=</span> <span class="va">SCTransform</span>, assay <span class="op">=</span> <span class="st">"RNA"</span>,</span>
 <span>                   vars.to.regress <span class="op">=</span> <span class="st">"percent_mt"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
@@ -662,7 +714,7 @@ Answer
 <div class="callout-body-container callout-body">
 <p>Just by typing the object name (<code>seu</code>) we see which layers are in there:</p>
 <div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/ObjectAccess.html">Assays</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/ObjectAccess.html">Assays</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Spatial" "RNA"     "SCT"    </code></pre>
 </div>
@@ -673,7 +725,7 @@ Answer
 </div>
 <p>Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g.&nbsp;<code>Ttr</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -685,7 +737,7 @@ Answer
 </div>
 <p>After quality control and transformation, we can save the output as an rds files:</p>
 <div class="cell">
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"output"</span></span>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"output"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">output_folder</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">seu_list</span>,</span>
