@@ -5,7 +5,7 @@ engine: knitr
 
 ## Quality reports
 
-In the `course_data` directories you can find an html report named `web_summary.html` that gives information about the cellranger run. 
+In the `course_data` directories you can find an html report named `web_summary.html` that gives information about the spaceranger run. 
 
 
 ::: {.callout-important}
@@ -17,9 +17,9 @@ Have a look at both reports. Could we capture the entire slice? Can you expect a
 ::: {.callout-tip collapse="true"}
 ## Answer
 
-- For both the Antherior and Posterior parts of the slice are outside the captured region
+- For both the Anterior and Posterior parts of the slice are outside the captured region
 - Also not all spots are on a slice, the number of spots per slice:
-  - Antherior: 2695
+  - Anterior: 2695
   - Posterior: 3355
 ::: 
 
@@ -49,7 +49,7 @@ seu_list <- lapply(c("Anterior", "Posterior"), function(slice) {
 
 ```
 
-After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e. Posterior or Antherior).
+After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e. Posterior or Anterior).
 
 ```{r}
 seu <- merge(seu_list[[1]], seu_list[[2]])
@@ -68,7 +68,7 @@ In addition to the original count table and image, the `Seurat` object can there
 seurat_object <- Seurat::function(seurat_object)
 ```
 
-So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because `Seurat` adds information to the input object, and returns is. We will use this syntax for the first time at [Normalization and scaling](3_normalization_scaling.qmd).
+So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because `Seurat` adds information to the input object, and returns is. 
 
 In order to check out the count data that is stored in our Seurat object, we can run `GetAssayData`, in which we specify the assay and the layer from which we extract the counts. Since we have a combined object we have two layers with counts, `counts.1` corresponding to `Anterior` and `counts.2` corresponding to `Posterior`. Let's have a look at the counts from the Anterior slice:
 

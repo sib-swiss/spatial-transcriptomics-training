@@ -19,6 +19,7 @@ seu <- merge(seu_list[[1]], seu_list[[2]])
 ```
 
 ```{r}
+#| output: false
 VariableFeatures(seu) <- intersect(VariableFeatures(seu_list$Anterior),
                            VariableFeatures(seu_list$Posterior))
 seu <- RunPCA(seu, assay = "SCT", npcs = 50, verbose = FALSE)
@@ -34,8 +35,10 @@ DimPlot(seu, reduction = "umap", group.by = "orig.ident") +
 
 ## Integration
 
-```{r}
+You can safely ignore the warning: `Warning: Different cells and/or features from existing assay SCT`. See [this issue](https://github.com/satijalab/seurat/issues/7145). 
 
+```{r}
+#| output: false
 
 features <- SelectIntegrationFeatures(seu_list)
 seu_list <- PrepSCTIntegration(seu_list, anchor.features = features)
@@ -49,6 +52,7 @@ seu_int <- IntegrateData(anchors, normalization.method = "SCT")
 ```
 
 ```{r}
+#| warning: false
 seu_int <- FindVariableFeatures(seu_int)
 seu_int <- RunPCA(seu_int, npcs = 50, verbose = FALSE)
 seu_int <- RunUMAP(seu_int, reduction = "pca", dims = 1:50)
@@ -83,7 +87,7 @@ clustree(seu_int, prefix = "integrated_snn_res.")
 ```
 
 ```{r}
-
+#| warning: false
 res <- "integrated_snn_res.0.4"
 nclust <- seu_int[[res]] |> unique() |> nrow()
 cluster_cols <- viridis::viridis_pal(option = "H")(nclust)
@@ -93,7 +97,7 @@ DimPlot(seu_int,
         shuffle = TRUE,
         cols = cluster_cols)
 
-SpatialPlot(seu_int, group.by = res) + 
+SpatialPlot(seu_int, group.by = res, pt.size.factor = 2) + 
   plot_layout(guides='collect') &
   theme(legend.position = "none") &
   scale_fill_viridis_d(option = "H")
@@ -125,6 +129,7 @@ SpatialDimPlot(seu_int,
 ```
 
 ```{r}
+#| warning: false
 seu_int <- PrepSCTFindMarkers(seu_int)
 all_marks <- FindAllMarkers(seu_int, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 ```

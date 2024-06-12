@@ -66,4 +66,5 @@ output/
 course_data/
 
 .DS_Store
+*.docx
 
