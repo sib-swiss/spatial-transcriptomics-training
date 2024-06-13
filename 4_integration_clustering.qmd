@@ -47,7 +47,7 @@ Just by typing the object name we already see the number of variable features:
 seu
 ```
 
-So, we have `r VariableFeatures(seu) |> length()` variable features. Because we selected the features that are variable in both slices, it is fewer genes than the originally selected default. 
+So, we have `r Seurat::VariableFeatures(seu) |> length()` variable features. Because we selected the features that are variable in both slices, it is fewer genes than the originally selected default. 
 
 :::
 

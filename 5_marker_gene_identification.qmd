@@ -54,13 +54,13 @@ all_marks |>
 
 To get a broad overview of all marker genes we can do the following:
 
--  Find the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (`avg_log2FC * -log10(p_val_adj + 1e-323)`) to sort the genes.
+-  Find the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (`avg_log2FC * -log10(p_val_adj + 1e-300)`) to sort the genes.
 - Then we create a dotplot of the expression of each gene per cluster
 
 ```{r}
 #| fig-width: 9
 top_markers <- all_marks |>
-  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-323)) |>
+  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-300)) |>
   arrange(cluster, desc(order_value)) |>
   group_by(cluster) |>
   top_n(3)
@@ -74,12 +74,12 @@ Now, we can check whether the expression pattern corresponds with the cluster, e
 ```{r}
 SpatialDimPlot(seu, 
                cells.highlight = CellsByIdentities(object = seu,
-                                                   idents = 3)) + 
+                                                   idents = 4)) + 
   plot_layout(guides='collect') &
   theme(legend.position = "none") 
 
 SpatialPlot(seu,
-            features = top_markers$gene[top_markers$cluster == 3][1],
+            features = top_markers$gene[top_markers$cluster == 4][1],
             pt.size.factor = 2) 
 ```
 

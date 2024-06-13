@@ -102,7 +102,7 @@ SpatialPlot(seu_list$Anterior,
   theme(legend.position = "right")
 ```
 
-It's mainly expressed in the olfactory bulb (left of the Anterior slice) and cerebellum (right of the anterior slice). 
+It's mainly expressed in the olfactory bulb (left of the anterior slice) and cerebellum (right of the posterior slice). 
 
 :::
 
