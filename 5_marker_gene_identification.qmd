@@ -65,7 +65,8 @@ top_markers <- all_marks |>
   group_by(cluster) |>
   top_n(3)
 
-DotPlot(seu, features = top_markers$gene) +
+
+DotPlot(seu, features = unique(top_markers$gene)) +
   scale_x_discrete(guide = guide_axis(angle = 45))
 ```
 
@@ -74,12 +75,12 @@ Now, we can check whether the expression pattern corresponds with the cluster, e
 ```{r}
 SpatialDimPlot(seu, 
                cells.highlight = CellsByIdentities(object = seu,
-                                                   idents = 4)) + 
+                                                   idents = 7)) + 
   plot_layout(guides='collect') &
   theme(legend.position = "none") 
 
 SpatialPlot(seu,
-            features = top_markers$gene[top_markers$cluster == 4][1],
+            features = top_markers$gene[top_markers$cluster == 7][1],
             pt.size.factor = 2) 
 ```
 
