@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.555">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Spatial transcriptomics - Setup</title>
+<title>Spatial transcriptomics - Marker gene identification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Setup</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Marker gene identification</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -183,20 +183,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#material" id="toc-material" class="nav-link active" data-scroll-target="#material">Material</a></li>
-  <li>
-<a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
-  <ul class="collapse">
-<li><a href="#login-and-set-up" id="toc-login-and-set-up" class="nav-link" data-scroll-target="#login-and-set-up">Login and set up</a></li>
-  <li><a href="#create-a-project" id="toc-create-a-project" class="nav-link" data-scroll-target="#create-a-project">Create a project</a></li>
-  <li><a href="#downloading-the-course-data" id="toc-downloading-the-course-data" class="nav-link" data-scroll-target="#downloading-the-course-data">Downloading the course data</a></li>
-  </ul>
-</li>
+<li><a href="#marker-genes" id="toc-marker-genes" class="nav-link active" data-scroll-target="#marker-genes">Marker genes</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Setup</h1>
+<h1 class="title">Marker gene identification</h1>
 </div>
 
 
@@ -210,86 +202,240 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="material" class="level2"><h2 class="anchored" data-anchor-id="material">Material</h2>
-<!-- {{< downloadthis assets/pdf/01_introduction.pdf "01_introduction" "Download the presentation" "filetype-pdf" >}} -->
-</section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<section id="login-and-set-up" class="level3"><h3 class="anchored" data-anchor-id="login-and-set-up">Login and set up</h3>
-<p>Log in to Rstudio server with the provided link, username and password.</p>
-</section><section id="create-a-project" class="level3"><h3 class="anchored" data-anchor-id="create-a-project">Create a project</h3>
-<p>Now that you have access to an environment with the required installations, we will set up a project in a new directory. On the top right choose the button <strong>Project (None)</strong> and select <strong>New Project…</strong></p>
-<p><img src="assets/images/create_new_project.png" class="img-fluid" width="200"></p>
-<p>Continue by choosing <strong>New Directory</strong></p>
-<p><img src="assets/images/choose_new_directory.png" class="img-fluid" width="300"></p>
-<p>As project type select <strong>New Project</strong></p>
-<p><img src="assets/images/choose_new_project.png" class="img-fluid" width="300"></p>
-<p>Finally, type in the project name. This should be <code>spatial_transcriptomics_course</code>. Finish by clicking <strong>Create Project</strong>.</p>
-<p><img src="assets/images/define_directory_name.png" class="img-fluid" width="300"></p>
-<p>Now that we have setup a project and a project directory (it is in <code>/home/rstudio/spatial_transcriptomics_course</code>), we can download the data that is required for this course. We will use the built-in terminal of Rstudio. To do this, select the <strong>Terminal</strong> tab:</p>
-<p><img src="assets/images/select_terminal_tab.png" class="img-fluid" width="300"></p>
-</section><section id="downloading-the-course-data" class="level3"><h3 class="anchored" data-anchor-id="downloading-the-course-data">Downloading the course data</h3>
-<p>To download and extract the dataset, copy-paste these commands inside the terminal tab:</p>
+</header><p>We load the required packages:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> course_data/Anterior</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> course_data/Posterior</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Anterior</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> course_data/Anterior</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">LINK_PREFIX</span><span class="op">=</span>https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Anterior/V1_Mouse_Brain_Sagittal_Anterior</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> filtered_feature_bc_matrix.h5 <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_filtered_feature_bc_matrix.h5</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> spatial.tar.gz <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_spatial.tar.gz</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> web_summary.html <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_web_summary.html</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xf</span> spatial.tar.gz</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> spatial.tar.gz</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../Posterior</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="va">LINK_PREFIX</span><span class="op">=</span>https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Posterior/V1_Mouse_Brain_Sagittal_Posterior</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> filtered_feature_bc_matrix.h5 <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_filtered_feature_bc_matrix.h5</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> spatial.tar.gz <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_spatial.tar.gz</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> web_summary.html <span class="st">"</span><span class="va">$LINK_PREFIX</span><span class="st">"</span>_web_summary.html</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xf</span> spatial.tar.gz</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> spatial.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lazappi/clustree">clustree</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Have a look at the data directory you have downloaded. It should contain the required data for two slices, the anterior side of a sagittal brain slice, and a posterior side:</p>
-<pre><code>course_data/
-├── Anterior
-│   ├── filtered_feature_bc_matrix.h5
-│   ├── spatial
-│   │   ├── aligned_fiducials.jpg
-│   │   ├── detected_tissue_image.jpg
-│   │   ├── scalefactors_json.json
-│   │   ├── tissue_hires_image.png
-│   │   ├── tissue_lowres_image.png
-│   │   └── tissue_positions_list.csv
-│   └── web_summary.html
-└── Posterior
-    ├── filtered_feature_bc_matrix.h5
-    ├── spatial
-    │   ├── aligned_fiducials.jpg
-    │   ├── detected_tissue_image.jpg
-    │   ├── scalefactors_json.json
-    │   ├── tissue_hires_image.png
-    │   ├── tissue_lowres_image.png
-    │   └── tissue_positions_list.csv
-    └── web_summary.html
-
-4 directories, 16 files</code></pre>
-<p>This data is provided by 10x genomics, and further information, like material and methods can be found here:</p>
+<p>And we load the list created after normalization and scaling, followed by a merge:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"output/seu_part4.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="marker-genes" class="level2"><h2 class="anchored" data-anchor-id="marker-genes">Marker genes</h2>
+<p>Finally, we can identify marker genes for each cluster. For that, we move away from the <code>integrated</code> assay, and use <code>SCT</code> as default again. Because our object is a merge between two slices, each with their own SCT model, we need to correct the counts and data slots. This is done by <code>PrepSCTFindMakers</code>. After that, we use <code>FindAllMarkers</code> to identify markers for each cluster versus all other spots.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SCT"</span></span>
+<span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PrepSCTFindMarkers.html">PrepSCTFindMarkers</a></span><span class="op">(</span><span class="va">seu</span><span class="op">)</span></span>
+<span><span class="va">all_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindAllMarkers.html">FindAllMarkers</a></span><span class="op">(</span><span class="va">seu</span>, only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, logfc.threshold <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Check out the results in <code>all_marks</code>. What is the top marker for cluster 4?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Here’s a oneliner for a table representation:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">all_marks</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cluster</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">avg_log2FC</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">p_val</th>
+<th style="text-align: right;">avg_log2FC</th>
+<th style="text-align: right;">pct.1</th>
+<th style="text-align: right;">pct.2</th>
+<th style="text-align: right;">p_val_adj</th>
+<th style="text-align: left;">cluster</th>
+<th style="text-align: left;">gene</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ltbp2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.221885</td>
+<td style="text-align: right;">0.398</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Ltbp2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cnpy11</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.214507</td>
+<td style="text-align: right;">0.647</td>
+<td style="text-align: right;">0.096</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Cnpy1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cbln31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.192747</td>
+<td style="text-align: right;">0.655</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Cbln3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Il20rb1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.149834</td>
+<td style="text-align: right;">0.524</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Il20rb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gabra61</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.146517</td>
+<td style="text-align: right;">0.650</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Gabra6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>To get a broad overview of all marker genes we can do the following:</p>
 <ul>
-<li>Antherior: <a href="https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0">https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0</a>
-</li>
-<li>Posterior: <a href="https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0">https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0</a>
-</li>
+<li>Find the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (<code>avg_log2FC * -log10(p_val_adj + 1e-300)</code>) to sort the genes.</li>
+<li>Then we create a dotplot of the expression of each gene per cluster</li>
 </ul>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">top_markers</span> <span class="op">&lt;-</span> <span class="va">all_marks</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>order_value <span class="op">=</span> <span class="va">avg_log2FC</span> <span class="op">*</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p_val_adj</span> <span class="op">+</span> <span class="fl">1e-300</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">order_value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Selecting by order_value</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DotPlot.html">DotPlot</a></span><span class="op">(</span><span class="va">seu</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html">guide_axis</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now, we can check whether the expression pattern corresponds with the cluster, e.g.&nbsp;the top marker of cluster 3:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
+<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu</span>,</span>
+<span>                                                   idents <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<span>            features <span class="op">=</span> <span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">[</span><span class="va">top_markers</span><span class="op">$</span><span class="va">cluster</span> <span class="op">==</span> <span class="fl">7</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>            pt.size.factor <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do the same for cluster 0. What is the top marker? Can you guess what kind of tissue this is?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
+<span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu</span>,</span>
+<span>                                                   idents <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<span>            features <span class="op">=</span> <span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">[</span><span class="va">top_markers</span><span class="op">$</span><span class="va">cluster</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>            pt.size.factor <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ```{r} -->
+<!-- DefaultAssay(seu_list$Anterior) <- "SCT" -->
+<!-- seu_list$Anterior <- -->
+<!--   FindSpatiallyVariableFeatures( -->
+<!--     seu_list$Anterior, -->
+<!--     features = rownames(seu), -->
+<!--     selection.method = "moransi" -->
+<!--   ) -->
+<!-- spatialFeatures <- -->
+<!--   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE) -->
+<!-- spatialFeatures <- -->
+<!--   spatialFeatures |> arrange(rank) -->
+<!-- SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1)) -->
+<!-- ``` -->
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.555">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Spatial transcriptomics - SIB Days tutorial: Analysis of spatial transcriptomics data</title>
+<title>Spatial transcriptomics - Normalization and scaling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,8 +17,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -39,8 +69,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -66,18 +95,12 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
-
-
+}</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Spatial transcriptomics</span>
@@ -89,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -105,8 +128,8 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-course-material" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Course material</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-course-material">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-course-material">
+<li>
     <a class="dropdown-item" href="./1_setup.html">
  <span class="dropdown-text">Setup</span></a>
   </li>  
@@ -127,65 +150,45 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Marker gene identification</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
     <a class="nav-link" href="https://github.com/sib-swiss/spatial-transcriptomics-training/"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">SIB Days tutorial: Analysis of spatial transcriptomics data</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Normalization and scaling</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="./assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#teachers" id="toc-teachers" class="nav-link active" data-scroll-target="#teachers">Teachers</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#license-copyright" id="toc-license-copyright" class="nav-link" data-scroll-target="#license-copyright">License &amp; copyright</a></li>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes</a>
-  <ul class="collapse">
-  <li><a href="#general-learning-outcomes" id="toc-general-learning-outcomes" class="nav-link" data-scroll-target="#general-learning-outcomes">General learning outcomes</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  </ul></li>
-  </ul>
-</nav>
+<li><a href="#normalization" id="toc-normalization" class="nav-link active" data-scroll-target="#normalization">Normalization</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">SIB Days tutorial: Analysis of spatial transcriptomics data</h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Normalization and scaling</h1>
 </div>
 
 
@@ -199,51 +202,183 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
-
-
-<figure class="figure">
-<img src="assets/images/clustering_anterior_posterior.png" width="500" class="figure-img">
+</header><p>Loading the required packages:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lazappi/clustree">clustree</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We load the object that was output of the quality control part:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"output/seu_part2.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="normalization" class="level2"><h2 class="anchored" data-anchor-id="normalization">Normalization</h2>
+<p>Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are differences in cell density across the tissue.</p>
+<p>Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).</p>
+<p>We need to apply <code>SCTransform</code> on each individual slice. Therefore, we split the object back into a list (with <code>SplitObject</code>). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply <code>SCTransform</code> on the individual slices and merge the objects back together with <code>merge</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SplitObject.html">SplitObject</a></span><span class="op">(</span><span class="va">seu</span>, split.by <span class="op">=</span> <span class="st">"orig.ident"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Seurat objects
+Not validating Seurat objects
+Not validating Seurat objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Centroids objects
+Not validating Centroids objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Not validating Seurat objects</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># images aren't split with SplitObject. Resetting the images. </span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">slice</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">images</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>    <span class="va">slice</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># bugfix based on https://github.com/satijalab/seurat/issues/8216</span></span>
+<span>  <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="va">slice</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"RNA"</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Key 'spatial_' taken, using 'rna_' instead</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">seu_list</span>, FUN <span class="op">=</span> <span class="va">SCTransform</span>, assay <span class="op">=</span> <span class="st">"RNA"</span>,</span>
+<span>                   vars.to.regress <span class="op">=</span> <span class="st">"percent_mt"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
+'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After running the code, to do the SCT transformation, which assays have been added to the seurat object? Note that you can get assay data with the function <code>Assays</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Just by typing the object name (<code>seu</code>) we see which layers are in there:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/ObjectAccess.html">Assays</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Spatial" "RNA"     "SCT"    </code></pre>
+</div>
+</div>
+<p>Showing us that an assay called <code>SCT</code> has appeared.</p>
+</div>
+</div>
+</div>
+<p>Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g.&nbsp;<code>Ttr</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
+<span>            features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, </span>
+<span>              features <span class="op">=</span> <span class="st">"Ttr"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="3_normalization_scaling_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
-<section id="teachers" class="level2">
-<h2 class="anchored" data-anchor-id="teachers">Teachers</h2>
-<ul>
-<li>Heidi Tschanz-Lischer</li>
-<li>David Ferreira Francisco</li>
-<li>Geert van Geest <a href="https://orcid.org/0000-0002-1561-078X">ORCiD</a></li>
-</ul>
-</section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Spatial transcriptomics has emerged as a transformative technique in biology, revolutionizing our ability to study cellular organization and function within tissues. With varying spatial transcriptomics techniques, we can measure transcriptome-scale gene expression in a two-dimensionally resolved resolution. This workshop will provide an in-depth introduction to the analysis of spatial transcriptomics data, equipping participants with the skills and knowledge to confidently handle, analyze, and interpret spatial transcriptomics data sets. In the tutorial, there will be an overview of different spatial transcriptomics techniques, but the hands-on exercises will be using 10x Visium data.</p>
-</section>
-<section id="license-copyright" class="level2">
-<h2 class="anchored" data-anchor-id="license-copyright">License &amp; copyright</h2>
-<p><strong>License:</strong> <a href="https://github.com/sib-swiss/spatial-transcriptomics-training/blob/master/LICENSE.md">CC BY 4.0</a></p>
-</section>
-<section id="learning-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
-<section id="general-learning-outcomes" class="level3">
-<h3 class="anchored" data-anchor-id="general-learning-outcomes">General learning outcomes</h3>
-<p>After this course, you will be able to:</p>
-<ul>
-<li>Understand the general concepts behind the most-used methods to obtain spatial transcriptomics data.</li>
-<li>Understand the methods behind 10x Visium and the resulting data in depth.</li>
-<li>Perform quality control on spatial transcriptomics data.</li>
-<li>Perform dimensionality reduction and clustering on spatial transcriptomics data.</li>
-<li>Perform marker genes identification and understand its biological meaning and limitations.</li>
-</ul>
-</section>
-<section id="exercises" class="level3">
-<h3 class="anchored" data-anchor-id="exercises">Exercises</h3>
-<p>Each block has practical work involved. Some more than others. The practicals are subdivided into chapters, and we’ll have a (short) discussion after each chapter. All answers to the practicals are incorporated, but they are hidden. Do the exercise first by yourself, before checking out the answer. If your answer is different from the answer in the practicals, try to figure out why they are different.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create the same plot, but now for the gene <code>Dusp5</code>. In which two parts of the brain is it primarily expressed?</p>
+<p>Hint: check out <a href="http://atlas.brain-map.org/atlas?atlas=2&amp;plate=100883804#atlas=2&amp;plate=100884129&amp;resolution=19.04&amp;x=7671.818403764205&amp;y=4000&amp;zoom=-4&amp;structure=549">Allen Brain Atlas</a> for the names of the different parts of the brain.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gene</span> <span class="op">&lt;-</span> <span class="st">"Dusp5"</span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
+<span>            features <span class="op">=</span> <span class="va">gene</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, </span>
+<span>              features <span class="op">=</span> <span class="va">gene</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="3_normalization_scaling_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It’s mainly expressed in the olfactory bulb (left of the anterior slice) and cerebellum (right of the posterior slice).</p>
+</div>
+</div>
+</div>
+<p>After quality control and transformation, we can save the output as an rds files:</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">seu_list</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"output/seu_part3.rds"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -653,7 +788,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-
 
 
 
