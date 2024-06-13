@@ -108,7 +108,7 @@ SpatialPlot(seu, alpha = 0) +
 And we can plot any feature as an overlay, for example, here we have the number of UMI per spot: 
 
 ```{r}
-SpatialPlot(seu, features = "nCount_Spatial", alpha = 0.5) + 
+SpatialPlot(seu, features = "nCount_Spatial", pt.size.factor = 2.5) + 
   plot_layout(guides='collect') & theme(legend.position = "right")
 ```
 
@@ -194,7 +194,7 @@ FeatureScatter(seu,
 Now we have to decide whether we want to filter away spots with high mitochondrial counts, and if so, at what threshold. In order to make a decision, it makes sense to plot the mitochondrial counts in a spatial context, so we can check whether it correpsonds to spatial features: 
 
 ```{r}
-SpatialPlot(seu, features = "percent_mt", alpha = 0.7) + 
+SpatialPlot(seu, features = "percent_mt", pt.size.factor = 2.5) + 
   plot_layout(guides='collect') & theme(legend.position = "right")
 ```
 
@@ -319,8 +319,8 @@ Showing us that an assay called `SCT` has appeared.
 Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. `Ttr`:
 
 ```{r}
-SpatialPlot(seu_list$Anterior, features = "Ttr") + 
-  SpatialPlot(seu_list$Posterior, features = "Ttr") + 
+SpatialPlot(seu_list$Anterior, features = "Ttr", pt.size.factor = 2.5) + 
+  SpatialPlot(seu_list$Posterior, features = "Ttr", pt.size.factor = 2.5) + 
   plot_layout(guides='collect') & theme(legend.position = "right")
 ```
 After quality control and transformation, we can save the output as an rds files:

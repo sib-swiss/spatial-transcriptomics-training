@@ -105,66 +105,72 @@ SpatialPlot(seu_int, group.by = res, pt.size.factor = 2) +
 
 ```{r}
 Idents(seu_int) <- "integrated_snn_res.0.4"
-
-SpatialDimPlot(seu_int, 
-               alpha = 0.6,
-               cells.highlight = CellsByIdentities(object = seu_int,
-                                                   idents = 7)) + 
-  plot_layout(guides='collect') &
-  theme(legend.position = "none") 
-
-SpatialDimPlot(seu_int, 
-               alpha = 0.6,
-               cells.highlight = CellsByIdentities(object = seu_int,
-                                                   idents = 4)) + 
-  plot_layout(guides='collect') &
-  theme(legend.position = "none") 
-
-SpatialDimPlot(seu_int, 
-               alpha = 0.6,
-               cells.highlight = CellsByIdentities(object = seu_int,
-                                                   idents = 0)) + 
-  plot_layout(guides='collect') &
-  theme(legend.position = "none") 
 ```
 
 ```{r}
 #| warning: false
+DefaultAssay(seu_int) <- "SCT"
 seu_int <- PrepSCTFindMarkers(seu_int)
 all_marks <- FindAllMarkers(seu_int, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 ```
 
-```{r}
-SpatialPlot(seu_int, features = "Fth1") 
-# oligodendrocytes, myenilated neurons
-```
+
 
 ```{r}
 #| fig-width: 9
-top_specific_markers <- all_marks |>
+top_markers <- all_marks |>
+  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-323)) |>
+  arrange(cluster, desc(order_value)) |>
   group_by(cluster) |>
-  top_n(3, avg_log2FC)
+  top_n(3)
 
-DotPlot(seu_int, features = top_specific_markers$gene) +
+# DefaultAssay(seu_int) <- "integrated"
+
+DotPlot(seu_int, features = top_markers$gene) +
   scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
+```{r}
+SpatialDimPlot(seu_int, 
+               cells.highlight = CellsByIdentities(object = seu_int,
+                                                   idents = 3)) + 
+  plot_layout(guides='collect') &
+  theme(legend.position = "none") 
+
+SpatialPlot(seu_int,
+            features = top_markers$gene[top_markers$cluster == 3][1],
+            pt.size.factor = 2) 
 ```
 
 
 ```{r}
-DefaultAssay(seu_list$Anterior) <- "SCT"
+SpatialDimPlot(seu_int, 
+               cells.highlight = CellsByIdentities(object = seu_int,
+                                                   idents = 0)) + 
+  plot_layout(guides='collect') &
+  theme(legend.position = "none") 
 
-seu_list$Anterior <-
-  FindSpatiallyVariableFeatures(
-    seu_list$Anterior,
-    features = rownames(seu_int),
-    selection.method = "moransi"
-  )
-
-spatialFeatures <-
-  SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE)
-spatialFeatures <-
-  spatialFeatures |> arrange(rank)
-
-SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1))
+SpatialPlot(seu_int,
+            features = top_markers$gene[top_markers$cluster == 0][1],
+            pt.size.factor = 2) 
 ```
+
+
+<!-- ```{r} -->
+<!-- DefaultAssay(seu_list$Anterior) <- "SCT" -->
+
+<!-- seu_list$Anterior <- -->
+<!--   FindSpatiallyVariableFeatures( -->
+<!--     seu_list$Anterior, -->
+<!--     features = rownames(seu_int), -->
+<!--     selection.method = "moransi" -->
+<!--   ) -->
+
+<!-- spatialFeatures <- -->
+<!--   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE) -->
+<!-- spatialFeatures <- -->
+<!--   spatialFeatures |> arrange(rank) -->
+
+<!-- SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1)) -->
+<!-- ``` -->
 
