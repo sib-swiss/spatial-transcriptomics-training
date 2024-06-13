@@ -52,6 +52,7 @@ LINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_
 curl -o filtered_feature_bc_matrix.h5 "$LINK_PREFIX"_filtered_feature_bc_matrix.h5
 curl -o spatial.tar.gz "$LINK_PREFIX"_spatial.tar.gz
 curl -o web_summary.html "$LINK_PREFIX"_web_summary.html
+
 tar -xf spatial.tar.gz
 rm spatial.tar.gz
 
@@ -59,6 +60,7 @@ rm spatial.tar.gz
 cd ../Posterior
 
 LINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Posterior/V1_Mouse_Brain_Sagittal_Posterior
+
 curl -o filtered_feature_bc_matrix.h5 "$LINK_PREFIX"_filtered_feature_bc_matrix.h5
 curl -o spatial.tar.gz "$LINK_PREFIX"_spatial.tar.gz
 curl -o web_summary.html "$LINK_PREFIX"_web_summary.html
@@ -67,7 +69,7 @@ tar -xf spatial.tar.gz
 rm spatial.tar.gz
 ```
 
-Have a look at the data directory you have downloaded. It should contain the following:
+Have a look at the data directory you have downloaded. It should contain the required data for two slices, the anterior side of a sagittal brain slice, and a posterior side:
 
 ```
 course_data/
@@ -94,20 +96,6 @@ course_data/
 
 4 directories, 16 files
 ```
-
-In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:  
-
-![Mouse brain sagittal](assets/images/mouse_brain_sagittal.png)
-
-You can find an interactive map with all brain regions at the [Allen Brain Atlas](http://atlas.brain-map.org/atlas?atlas=2&plate=100883804#atlas=2&plate=100884129&resolution=19.04&x=7671.818403764205&y=4000&zoom=-4&structure=549)
-
-Our slices contain the anterior and posterior sides of the sagittal section of the mouse brain:
-
-::: {layout-ncol=2}
-![Anterior](raw_data/Anterior/spatial/tissue_lowres_image.png)
-
-![Posterior](raw_data/Posterior/spatial/tissue_lowres_image.png)
-:::
 
 This data is provided by 10x genomics, and further information, like material and methods can be found here:
 

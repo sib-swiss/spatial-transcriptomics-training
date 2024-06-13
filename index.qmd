@@ -1,3 +1,37 @@
-# SIB days tutorial: introduction to spatial transcriptomics
+---
+title: "SIB Days tutorial: Analysis of spatial transcriptomics data"
+---
 
-Lorem ipsum
+<figure>
+    <img src="assets/images/clustering_anterior_posterior.png" width="500"/>
+</figure>
+
+## Teachers
+
+- Heidi Tschanz-Lischer
+- David Ferreira Francisco
+- Geert van Geest [ORCiD](https://orcid.org/0000-0002-1561-078X)
+
+## Introduction
+
+Spatial transcriptomics has emerged as a transformative technique in biology, revolutionizing our ability to study cellular organization and function within tissues. With varying spatial transcriptomics techniques, we can measure transcriptome-scale gene expression in a two-dimensionally resolved resolution. This workshop will provide an in-depth introduction to the analysis of spatial transcriptomics data, equipping participants with the skills and knowledge to confidently handle, analyze, and interpret spatial transcriptomics data sets. In the tutorial, there will be an overview of different spatial transcriptomics techniques, but the hands-on exercises will be using 10x Visium data. 
+
+## License & copyright
+
+**License:** [CC BY 4.0](https://github.com/sib-swiss/spatial-transcriptomics-training/blob/master/LICENSE.md)
+
+## Learning outcomes
+
+### General learning outcomes
+
+After this course, you will be able to:
+
+-	Understand the general concepts behind the most-used methods to obtain spatial transcriptomics data.
+-	Understand the methods behind 10x Visium and the resulting data in depth.
+-	Perform quality control on spatial transcriptomics data.
+-	Perform dimensionality reduction and clustering on spatial transcriptomics data.
+-	Perform marker genes identification and understand its biological meaning and limitations.
+
+### Exercises
+
+Each block has practical work involved. Some more than others. The practicals are subdivided into chapters, and we'll have a (short) discussion after each chapter. All answers to the practicals are incorporated, but they are hidden. Do the exercise first by yourself, before checking out the answer. If your answer is different from the answer in the practicals, try to figure out why they are different.

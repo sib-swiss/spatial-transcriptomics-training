@@ -1,0 +1,14 @@
+---
+title: "Course schedule"
+---
+
+
+| block  	| start    	| end      	| duration 	| activities                                                                                        	| responsible         	|
+|--------	|----------	|----------	|----------	|---------------------------------------------------------------------------------------------------	|---------------------	|
+| block1 	| 09:30:00 	| 10:45:00 	| 01:15:00 	| Lectures: welcome, introduction to spatial transcriptomics techniques, introduction to 10x visium 	| Geert               	|
+| break  	| 10:45:00 	| 11:15:00 	| 00:30:00 	|                                                                                                   	|                     	|
+| block2 	| 11:15:00 	| 12:30:00 	| 01:15:00 	| Exercises: Loading data, quality control and normalization                                        	| Heidi, Geert, David 	|
+| break  	| 12:30:00 	| 13:30:00 	| 01:00:00 	|                                                                                                   	|                     	|
+| block3 	| 13:30:00 	| 14:45:00 	| 01:15:00 	| Lectures: Obtaining biological knowledge from spatial transcriptomics data (+ start on exercises) 	| Heidi               	|
+| break  	| 14:45:00 	| 15:15:00 	| 00:30:00 	|                                                                                                   	|                     	|
+| block4 	| 15:15:00 	| 16:30:00 	| 01:15:00 	| Exercises: Dimensionality reduction, clustering, and marker genes identification                  	| Heidi, Geert, David 	|

@@ -1,0 +1,129 @@
+---
+title: "Marker gene identification"
+engine: knitr
+---
+
+We load the required packages:
+
+```{r}
+#| output: false
+library(Seurat)
+library(ggplot2)
+library(clustree)
+library(patchwork)
+library(dplyr)
+```
+
+And we load the list created after normalization and scaling, followed by a merge:
+
+```{r}
+seu <- readRDS("output/seu_part4.rds")
+```
+
+## Marker genes
+
+Finally, we can identify marker genes for each cluster. For that, we move away from the `integrated` assay, and use `SCT` as default again. Because our object is a merge between two slices, each with their own SCT model, we need to correct the counts and data slots. This is done by `PrepSCTFindMakers`. After that, we use `FindAllMarkers` to identify markers for each cluster versus all other spots. 
+
+```{r}
+#| warning: false
+DefaultAssay(seu) <- "SCT"
+seu <- PrepSCTFindMarkers(seu)
+all_marks <- FindAllMarkers(seu, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+```
+
+::: {.callout-important}
+## Exercise
+
+Check out the results in `all_marks`. What is the top marker for cluster 4? 
+
+::: 
+
+::: {.callout-tip collapse="true"}
+## Answer
+
+Here's a oneliner for a table representation:
+
+```{r}
+all_marks |>
+  filter(cluster == 4) |>
+  arrange(desc(avg_log2FC)) |>
+  head(5) |>
+  knitr::kable()
+```
+:::
+
+To get a broad overview of all marker genes we can do the following:
+
+-  Find the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (`avg_log2FC * -log10(p_val_adj + 1e-323)`) to sort the genes.
+- Then we create a dotplot of the expression of each gene per cluster
+
+```{r}
+#| fig-width: 9
+top_markers <- all_marks |>
+  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-323)) |>
+  arrange(cluster, desc(order_value)) |>
+  group_by(cluster) |>
+  top_n(3)
+
+DotPlot(seu, features = top_markers$gene) +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
+Now, we can check whether the expression pattern corresponds with the cluster, e.g. the top marker of cluster 3:
+
+```{r}
+SpatialDimPlot(seu, 
+               cells.highlight = CellsByIdentities(object = seu,
+                                                   idents = 3)) + 
+  plot_layout(guides='collect') &
+  theme(legend.position = "none") 
+
+SpatialPlot(seu,
+            features = top_markers$gene[top_markers$cluster == 3][1],
+            pt.size.factor = 2) 
+```
+
+::: {.callout-important}
+## Exercise
+
+Do the same for cluster 0. What is the top marker? Can you guess what kind of tissue this is? 
+
+::: 
+
+::: {.callout-tip collapse="true"}
+## Answer
+
+```{r}
+SpatialDimPlot(seu, 
+               cells.highlight = CellsByIdentities(object = seu,
+                                                   idents = 0)) + 
+  plot_layout(guides='collect') &
+  theme(legend.position = "none") 
+
+SpatialPlot(seu,
+            features = top_markers$gene[top_markers$cluster == 0][1],
+            pt.size.factor = 2) 
+```
+:::
+
+
+
+
+<!-- ```{r} -->
+<!-- DefaultAssay(seu_list$Anterior) <- "SCT" -->
+
+<!-- seu_list$Anterior <- -->
+<!--   FindSpatiallyVariableFeatures( -->
+<!--     seu_list$Anterior, -->
+<!--     features = rownames(seu), -->
+<!--     selection.method = "moransi" -->
+<!--   ) -->
+
+<!-- spatialFeatures <- -->
+<!--   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE) -->
+<!-- spatialFeatures <- -->
+<!--   spatialFeatures |> arrange(rank) -->
+
+<!-- SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1)) -->
+<!-- ``` -->
+

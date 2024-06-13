@@ -22,7 +22,9 @@ website:
         menu:
           - href: "1_setup.qmd"
           - href: "2_quality_control.qmd"
-          - href: "3_integration_clustering.qmd"
+          - href: "3_normalization_scaling.qmd"
+          - href: "4_integration_clustering.qmd"
+          - href: "5_marker_gene_identification.qmd"
     right:
       - icon: github
         href: https://github.com/sib-swiss/spatial-transcriptomics-training/

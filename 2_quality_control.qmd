@@ -3,6 +3,22 @@ title: "Quality control"
 engine: knitr
 ---
 
+## Introduction
+
+In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:  
+
+![Mouse brain sagittal](assets/images/mouse_brain_sagittal.png)
+
+You can find an interactive map with all brain regions at the [Allen Brain Atlas](http://atlas.brain-map.org/atlas?atlas=2&plate=100883804#atlas=2&plate=100884129&resolution=19.04&x=7671.818403764205&y=4000&zoom=-4&structure=549)
+
+Our slices contain the anterior and posterior sides of the sagittal section of the mouse brain:
+
+::: {layout-ncol=2}
+![Anterior](raw_data/Anterior/spatial/tissue_lowres_image.png)
+
+![Posterior](raw_data/Posterior/spatial/tissue_lowres_image.png)
+:::
+
 ## Quality reports
 
 In the `course_data` directories you can find an html report named `web_summary.html` that gives information about the spaceranger run. 
@@ -52,8 +68,8 @@ seu_list <- lapply(c("Anterior", "Posterior"), function(slice) {
 After creating the list, we merge the two objects into one Seurat object, and we set the default identity (mostly for plotting purposes) to the slice identifier (i.e. Posterior or Anterior).
 
 ```{r}
+#| warning: false
 seu <- merge(seu_list[[1]], seu_list[[2]])
-seu <- SetIdent(seu, value = "orig.ident")
 ```
 
 ### The `Seurat` object
@@ -69,6 +85,13 @@ seurat_object <- Seurat::function(seurat_object)
 ```
 
 So, the function takes an object as input and we assign it to an object with the same name. Meaning that we overwrite the object used as input. This is fine in many cases, because `Seurat` adds information to the input object, and returns is. 
+
+Because we want to set the default identity of each spot to the slice name (i.e. 'anterior' or 'posterior'), we change the slot `active.ident` with the function `SetIdent`:
+
+```{r}
+seu <- SetIdent(seu, value = "orig.ident")
+```
+
 
 In order to check out the count data that is stored in our Seurat object, we can run `GetAssayData`, in which we specify the assay and the layer from which we extract the counts. Since we have a combined object we have two layers with counts, `counts.1` corresponding to `Anterior` and `counts.2` corresponding to `Posterior`. Let's have a look at the counts from the Anterior slice:
 
@@ -267,68 +290,12 @@ most_expressed_boxplot(seu[["Spatial"]]$counts.2)
 
 As we don't see very high expression percentages, and it happens for expected genes (e.g. Bc1), we decide to keep all genes in the analysis. 
 
-## Normalization
-
-Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are 
-differences in cell density across the tissue. 
-
-Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized 
-negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).
-
-We need to apply `SCTransform` on each individual slice. Therefore, we split the object back into a list (with `SplitObject`). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply `SCTransform` on the individual slices and merge the objects back together with `merge`:
-
-```{r}
-#| message: FALSE
-seu_list <- SplitObject(seu, split.by = "orig.ident")
-
-# images aren't split with SplitObject. Resetting the images. 
-for(slice in names(seu_list)) {
-  seu_list[[slice]]@images <- setNames(
-    list(seu_list[[slice]]@images[[slice]]),
-    slice)
-  
-  # bugfix based on https://github.com/satijalab/seurat/issues/8216
-  seu_list[[slice]][["RNA"]] <- seu_list[[slice]][["Spatial"]]
-  DefaultAssay(seu_list[[slice]]) <- "RNA"
-}
-
-seu_list <- lapply(X = seu_list, FUN = SCTransform, assay = "RNA",
-                   vars.to.regress = "percent_mt")
-
-```
-
-::: {.callout-important}
-## Exercise
-
-After running the code, to do the SCT transformation, which assays have been added to the seurat object? Note that you can get assay data with the function `Assays`.
-::: 
-
-::: {.callout-tip collapse="true"}
-## Answer
-
-Just by typing the object name (`seu`) we see which layers are in there:
- 
-```{r}
-Assays(seu_list[[1]])
-```
-
-Showing us that an assay called `SCT` has appeared. 
-
-:::
-
-Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. `Ttr`:
-
-```{r}
-SpatialPlot(seu_list$Anterior, features = "Ttr", pt.size.factor = 2.5) + 
-  SpatialPlot(seu_list$Posterior, features = "Ttr", pt.size.factor = 2.5) + 
-  plot_layout(guides='collect') & theme(legend.position = "right")
-```
-After quality control and transformation, we can save the output as an rds files:
+After quality control, we can save the output as an rds files:
 
 ```{r}
 output_folder <- "output"
 dir.create(output_folder, showWarnings = FALSE)
 
-saveRDS(seu_list,
-        paste0("output/normalized.rds"))
+saveRDS(seu,
+        paste0("output/seu_part2.rds"))
 ```

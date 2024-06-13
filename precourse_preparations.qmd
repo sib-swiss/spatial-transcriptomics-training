@@ -1,0 +1,13 @@
+---
+title: "Precourse preparations"
+---
+
+Audience and requirements
+
+The target audience are researchers that are interested to analyse spatial transcriptomics datasets. Attendees should have basic understanding of:
+
+- The programming language R
+- Dimensionality reduction techniques (PCA, UMAP)
+- Clustering techniques
+
+Dimensionality reduction and clustering techniques are taught in the SIB course ‘Single-Cell Transcriptomics with R’ and prerequisites can be obtained through self-learning at [https://sib-swiss.github.io/single-cell-training/](https://sib-swiss.github.io/single-cell-training/).
