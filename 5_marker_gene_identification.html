@@ -184,6 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li><a href="#marker-genes" id="toc-marker-genes" class="nav-link active" data-scroll-target="#marker-genes">Marker genes</a></li>
+  <li><a href="#bonus-exercise-spatially-variable-features" id="toc-bonus-exercise-spatially-variable-features" class="nav-link" data-scroll-target="#bonus-exercise-spatially-variable-features">Bonus exercise: spatially variable features</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -389,7 +390,9 @@ Exercise
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do the same for cluster 0. What is the top marker? Can you guess what kind of tissue this is?</p>
+<p>What kind of tissue is cluster 7 you think? Does the mouse brain atlas show similar patterns for this gene?</p>
+<p>Compare the expression to the images at <a href="http://atlas.brain-map.org/atlas?atlas=2&amp;plate=100883804#atlas=2&amp;plate=100884129&amp;resolution=19.04&amp;x=7671.818403764205&amp;y=4000&amp;zoom=-4&amp;structure=549">Allen Brain Atlas</a> to figure out the tissue type.</p>
+<p>To compare the expression, go to <a href="https://mouse.brain-map.org/">mouse.brain-map.org</a>, type the gene name in the search box. Select the gene entry in the sagittal plane, click ‘View selections’ at the left bottom of the page. Select a similar slice (i.e.&nbsp;in the middle of the brain).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -403,6 +406,38 @@ Answer
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Based on the comparison of the brain atlas it seems to be layer 2/3 of the isocortex.</p>
+<p>It has similar expression based on in-situ hybridization from the brain atlas. Also expression in the striatium and medulla correspond.</p>
+<p><img src="assets/images/Lamp5_sagittal_ISH.png" class="img-fluid"></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create the same visualization for cluster 0. What is the top marker? Can you guess what kind of cells this tissue is mostly comprised of?</p>
+<p>The marker is expressed in many spots, and therefore it is not part of specific cell groups. Therefore, check out the gene at e.g.&nbsp;wikipedia.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
@@ -426,23 +461,76 @@ Answer
 </div>
 </div>
 </div>
+<p>The top gene is <a href="https://en.wikipedia.org/wiki/Proteolipid_protein_1">Plp1</a> which protein is an important component of the myelin sheets of neurons. Therefore cluster 0 seems to represent the white matter of the brain.</p>
 </div>
 </div>
 </div>
-<!-- ```{r} -->
-<!-- DefaultAssay(seu_list$Anterior) <- "SCT" -->
-<!-- seu_list$Anterior <- -->
-<!--   FindSpatiallyVariableFeatures( -->
-<!--     seu_list$Anterior, -->
-<!--     features = rownames(seu), -->
-<!--     selection.method = "moransi" -->
-<!--   ) -->
-<!-- spatialFeatures <- -->
-<!--   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE) -->
-<!-- spatialFeatures <- -->
-<!--   spatialFeatures |> arrange(rank) -->
-<!-- SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1)) -->
-<!-- ``` -->
+</section><section id="bonus-exercise-spatially-variable-features" class="level2"><h2 class="anchored" data-anchor-id="bonus-exercise-spatially-variable-features">Bonus exercise: spatially variable features</h2>
+<p>In stead of looking for features that are variable among all spots, you can also identify that mainly vary in space, i.e.&nbsp;while taking spot distance into account:</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># take the output of part 3 (non-integrated and non-clustered)</span></span>
+<span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"output/seu_part3.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># we only do Anterior for now</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/DefaultAssay.html">DefaultAssay</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SCT"</span></span>
+<span></span>
+<span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindSpatiallyVariableFeatures.html">FindSpatiallyVariableFeatures</a></span><span class="op">(</span></span>
+<span>    <span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
+<span>    selection.method <span class="op">=</span> <span class="st">"moransi"</span>,</span>
+<span>    features <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">spatialFeatures</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">SVFInfo</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>, method <span class="op">=</span> <span class="st">"moransi"</span>, status <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">spatialFeatures</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">spatialFeatures</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run the code and plot the top spatial variable genes.</p>
+<p>The spatial features are ordered already ordered, so you can get them with e.g.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spatialFeatures</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Any interesting marker genes in there?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
+<span>            features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spatialFeatures</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
+<span>            ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="5_marker_gene_identification_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

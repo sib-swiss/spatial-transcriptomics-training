@@ -588,39 +588,11 @@ AAACATGGTGAGAGGA-1_1   Anterior          22148             6518  10.791042</code
 </div>
 <p>Now, we remove the spots, and visualize the spots that are left over:</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="va">seu</span><span class="op">[</span>, <span class="va">seu</span><span class="op">$</span><span class="va">percent_mt_keep</span> <span class="op">&amp;</span> <span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial_keep</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating Centroids objects
-Not validating Centroids objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating Seurat objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating Centroids objects
-Not validating Centroids objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Not validating Seurat objects</code></pre>
-</div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="va">seu</span><span class="op">[</span>, <span class="va">seu</span><span class="op">$</span><span class="va">percent_mt_keep</span> <span class="op">&amp;</span> <span class="va">seu</span><span class="op">$</span><span class="va">nFeature_Spatial_keep</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>, group.by <span class="op">=</span> <span class="st">"percent_mt_keep"</span>, pt.size.factor <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
@@ -631,7 +603,7 @@ Not validating FOV objects</code></pre>
 </section><section id="gene-level-qc" class="level3"><h3 class="anchored" data-anchor-id="gene-level-qc">Gene-level QC</h3>
 <p>Some genes can be expressed in very high percentages and therefore have a large effect on the normalization. In order to see whether there are genes that are very high expressed we can plot them by percentage of the total counts per spot:</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">most_expressed_boxplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">most_expressed_boxplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">raw_counts</span><span class="op">@</span><span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep.int</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">raw_counts</span><span class="op">@</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
 <span>  <span class="va">most_expressed</span> <span class="op">&lt;-</span></span>
@@ -659,7 +631,7 @@ Not validating FOV objects</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">most_expressed_boxplot</span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">counts.2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2_quality_control_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
@@ -670,7 +642,7 @@ Not validating FOV objects</code></pre>
 <p>As we don’t see very high expression percentages, and it happens for expected genes (e.g.&nbsp;Bc1), we decide to keep all genes in the analysis.</p>
 <p>After quality control, we can save the output as an rds files:</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"output"</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"output"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">output_folder</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">seu</span>,</span>
