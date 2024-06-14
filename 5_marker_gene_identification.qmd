@@ -87,7 +87,33 @@ SpatialPlot(seu,
 ::: {.callout-important}
 ## Exercise
 
-Do the same for cluster 0. What is the top marker? Can you guess what kind of tissue this is? 
+What kind of tissue is cluster 7 you think? Does the mouse brain atlas show similar patterns for this gene?
+
+Compare the expression to the images at [Allen Brain Atlas](http://atlas.brain-map.org/atlas?atlas=2&plate=100883804#atlas=2&plate=100884129&resolution=19.04&x=7671.818403764205&y=4000&zoom=-4&structure=549) to figure out the tissue type.
+
+To compare the expression, go to [mouse.brain-map.org](https://mouse.brain-map.org/), type the gene name in the search box. Select the gene entry in the sagittal plane, click 'View selections' at the left bottom of the page. Select a similar slice (i.e. in the middle of the brain).
+
+
+
+::: 
+
+::: {.callout-tip collapse="true"}
+## Answer
+
+Based on the comparison of the brain atlas it seems to be layer 2/3 of the isocortex. 
+
+It has similar expression based on in-situ hybridization from the brain atlas. Also expression in the striatium and medulla correspond. 
+
+![](assets/images/Lamp5_sagittal_ISH.png)
+
+:::
+
+::: {.callout-important}
+## Exercise
+
+Create the same visualization for cluster 0. What is the top marker? Can you guess what kind of cells this tissue is mostly comprised of? 
+
+The marker is expressed in many spots, and therefore it is not part of specific cell groups. Therefore, check out the gene at e.g. wikipedia. 
 
 ::: 
 
@@ -105,26 +131,65 @@ SpatialPlot(seu,
             features = top_markers$gene[top_markers$cluster == 0][1],
             pt.size.factor = 2) 
 ```
+
+The top gene is [Plp1](https://en.wikipedia.org/wiki/Proteolipid_protein_1) which protein is an important component of the myelin sheets of neurons. Therefore cluster 0 seems to represent the white matter of the brain. 
+
 :::
 
 
+## Bonus exercise: spatially variable features
+
+In stead of looking for features that are variable among all spots, you can also identify that mainly vary in space, i.e. while taking spot distance into account:
+
+```{r}
+#| warning: FALSE
+#| message: FALSE
+#| output: FALSE
+
+# take the output of part 3 (non-integrated and non-clustered)
+seu_list <- readRDS("output/seu_part3.rds")
+
+# we only do Anterior for now
+DefaultAssay(seu_list$Anterior) <- "SCT"
+
+seu_list$Anterior <-
+  FindSpatiallyVariableFeatures(
+    seu_list$Anterior,
+    selection.method = "moransi",
+    features = VariableFeatures(seu_list$Anterior)
+  )
+
+spatialFeatures <-
+  SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE)
+
+spatialFeatures <-
+  spatialFeatures |> arrange(rank)
 
 
-<!-- ```{r} -->
-<!-- DefaultAssay(seu_list$Anterior) <- "SCT" -->
+```
 
-<!-- seu_list$Anterior <- -->
-<!--   FindSpatiallyVariableFeatures( -->
-<!--     seu_list$Anterior, -->
-<!--     features = rownames(seu), -->
-<!--     selection.method = "moransi" -->
-<!--   ) -->
+::: {.callout-important}
+## Exercise
 
-<!-- spatialFeatures <- -->
-<!--   SVFInfo(seu_list$Anterior, method = "moransi", status = TRUE) -->
-<!-- spatialFeatures <- -->
-<!--   spatialFeatures |> arrange(rank) -->
+Run the code and plot the top spatial variable genes. 
 
-<!-- SpatialPlot(seu_list$Anterior, features = rownames(spatialFeatures)[1:6], ncol = 3, alpha = c(0.1, 1)) -->
-<!-- ``` -->
+The spatial features are ordered already ordered, so you can get them with e.g.
 
+```{r}
+#| eval: FALSE
+rownames(spatialFeatures)[1:4]
+```
+
+Any interesting marker genes in there?
+
+::: 
+
+::: {.callout-tip collapse="true"}
+## Answer
+
+```{r}
+SpatialPlot(seu_list$Anterior,
+            features = rownames(spatialFeatures)[1:4],
+            ncol = 2)
+```
+:::

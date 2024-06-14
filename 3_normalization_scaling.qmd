@@ -74,13 +74,13 @@ Showing us that an assay called `SCT` has appeared.
 
 :::
 
-Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. `Ttr`:
+Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. `Calb2`:
 
 ```{r}
 SpatialPlot(seu_list$Anterior,
-            features = "Ttr") + 
+            features = "Calb2") + 
   SpatialPlot(seu_list$Posterior, 
-              features = "Ttr") + 
+              features = "Calb2") + 
   plot_layout(guides = "collect") & 
   theme(legend.position = "right")
 ```

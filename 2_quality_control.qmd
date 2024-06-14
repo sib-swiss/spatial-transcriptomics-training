@@ -258,10 +258,13 @@ SpatialPlot(seu, cells.highlight = cells_nfeature_keep,
 Now, we remove the spots, and visualize the spots that are left over:
 
 ```{r}
+#| message: FALSE
+#| warning: FALSE
 seu <- seu[, seu$percent_mt_keep & seu$nFeature_Spatial_keep]
 
-SpatialPlot(seu, alpha = 0.5, group.by = "percent_mt_keep")  +
-  plot_layout(guides='collect') & theme(legend.position = "none")
+SpatialPlot(seu, group.by = "percent_mt_keep", pt.size.factor = 2.5)  +
+  plot_layout(guides='collect') & theme(legend.position = "none") & 
+  scale_fill_manual(values = c("black"))
 ```
 
 ### Gene-level QC
