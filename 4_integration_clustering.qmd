@@ -34,7 +34,7 @@ VariableFeatures(seu) <- intersect(VariableFeatures(seu_list$Anterior),
 ::: {.callout-important}
 ## Exercise
 
-How many variable features do we have? We did we select fewer genes than the default (check `?VariableFeatures`)?
+How many variable features do we have? Why did we select fewer genes than the default (check `?VariableFeatures`)?
 
 ::: 
 

@@ -2,8 +2,6 @@
 title: "Precourse preparations"
 ---
 
-Audience and requirements
-
 The target audience are researchers that are interested to analyse spatial transcriptomics datasets. Attendees should have basic understanding of:
 
 - The programming language R
