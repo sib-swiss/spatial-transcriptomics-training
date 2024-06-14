@@ -234,17 +234,25 @@ s
 # defining the high mt spot in anterior
 seu$percent_mt_keep <- !(seu$orig.ident == "Anterior" & seu$percent_mt > 38)
 
-SpatialPlot(seu, group.by = "percent_mt_keep") +
+cells_mt_keep <- colnames(seu)[seu$percent_mt_keep]
+
+SpatialPlot(seu, cells.highlight = cells_mt_keep,
+            cols.highlight = c("grey50", "red"),
+            pt.size.factor = 2.5) +
   plot_annotation(title = "Filter % mitochondrial UMI") +
   plot_layout(guides='collect') & theme(legend.position = "none") 
   
 # defining the low number of genes
 seu$nFeature_Spatial_keep <- seu$nFeature_Spatial > 100
 
-SpatialPlot(seu, group.by = "nFeature_Spatial_keep") +
-  plot_annotation(title = "Filter % low number of features") +
-  plot_layout(guides='collect') & theme(legend.position = "none")
+cells_nfeature_keep <- colnames(seu)[seu$nFeature_Spatial_keep]
 
+SpatialPlot(seu, cells.highlight = cells_nfeature_keep,
+            cols.highlight = c("grey50", "red"),
+            pt.size.factor = 2.5) +
+  plot_annotation(title = "Filter % low number of features") +
+  plot_layout(guides='collect') & theme(legend.position = "none") 
+  
 ```
 
 Now, we remove the spots, and visualize the spots that are left over:

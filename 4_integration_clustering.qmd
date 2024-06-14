@@ -63,6 +63,9 @@ DimPlot(seu, reduction = "pca", group.by = "orig.ident") +
 Based on the PCA, we can create a UMAP to get a representation of all 50 dimensions in a two dimensional space:
 
 ```{r}
+#| warning: FALSE
+#| message: FALSE
+
 seu <- RunUMAP(seu, reduction = "pca", dims = 1:50)
 
 DimPlot(seu, reduction = "umap", group.by = "orig.ident") + 
@@ -176,7 +179,7 @@ There is not 'true' clustering, but based on the `clustree` plot, it seems that 
 
 ```{r}
 #| warning: false
-res <- "integrated_snn_res.0.5"
+res <- "integrated_snn_res.0.4"
 seu <- SetIdent(seu, value = res)
 ```
 
@@ -187,6 +190,7 @@ The script below assumes that you have set object `res` to the column of your se
 
 ```{r}
 #| eval: false
+# this is not (necessarily) the correct answer to the previous question!
 res <- "integrated_snn_res.0.8"
 ```
 ::: 
@@ -194,6 +198,8 @@ res <- "integrated_snn_res.0.8"
 Now that we have selected a resolution, we can color both the UMAP and the slices accordingly. First we defnie some appropriate colors, then we plot the UMAP with `DimPlot` and the slices with `SpatialPlot`. 
 
 ```{r}
+#| warning: false
+#| message: false
 nclust <- seu[[res]] |> unique() |> nrow()
 cluster_cols <- viridis::viridis_pal(option = "H")(nclust)
 

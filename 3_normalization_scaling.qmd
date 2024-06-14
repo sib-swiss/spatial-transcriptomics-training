@@ -33,10 +33,13 @@ We need to apply `SCTransform` on each individual slice. Therefore, we split the
 
 ```{r}
 #| message: FALSE
+#| warning: FALSE
 seu_list <- SplitObject(seu, split.by = "orig.ident")
 
-# images aren't split with SplitObject. Resetting the images. 
+# preparing both objects for SCTransform
 for(slice in names(seu_list)) {
+  
+  # images aren't split with SplitObject. Resetting the images. 
   seu_list[[slice]]@images <- setNames(
     list(seu_list[[slice]]@images[[slice]]),
     slice)
@@ -44,6 +47,7 @@ for(slice in names(seu_list)) {
   # bugfix based on https://github.com/satijalab/seurat/issues/8216
   seu_list[[slice]][["RNA"]] <- seu_list[[slice]][["Spatial"]]
   DefaultAssay(seu_list[[slice]]) <- "RNA"
+  
 }
 
 seu_list <- lapply(X = seu_list, FUN = SCTransform, assay = "RNA",
