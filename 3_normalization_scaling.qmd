@@ -21,7 +21,7 @@ seu <- readRDS("output/seu_part2.rds")
 ```
 
 
-## Normalization
+## Normalization and scaling with SCTransform
 
 Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are 
 differences in cell density across the tissue. 
@@ -78,9 +78,9 @@ Now that we have done the transformation it is also possible to plot gene expers
 
 ```{r}
 SpatialPlot(seu_list$Anterior,
-            features = "Calb2") + 
+            features = "Myl4") + 
   SpatialPlot(seu_list$Posterior, 
-              features = "Calb2") + 
+              features = "Myl4") + 
   plot_layout(guides = "collect") & 
   theme(legend.position = "right")
 ```
@@ -88,7 +88,7 @@ SpatialPlot(seu_list$Anterior,
 ::: {.callout-important}
 ## Exercise
 
-Create the same plot, but now for the gene `Dusp5`. In which two parts of the brain is it primarily expressed? 
+Create the same plot, but now for the gene `Calb2`. In which two parts of the brain is it primarily expressed? 
 
 Hint: check out [Allen Brain Atlas](http://atlas.brain-map.org/atlas?atlas=2&plate=100883804#atlas=2&plate=100884129&resolution=19.04&x=7671.818403764205&y=4000&zoom=-4&structure=549) for the names of the different parts of the brain. 
 ::: 
@@ -97,7 +97,7 @@ Hint: check out [Allen Brain Atlas](http://atlas.brain-map.org/atlas?atlas=2&pla
 ## Answer
 
 ```{r}
-gene <- "Dusp5"
+gene <- "Calb2"
 SpatialPlot(seu_list$Anterior,
             features = gene) + 
   SpatialPlot(seu_list$Posterior, 
