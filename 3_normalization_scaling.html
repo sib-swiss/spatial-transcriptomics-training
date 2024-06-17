@@ -183,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#normalization" id="toc-normalization" class="nav-link active" data-scroll-target="#normalization">Normalization</a></li>
+<li><a href="#normalization-and-scaling-with-sctransform" id="toc-normalization-and-scaling-with-sctransform" class="nav-link active" data-scroll-target="#normalization-and-scaling-with-sctransform">Normalization and scaling with SCTransform</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -214,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"output/seu_part2.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="normalization" class="level2"><h2 class="anchored" data-anchor-id="normalization">Normalization</h2>
+<section id="normalization-and-scaling-with-sctransform" class="level2"><h2 class="anchored" data-anchor-id="normalization-and-scaling-with-sctransform">Normalization and scaling with SCTransform</h2>
 <p>Biological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are differences in cell density across the tissue.</p>
 <p>Therefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).</p>
 <p>We need to apply <code>SCTransform</code> on each individual slice. Therefore, we split the object back into a list (with <code>SplitObject</code>). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply <code>SCTransform</code> on the individual slices and merge the objects back together with <code>merge</code>:</p>
@@ -277,9 +277,9 @@ Answer
 <p>Now that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g.&nbsp;<code>Calb2</code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
-<span>            features <span class="op">=</span> <span class="st">"Calb2"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>            features <span class="op">=</span> <span class="st">"Myl4"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, </span>
-<span>              features <span class="op">=</span> <span class="st">"Calb2"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>              features <span class="op">=</span> <span class="st">"Myl4"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -299,7 +299,7 @@ Exercise
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Create the same plot, but now for the gene <code>Dusp5</code>. In which two parts of the brain is it primarily expressed?</p>
+<p>Create the same plot, but now for the gene <code>Calb2</code>. In which two parts of the brain is it primarily expressed?</p>
 <p>Hint: check out <a href="http://atlas.brain-map.org/atlas?atlas=2&amp;plate=100883804#atlas=2&amp;plate=100884129&amp;resolution=19.04&amp;x=7671.818403764205&amp;y=4000&amp;zoom=-4&amp;structure=549">Allen Brain Atlas</a> for the names of the different parts of the brain.</p>
 </div>
 </div>
@@ -316,7 +316,7 @@ Answer
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gene</span> <span class="op">&lt;-</span> <span class="st">"Dusp5"</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gene</span> <span class="op">&lt;-</span> <span class="st">"Calb2"</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
 <span>            features <span class="op">=</span> <span class="va">gene</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Posterior</span>, </span>
