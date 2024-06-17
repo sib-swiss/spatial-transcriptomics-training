@@ -200,18 +200,20 @@ Now that we have selected a resolution, we can color both the UMAP and the slice
 ```{r}
 #| warning: false
 #| message: false
+
+# define a color palette based on the number of clusters
 nclust <- seu[[res]] |> unique() |> nrow()
-cluster_cols <- viridis::viridis_pal(option = "H")(nclust)
+cluster_cols <- DiscretePalette(nclust, palette = "polychrome")
 
 DimPlot(seu,
         group.by = res,
         shuffle = TRUE,
         cols = cluster_cols)
 
-SpatialPlot(seu, group.by = res, pt.size.factor = 2) + 
+SpatialPlot(seu, pt.size.factor = 2) + 
   plot_layout(guides='collect') &
   theme(legend.position = "none") &
-  scale_fill_viridis_d(option = "H")
+  scale_fill_manual(values = cluster_cols)
 ```
 
 After integration and clustering, we can save the output as an rds files:
