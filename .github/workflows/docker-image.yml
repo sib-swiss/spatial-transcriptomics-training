@@ -21,9 +21,6 @@ jobs:
           # list of Docker images to use as base name for tags
           images: |
             geertvangeest/spatial-transcriptomics-rstudio
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=semver,pattern={{major}}.{{minor}}
       -
         name: Checkout
         uses: actions/checkout@v3
