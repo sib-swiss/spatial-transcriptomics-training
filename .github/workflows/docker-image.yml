@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - 'v*.*'
+  push:
+    branches: main
+    paths: 
+      - 'Dockerfile'
+      - '**/docker-image.yml'
   
 jobs:
   docker:
