@@ -18,14 +18,21 @@
     "href": "4_integration_clustering.html",
     "title": "Integration and clustering",
     "section": "",
-    "text": "We load the required packages:\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\nAnd we load the list created after normalization and scaling, followed by a merge:\nseu_list &lt;- readRDS(\"output/seu_part3.rds\")\nseu &lt;- merge(seu_list[[1]], seu_list[[2]])"
+    "text": "Download the presentation"
+  },
+  {
+    "objectID": "4_integration_clustering.html#material",
+    "href": "4_integration_clustering.html#material",
+    "title": "Integration and clustering",
+    "section": "",
+    "text": "Download the presentation"
   },
   {
     "objectID": "4_integration_clustering.html#dimensionality-reduction",
     "href": "4_integration_clustering.html#dimensionality-reduction",
     "title": "Integration and clustering",
     "section": "Dimensionality reduction",
-    "text": "Dimensionality reduction\nIn order to perform dimensionality reduction, we first need to select variable features of both slices. To get a good representation of both slices, we take the intersect (i.e. genes that are variable in both slices):\n\nVariableFeatures(seu) &lt;- intersect(VariableFeatures(seu_list$Anterior),\n                           VariableFeatures(seu_list$Posterior))\n\n\n\n\n\n\n\nExercise\n\n\n\nHow many variable features do we have? Why did we select fewer genes than the default (check ?VariableFeatures)?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nJust by typing the object name we already see the number of variable features:\n\nseu\n\nAn object of class Seurat \n83447 features across 6039 samples within 3 assays \nActive assay: SCT (18877 features, 1938 variable features)\n 3 layers present: counts, data, scale.data\n 2 other assays present: Spatial, RNA\n 2 spatial fields of view present: Anterior Posterior\n\n\nSo, we have 1938 variable features. Because we selected the features that are variable in both slices, it is fewer genes than the originally selected default.\n\n\n\nNow that we have selected the most variable features, we can generate a PCA based on the normalized and scaled data of those:\n\nseu &lt;- RunPCA(seu, assay = \"SCT\", npcs = 50, verbose = FALSE)\n\nDimPlot(seu, reduction = \"pca\", group.by = \"orig.ident\") + \n  scale_color_viridis_d(option = \"cividis\")\n\n\n\n\n\n\n\nBased on the PCA, we can create a UMAP to get a representation of all 50 dimensions in a two dimensional space:\n\nseu &lt;- RunUMAP(seu, reduction = \"pca\", dims = 1:50)\n\nDimPlot(seu, reduction = \"umap\", group.by = \"orig.ident\") + \n  scale_color_viridis_d(option = \"cividis\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nThe two slices come from one brain, the posterior and anterior sides. Do you expect spots from similar cells/tissue in both slices? Is that represented in the UMAP?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nYes, it is likely that there are similar spots in both slides, but the spots of both slices hardly overlap in the UMAP. Therefore, it makes sense to do an integration."
+    "text": "Dimensionality reduction\nWe load the required packages:\n\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\n\nAnd we load the list created after normalization and scaling, followed by a merge:\n\nseu_list &lt;- readRDS(\"output/seu_part3.rds\")\nseu &lt;- merge(seu_list[[1]], seu_list[[2]])\n\nIn order to perform dimensionality reduction, we first need to select variable features of both slices. To get a good representation of both slices, we take the intersect (i.e. genes that are variable in both slices):\n\nVariableFeatures(seu) &lt;- intersect(VariableFeatures(seu_list$Anterior),\n                           VariableFeatures(seu_list$Posterior))\n\n\n\n\n\n\n\nExercise\n\n\n\nHow many variable features do we have? Why did we select fewer genes than the default (check ?VariableFeatures)?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nJust by typing the object name we already see the number of variable features:\n\nseu\n\nAn object of class Seurat \n83447 features across 6039 samples within 3 assays \nActive assay: SCT (18877 features, 1938 variable features)\n 3 layers present: counts, data, scale.data\n 2 other assays present: Spatial, RNA\n 2 spatial fields of view present: Anterior Posterior\n\n\nSo, we have 1938 variable features. Because we selected the features that are variable in both slices, it is fewer genes than the originally selected default.\n\n\n\nNow that we have selected the most variable features, we can generate a PCA based on the normalized and scaled data of those:\n\nseu &lt;- RunPCA(seu, assay = \"SCT\", npcs = 50, verbose = FALSE)\n\nDimPlot(seu, reduction = \"pca\", group.by = \"orig.ident\") + \n  scale_color_viridis_d(option = \"cividis\")\n\n\n\n\n\n\n\nBased on the PCA, we can create a UMAP to get a representation of all 50 dimensions in a two dimensional space:\n\nseu &lt;- RunUMAP(seu, reduction = \"pca\", dims = 1:50)\n\nDimPlot(seu, reduction = \"umap\", group.by = \"orig.ident\") + \n  scale_color_viridis_d(option = \"cividis\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nThe two slices come from one brain, the posterior and anterior sides. Do you expect spots from similar cells/tissue in both slices? Is that represented in the UMAP?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nYes, it is likely that there are similar spots in both slides, but the spots of both slices hardly overlap in the UMAP. Therefore, it makes sense to do an integration."
   },
   {
     "objectID": "4_integration_clustering.html#integration",
@@ -46,14 +53,21 @@
     "href": "2_quality_control.html",
     "title": "Quality control",
     "section": "",
-    "text": "In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:\n\n\nMouse brain sagittal\n\nYou can find an interactive map with all brain regions at the Allen Brain Atlas\nOur slices contain the anterior and posterior sides of the sagittal section of the mouse brain:\n\n\n\n\n\n\n\n\nAnterior\n\n\n\n\n\nPosterior"
+    "text": "Download the presentation"
+  },
+  {
+    "objectID": "2_quality_control.html#material",
+    "href": "2_quality_control.html#material",
+    "title": "Quality control",
+    "section": "",
+    "text": "Download the presentation"
   },
   {
     "objectID": "2_quality_control.html#introduction",
     "href": "2_quality_control.html#introduction",
     "title": "Quality control",
-    "section": "",
-    "text": "In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:\n\n\nMouse brain sagittal\n\nYou can find an interactive map with all brain regions at the Allen Brain Atlas\nOur slices contain the anterior and posterior sides of the sagittal section of the mouse brain:\n\n\n\n\n\n\n\n\nAnterior\n\n\n\n\n\nPosterior"
+    "section": "Introduction",
+    "text": "Introduction\nIn this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:\n\n\nMouse brain sagittal\n\nYou can find an interactive map with all brain regions at the Allen Brain Atlas\nOur slices contain the anterior and posterior sides of the sagittal section of the mouse brain:\n\n\n\n\n\n\n\n\nAnterior\n\n\n\n\n\nPosterior"
   },
   {
     "objectID": "2_quality_control.html#quality-reports",
@@ -82,6 +96,20 @@
     "title": "Quality control",
     "section": "Filtering",
     "text": "Filtering\nIdentifying low-quality spots\nWe decide to filter out the spot that is high in UMI counts in the Anterior slice and in addition, we will filter spots that have fewer than 500 genes expressed. In order to visualize the spots we create two more columns in the @meta.data slot that represent which cell are filtered out. s\n\n# defining the high mt spot in anterior\nseu$percent_mt_keep &lt;- !(seu$orig.ident == \"Anterior\" & seu$percent_mt &gt; 38)\n\ncells_mt_keep &lt;- colnames(seu)[seu$percent_mt_keep]\n\nSpatialPlot(seu, cells.highlight = cells_mt_keep,\n            cols.highlight = c(\"grey50\", \"red\"),\n            pt.size.factor = 2.5) +\n  plot_annotation(title = \"Filter % mitochondrial UMI\") +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") \n\n\n\n\n\n\n# defining the low number of genes\nseu$nFeature_Spatial_keep &lt;- seu$nFeature_Spatial &gt; 100\n\ncells_nfeature_keep &lt;- colnames(seu)[seu$nFeature_Spatial_keep]\n\nSpatialPlot(seu, cells.highlight = cells_nfeature_keep,\n            cols.highlight = c(\"grey50\", \"red\"),\n            pt.size.factor = 2.5) +\n  plot_annotation(title = \"Filter % low number of features\") +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") \n\n\n\n\n\n\n\nNow, we remove the spots, and visualize the spots that are left over:\n\nseu &lt;- seu[, seu$percent_mt_keep & seu$nFeature_Spatial_keep]\n\nSpatialPlot(seu, group.by = \"percent_mt_keep\", pt.size.factor = 2.5)  +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") & \n  scale_fill_manual(values = c(\"black\"))\n\n\n\n\n\n\n\nGene-level QC\nSome genes can be expressed in very high percentages and therefore have a large effect on the normalization. In order to see whether there are genes that are very high expressed we can plot them by percentage of the total counts per spot:\n\nmost_expressed_boxplot &lt;- function(raw_counts) {\n  raw_counts@x &lt;-\n    raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p)) * 100\n  most_expressed &lt;-\n    order(Matrix::rowSums(raw_counts), decreasing = TRUE)[30:1]\n  \n  raw_counts[most_expressed,] |&gt;\n    as.matrix() |&gt;\n    t() |&gt;\n    boxplot(\n      cex.axis = 0.5,\n      cex.lab = 0.8,\n      cex = 0.1,\n      las = 1,\n      xlab = \"% total count per spot\",\n      col = (scales::hue_pal())(30)[30:1],\n      horizontal = TRUE\n    )\n}\n\n\nmost_expressed_boxplot(seu[[\"Spatial\"]]$counts.1)\n\n\n\n\n\n\nmost_expressed_boxplot(seu[[\"Spatial\"]]$counts.2)\n\n\n\n\n\n\n\nAs we don’t see very high expression percentages, and it happens for expected genes (e.g. Bc1), we decide to keep all genes in the analysis.\nAfter quality control, we can save the output as an rds files:\n\noutput_folder &lt;- \"output\"\ndir.create(output_folder, showWarnings = FALSE)\n\nsaveRDS(seu,\n        paste0(\"output/seu_part2.rds\"))"
+  },
+  {
+    "objectID": "1_setup.html",
+    "href": "1_setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "Download the presentation"
+  },
+  {
+    "objectID": "1_setup.html#material",
+    "href": "1_setup.html#material",
+    "title": "Setup",
+    "section": "",
+    "text": "Download the presentation"
   },
   {
     "objectID": "1_setup.html#exercises",
