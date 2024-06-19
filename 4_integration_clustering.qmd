@@ -3,6 +3,12 @@ title: "Integration and clustering"
 engine: knitr
 ---
 
+## Material
+
+{{< downloadthis assets/pdf/02_introduction_ST.pdf dname="02_introduction_ST" label="Download the presentation" icon="filetype-pdf" >}}
+
+## Dimensionality reduction
+
 We load the required packages:
 
 ```{r}
@@ -21,7 +27,6 @@ seu_list <- readRDS("output/seu_part3.rds")
 seu <- merge(seu_list[[1]], seu_list[[2]])
 ```
 
-## Dimensionality reduction
 
 In order to perform dimensionality reduction, we first need to select variable features of both slices. To get a good representation of both slices, we take the intersect (i.e. genes that are variable in both slices):
 

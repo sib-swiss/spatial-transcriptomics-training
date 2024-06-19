@@ -3,6 +3,10 @@ title: "Quality control"
 engine: knitr
 ---
 
+## Material
+
+{{< downloadthis assets/pdf/02_introduction_ST.pdf dname="02_introduction_ST" label="Download the presentation" icon="filetype-pdf" >}}
+
 ## Introduction
 
 In this tutorial we are working with two mouse brain slices, the anterior and posterior. The two brain sections represent the sagittal (longitudinal) plane of the mouse brain:  
