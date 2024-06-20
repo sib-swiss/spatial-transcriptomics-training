@@ -5,7 +5,7 @@ engine: knitr
 
 ## Material
 
-{{< downloadthis assets/pdf/02_introduction_ST.pdf dname="02_introduction_ST" label="Download the presentation" icon="filetype-pdf" >}}
+{{< downloadthis assets/pdf/03_analysis_ST.pdf dname="03_analysis_ST" label="Download the presentation" icon="filetype-pdf" >}}
 
 ## Dimensionality reduction
 
