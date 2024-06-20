@@ -61,10 +61,8 @@ To get a broad overview of all marker genes we can do the following:
 #| fig-width: 9
 top_markers <- all_marks |>
   mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-300)) |>
-  arrange(cluster, desc(order_value)) |>
   group_by(cluster) |>
-  top_n(3)
-
+  slice_max(n = 3, order_by = order_value)
 
 DotPlot(seu, features = unique(top_markers$gene)) +
   scale_x_discrete(guide = guide_axis(angle = 45))
