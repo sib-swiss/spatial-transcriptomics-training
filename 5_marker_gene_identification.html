@@ -342,13 +342,10 @@ Answer
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">top_markers</span> <span class="op">&lt;-</span> <span class="va">all_marks</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>order_value <span class="op">=</span> <span class="va">avg_log2FC</span> <span class="op">*</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p_val_adj</span> <span class="op">+</span> <span class="fl">1e-300</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">order_value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by order_value</code></pre>
-</div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DotPlot.html">DotPlot</a></span><span class="op">(</span><span class="va">seu</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span>, order_by <span class="op">=</span> <span class="va">order_value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DotPlot.html">DotPlot</a></span><span class="op">(</span><span class="va">seu</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html">guide_axis</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -359,7 +356,7 @@ Answer
 </div>
 <p>Now, we can check whether the expression pattern corresponds with the cluster, e.g.&nbsp;the top marker of cluster 3:</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
 <span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu</span>,</span>
 <span>                                                   idents <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
@@ -370,7 +367,7 @@ Answer
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
 <span>            features <span class="op">=</span> <span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">[</span><span class="va">top_markers</span><span class="op">$</span><span class="va">cluster</span> <span class="op">==</span> <span class="fl">7</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>            pt.size.factor <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -440,7 +437,7 @@ Answer
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialDimPlot</a></span><span class="op">(</span><span class="va">seu</span>, </span>
 <span>               cells.highlight <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CellsByIdentities.html">CellsByIdentities</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">seu</span>,</span>
 <span>                                                   idents <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides<span class="op">=</span><span class="st">'collect'</span><span class="op">)</span> <span class="op">&amp;</span></span>
@@ -451,7 +448,7 @@ Answer
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu</span>,</span>
 <span>            features <span class="op">=</span> <span class="va">top_markers</span><span class="op">$</span><span class="va">gene</span><span class="op">[</span><span class="va">top_markers</span><span class="op">$</span><span class="va">cluster</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>            pt.size.factor <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -468,7 +465,7 @@ Answer
 </section><section id="bonus-exercise-spatially-variable-features" class="level2"><h2 class="anchored" data-anchor-id="bonus-exercise-spatially-variable-features">Bonus exercise: spatially variable features</h2>
 <p>In stead of looking for features that are variable among all spots, you can also identify that mainly vary in space, i.e.&nbsp;while taking spot distance into account:</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># take the output of part 3 (non-integrated and non-clustered)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># take the output of part 3 (non-integrated and non-clustered)</span></span>
 <span><span class="va">seu_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"output/seu_part3.rds"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># we only do Anterior for now</span></span>
@@ -500,7 +497,7 @@ Exercise
 <p>Run the code and plot the top spatial variable genes.</p>
 <p>The spatial features are ordered already ordered, so you can get them with e.g.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spatialFeatures</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spatialFeatures</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Any interesting marker genes in there?</p>
 </div>
@@ -518,7 +515,7 @@ Answer
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/SpatialPlot.html">SpatialPlot</a></span><span class="op">(</span><span class="va">seu_list</span><span class="op">$</span><span class="va">Anterior</span>,</span>
 <span>            features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spatialFeatures</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
 <span>            ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
