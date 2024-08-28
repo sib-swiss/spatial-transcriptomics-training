@@ -44,7 +44,7 @@ format:
 
 execute:
   freeze: auto 
-  cache: true
+  cache: false
   tidy: true
 
 
