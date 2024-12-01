@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "precourse_preparations.html",
+    "href": "precourse_preparations.html",
+    "title": "Precourse preparations",
+    "section": "",
+    "text": "The target audience are researchers that are interested to analyse spatial transcriptomics datasets. Attendees should have basic understanding of:\n\nThe programming language R\nDimensionality reduction techniques (PCA, UMAP)\nClustering techniques\n\nDimensionality reduction and clustering techniques are taught in the SIB course ‘Single-Cell Transcriptomics with R’ and prerequisites can be obtained through self-learning at https://sib-swiss.github.io/single-cell-training/."
+  },
+  {
+    "objectID": "course_schedule.html",
+    "href": "course_schedule.html",
+    "title": "Course schedule",
+    "section": "",
+    "text": "block\nstart\nend\nduration\nactivities\nresponsible\n\n\n\n\nblock1\n09:30:00\n10:45:00\n01:15:00\nLectures: welcome, introduction to spatial transcriptomics techniques, introduction to 10x visium\nGeert\n\n\nbreak\n10:45:00\n11:15:00\n00:30:00\n\n\n\n\nblock2\n11:15:00\n12:30:00\n01:15:00\nExercises: Loading data, quality control and normalization\nHeidi, Geert, David\n\n\nbreak\n12:30:00\n13:30:00\n01:00:00\n\n\n\n\nblock3\n13:30:00\n14:45:00\n01:15:00\nLectures: Obtaining biological knowledge from spatial transcriptomics data (+ start on exercises)\nHeidi\n\n\nbreak\n14:45:00\n15:15:00\n00:30:00\n\n\n\n\nblock4\n15:15:00\n16:30:00\n01:15:00\nExercises: Dimensionality reduction, clustering, and marker genes identification\nHeidi, Geert, David"
+  },
+  {
     "objectID": "4_integration_clustering.html",
     "href": "4_integration_clustering.html",
     "title": "Integration and clustering",
@@ -33,104 +47,6 @@
     "title": "Integration and clustering",
     "section": "Identifying clusters",
     "text": "Identifying clusters\nSeurat implements a graph-based clustering approach. Distances between the spots are calculated based on previously identified PCs. Briefly, Seurat identifies clusters of spots by a shared nearest neighbor (SNN) modularity optimization based clustering algorithm. First, it identifies k-nearest neighbors (KNN) and constructs the SNN graph. Then it optimizes the modularity function to determine clusters. For a full description of the algorithms, see Waltman and van Eck (2013) The European Physical Journal B.\nThe FindClusters function implements the procedure, and contains a resolution parameter that sets the granularity of the downstream clustering, with increased values leading to a greater number of clusters.\n\nresolution_vector &lt;- seq(0.1,1,0.1)\nseu &lt;- FindNeighbors(seu, reduction = \"pca\", dims = 1:50)\n\nComputing nearest neighbor graph\n\n\nComputing SNN\n\nseu &lt;- FindClusters(object = seu,\n                          resolution = resolution_vector,\n                          verbose=FALSE)\n\nSome new columns appeared in the metadata data frame after the clustering, each representing the cluster ID per spot for a given resolution:\n\ncolnames(seu@meta.data)\n\n [1] \"orig.ident\"             \"nCount_Spatial\"         \"nFeature_Spatial\"      \n [4] \"percent_mt\"             \"percent_mt_keep\"        \"nFeature_Spatial_keep\" \n [7] \"nCount_SCT\"             \"nFeature_SCT\"           \"integrated_snn_res.0.1\"\n[10] \"integrated_snn_res.0.2\" \"integrated_snn_res.0.3\" \"integrated_snn_res.0.4\"\n[13] \"integrated_snn_res.0.5\" \"integrated_snn_res.0.6\" \"integrated_snn_res.0.7\"\n[16] \"integrated_snn_res.0.8\" \"integrated_snn_res.0.9\" \"integrated_snn_res.1\"  \n[19] \"seurat_clusters\"       \n\n\nTo get an overview of the clustering over the different resolutions, we can use clustree to get an idea:\n\nclustree(seu, prefix = \"integrated_snn_res.\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nWhich resolution would you choose for the clusters? If you have made up your mind, set the cluster column to the default identity with SetIdent.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nThere is not ‘true’ clustering, but based on the clustree plot, it seems that after a resolution of 0.5, the clustering stays relatively stable:\n\nres &lt;- \"integrated_snn_res.0.4\"\nseu &lt;- SetIdent(seu, value = res)\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nThe script below assumes that you have set object res to the column of your selected resolution, e.g.:\n\n# this is not (necessarily) the correct answer to the previous question!\nres &lt;- \"integrated_snn_res.0.8\"\n\n\n\nNow that we have selected a resolution, we can color both the UMAP and the slices accordingly. First we defnie some appropriate colors, then we plot the UMAP with DimPlot and the slices with SpatialPlot.\n\n# define a color palette based on the number of clusters\nnclust &lt;- seu[[res]] |&gt; unique() |&gt; nrow()\ncluster_cols &lt;- DiscretePalette(nclust, palette = \"polychrome\")\n\nDimPlot(seu,\n        group.by = res,\n        shuffle = TRUE,\n        cols = cluster_cols)\n\n\n\n\n\n\n\nSpatialPlot(seu, pt.size.factor = 2) + \n  plot_layout(guides='collect') &\n  theme(legend.position = \"none\") &\n  scale_fill_manual(values = cluster_cols)\n\n\n\n\n\n\n\n\nAfter integration and clustering, we can save the output as an rds files:\n\nsaveRDS(seu,\n        paste0(\"output/seu_part4.rds\"))"
-  },
-  {
-    "objectID": "5_marker_gene_identification.html",
-    "href": "5_marker_gene_identification.html",
-    "title": "Marker gene identification",
-    "section": "",
-    "text": "We load the required packages:\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\nAnd we load the list created after normalization and scaling, followed by a merge:\nseu &lt;- readRDS(\"output/seu_part4.rds\")"
-  },
-  {
-    "objectID": "5_marker_gene_identification.html#marker-genes",
-    "href": "5_marker_gene_identification.html#marker-genes",
-    "title": "Marker gene identification",
-    "section": "Marker genes",
-    "text": "Marker genes\nFinally, we can identify marker genes for each cluster. For that, we move away from the integrated assay, and use SCT as default again. Because our object is a merge between two slices, each with their own SCT model, we need to correct the counts and data slots. This is done by PrepSCTFindMakers. After that, we use FindAllMarkers to identify markers for each cluster versus all other spots.\n\nDefaultAssay(seu) &lt;- \"SCT\"\nseu &lt;- PrepSCTFindMarkers(seu)\nall_marks &lt;- FindAllMarkers(seu, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n\n\n\n\n\n\nExercise\n\n\n\nCheck out the results in all_marks. What is the top marker for cluster 4?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nHere’s a oneliner for a table representation:\n\nall_marks |&gt;\n  filter(cluster == 4) |&gt;\n  arrange(desc(avg_log2FC)) |&gt;\n  head(5) |&gt;\n  knitr::kable()\n\n\n\n\n\np_val\navg_log2FC\npct.1\npct.2\np_val_adj\ncluster\ngene\n\n\n\n\nLtbp2\n0\n4.103064\n0.368\n0.030\n0\n4\nLtbp2\n\n\nCnpy11\n0\n4.084387\n0.596\n0.097\n0\n4\nCnpy1\n\n\nCbln31\n0\n4.075309\n0.609\n0.161\n0\n4\nCbln3\n\n\nIl20rb1\n0\n4.036047\n0.488\n0.059\n0\n4\nIl20rb\n\n\nGabra61\n0\n4.031573\n0.604\n0.150\n0\n4\nGabra6\n\n\n\n\n\n\n\n\nTo get a broad overview of all marker genes we can do the following:\n\nFind the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (avg_log2FC * -log10(p_val_adj + 1e-300)) to sort the genes.\nThen we create a dotplot of the expression of each gene per cluster\n\n\ntop_markers &lt;- all_marks |&gt;\n  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-300)) |&gt;\n  group_by(cluster) |&gt;\n  slice_max(n = 3, order_by = order_value)\n\nDotPlot(seu, features = unique(top_markers$gene)) +\n  scale_x_discrete(guide = guide_axis(angle = 45))\n\n\n\n\n\n\n\n\nNow, we can check whether the expression pattern corresponds with the cluster, e.g. the top marker of cluster 3:\n\nSpatialDimPlot(seu, \n               cells.highlight = CellsByIdentities(object = seu,\n                                                   idents = 7)) + \n  plot_layout(guides='collect') &\n  theme(legend.position = \"none\") \n\n\n\n\n\n\n\nSpatialPlot(seu,\n            features = top_markers$gene[top_markers$cluster == 7][1],\n            pt.size.factor = 2) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nWhat kind of tissue is cluster 7 you think? Does the mouse brain atlas show similar patterns for this gene?\nCompare the expression to the images at Allen Brain Atlas to figure out the tissue type.\nTo compare the expression, go to mouse.brain-map.org, type the gene name in the search box. Select the gene entry in the sagittal plane, click ‘View selections’ at the left bottom of the page. Select a similar slice (i.e. in the middle of the brain).\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nBased on the comparison of the brain atlas it seems to be layer 2/3 of the isocortex.\nIt has similar expression based on in-situ hybridization from the brain atlas. Also expression in the striatium and medulla correspond.\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nCreate the same visualization for cluster 0. What is the top marker? Can you guess what kind of cells this tissue is mostly comprised of?\nThe marker is expressed in many spots, and therefore it is not part of specific cell groups. Therefore, check out the gene at e.g. wikipedia.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\nSpatialDimPlot(seu, \n               cells.highlight = CellsByIdentities(object = seu,\n                                                   idents = 0)) + \n  plot_layout(guides='collect') &\n  theme(legend.position = \"none\") \n\n\n\n\n\n\n\nSpatialPlot(seu,\n            features = top_markers$gene[top_markers$cluster == 0][1],\n            pt.size.factor = 2) \n\n\n\n\n\n\n\n\nThe top gene is Plp1 which protein is an important component of the myelin sheets of neurons. Therefore cluster 0 seems to represent the white matter of the brain."
-  },
-  {
-    "objectID": "5_marker_gene_identification.html#bonus-exercise-spatially-variable-features",
-    "href": "5_marker_gene_identification.html#bonus-exercise-spatially-variable-features",
-    "title": "Marker gene identification",
-    "section": "Bonus exercise: spatially variable features",
-    "text": "Bonus exercise: spatially variable features\nIn stead of looking for features that are variable among all spots, you can also identify that mainly vary in space, i.e. while taking spot distance into account:\n\n# take the output of part 3 (non-integrated and non-clustered)\nseu_list &lt;- readRDS(\"output/seu_part3.rds\")\n\n# we only do Anterior for now\nDefaultAssay(seu_list$Anterior) &lt;- \"SCT\"\n\nseu_list$Anterior &lt;-\n  FindSpatiallyVariableFeatures(\n    seu_list$Anterior,\n    selection.method = \"moransi\",\n    features = VariableFeatures(seu_list$Anterior)\n  )\n\nspatialFeatures &lt;-\n  SVFInfo(seu_list$Anterior, method = \"moransi\", status = TRUE)\n\nspatialFeatures &lt;-\n  spatialFeatures |&gt; arrange(rank)\n\n\n\n\n\n\n\nExercise\n\n\n\nRun the code and plot the top spatial variable genes.\nThe spatial features are ordered already ordered, so you can get them with e.g.\n\nrownames(spatialFeatures)[1:4]\n\nAny interesting marker genes in there?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\nSpatialPlot(seu_list$Anterior,\n            features = rownames(spatialFeatures)[1:4],\n            ncol = 2)"
-  },
-  {
-    "objectID": "1_setup.html",
-    "href": "1_setup.html",
-    "title": "Setup",
-    "section": "",
-    "text": "Download the presentation"
-  },
-  {
-    "objectID": "1_setup.html#material",
-    "href": "1_setup.html#material",
-    "title": "Setup",
-    "section": "",
-    "text": "Download the presentation"
-  },
-  {
-    "objectID": "1_setup.html#exercises",
-    "href": "1_setup.html#exercises",
-    "title": "Setup",
-    "section": "Exercises",
-    "text": "Exercises\n\nLogin and set up\nLog in to Rstudio server with the provided link, username and password.\n\n\nCreate a project\nNow that you have access to an environment with the required installations, we will set up a project in a new directory. On the top right choose the button Project (None) and select New Project…\n\nContinue by choosing New Directory\n\nAs project type select New Project\n\nFinally, type in the project name. This should be spatial_transcriptomics_course. Finish by clicking Create Project.\n\nNow that we have setup a project and a project directory (it is in /home/rstudio/spatial_transcriptomics_course), we can download the data that is required for this course. We will use the built-in terminal of Rstudio. To do this, select the Terminal tab:\n\n\n\nDownloading the course data\nTo download and extract the dataset, copy-paste these commands inside the terminal tab:\n\nmkdir -p course_data/Anterior\nmkdir -p course_data/Posterior\n\n# Anterior\ncd course_data/Anterior\n\nLINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Anterior/V1_Mouse_Brain_Sagittal_Anterior\n\ncurl -o filtered_feature_bc_matrix.h5 \"$LINK_PREFIX\"_filtered_feature_bc_matrix.h5\ncurl -o spatial.tar.gz \"$LINK_PREFIX\"_spatial.tar.gz\ncurl -o web_summary.html \"$LINK_PREFIX\"_web_summary.html\n\ntar -xf spatial.tar.gz\nrm spatial.tar.gz\n\n# Posterior\ncd ../Posterior\n\nLINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Posterior/V1_Mouse_Brain_Sagittal_Posterior\n\ncurl -o filtered_feature_bc_matrix.h5 \"$LINK_PREFIX\"_filtered_feature_bc_matrix.h5\ncurl -o spatial.tar.gz \"$LINK_PREFIX\"_spatial.tar.gz\ncurl -o web_summary.html \"$LINK_PREFIX\"_web_summary.html\n\ntar -xf spatial.tar.gz\nrm spatial.tar.gz\n\nHave a look at the data directory you have downloaded. It should contain the required data for two slices, the anterior side of a sagittal brain slice, and a posterior side:\ncourse_data/\n├── Anterior\n│   ├── filtered_feature_bc_matrix.h5\n│   ├── spatial\n│   │   ├── aligned_fiducials.jpg\n│   │   ├── detected_tissue_image.jpg\n│   │   ├── scalefactors_json.json\n│   │   ├── tissue_hires_image.png\n│   │   ├── tissue_lowres_image.png\n│   │   └── tissue_positions_list.csv\n│   └── web_summary.html\n└── Posterior\n    ├── filtered_feature_bc_matrix.h5\n    ├── spatial\n    │   ├── aligned_fiducials.jpg\n    │   ├── detected_tissue_image.jpg\n    │   ├── scalefactors_json.json\n    │   ├── tissue_hires_image.png\n    │   ├── tissue_lowres_image.png\n    │   └── tissue_positions_list.csv\n    └── web_summary.html\n\n4 directories, 16 files\nThis data is provided by 10x genomics, and further information, like material and methods can be found here:\n\nAnterior: https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0\nPosterior: https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0"
-  },
-  {
-    "objectID": "index.html#teachers",
-    "href": "index.html#teachers",
-    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
-    "section": "Teachers",
-    "text": "Teachers\n\nHeidi Tschanz-Lischer\nDavid Ferreira Francisco\nGeert van Geest ORCiD"
-  },
-  {
-    "objectID": "index.html#introduction",
-    "href": "index.html#introduction",
-    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
-    "section": "Introduction",
-    "text": "Introduction\nSpatial transcriptomics has emerged as a transformative technique in biology, revolutionizing our ability to study cellular organization and function within tissues. With varying spatial transcriptomics techniques, we can measure transcriptome-scale gene expression in a two-dimensionally resolved resolution. This workshop will provide an in-depth introduction to the analysis of spatial transcriptomics data, equipping participants with the skills and knowledge to confidently handle, analyze, and interpret spatial transcriptomics data sets. In the tutorial, there will be an overview of different spatial transcriptomics techniques, but the hands-on exercises will be using 10x Visium data."
-  },
-  {
-    "objectID": "index.html#license-copyright",
-    "href": "index.html#license-copyright",
-    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
-    "section": "License & copyright",
-    "text": "License & copyright\nLicense: CC BY 4.0"
-  },
-  {
-    "objectID": "index.html#learning-outcomes",
-    "href": "index.html#learning-outcomes",
-    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
-    "section": "Learning outcomes",
-    "text": "Learning outcomes\n\nGeneral learning outcomes\nAfter this course, you will be able to:\n\nUnderstand the general concepts behind the most-used methods to obtain spatial transcriptomics data.\nUnderstand the methods behind 10x Visium and the resulting data in depth.\nPerform quality control on spatial transcriptomics data.\nPerform dimensionality reduction and clustering on spatial transcriptomics data.\nPerform marker genes identification and understand its biological meaning and limitations.\n\n\n\nExercises\nEach block has practical work involved. Some more than others. The practicals are subdivided into chapters, and we’ll have a (short) discussion after each chapter. All answers to the practicals are incorporated, but they are hidden. Do the exercise first by yourself, before checking out the answer. If your answer is different from the answer in the practicals, try to figure out why they are different."
-  },
-  {
-    "objectID": "course_schedule.html",
-    "href": "course_schedule.html",
-    "title": "Course schedule",
-    "section": "",
-    "text": "block\nstart\nend\nduration\nactivities\nresponsible\n\n\n\n\nblock1\n09:30:00\n10:45:00\n01:15:00\nLectures: welcome, introduction to spatial transcriptomics techniques, introduction to 10x visium\nGeert\n\n\nbreak\n10:45:00\n11:15:00\n00:30:00\n\n\n\n\nblock2\n11:15:00\n12:30:00\n01:15:00\nExercises: Loading data, quality control and normalization\nHeidi, Geert, David\n\n\nbreak\n12:30:00\n13:30:00\n01:00:00\n\n\n\n\nblock3\n13:30:00\n14:45:00\n01:15:00\nLectures: Obtaining biological knowledge from spatial transcriptomics data (+ start on exercises)\nHeidi\n\n\nbreak\n14:45:00\n15:15:00\n00:30:00\n\n\n\n\nblock4\n15:15:00\n16:30:00\n01:15:00\nExercises: Dimensionality reduction, clustering, and marker genes identification\nHeidi, Geert, David"
-  },
-  {
-    "objectID": "precourse_preparations.html",
-    "href": "precourse_preparations.html",
-    "title": "Precourse preparations",
-    "section": "",
-    "text": "The target audience are researchers that are interested to analyse spatial transcriptomics datasets. Attendees should have basic understanding of:\n\nThe programming language R\nDimensionality reduction techniques (PCA, UMAP)\nClustering techniques\n\nDimensionality reduction and clustering techniques are taught in the SIB course ‘Single-Cell Transcriptomics with R’ and prerequisites can be obtained through self-learning at https://sib-swiss.github.io/single-cell-training/."
-  },
-  {
-    "objectID": "3_normalization_scaling.html",
-    "href": "3_normalization_scaling.html",
-    "title": "Normalization and scaling",
-    "section": "",
-    "text": "Loading the required packages:\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\nWe load the object that was output of the quality control part:\nseu &lt;- readRDS(\"output/seu_part2.rds\")"
-  },
-  {
-    "objectID": "3_normalization_scaling.html#normalization-and-scaling-with-sctransform",
-    "href": "3_normalization_scaling.html#normalization-and-scaling-with-sctransform",
-    "title": "Normalization and scaling",
-    "section": "Normalization and scaling with SCTransform",
-    "text": "Normalization and scaling with SCTransform\nBiological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are differences in cell density across the tissue.\nTherefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).\nWe need to apply SCTransform on each individual slice. Therefore, we split the object back into a list (with SplitObject). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply SCTransform on the individual slices and merge the objects back together with merge:\n\nseu_list &lt;- SplitObject(seu, split.by = \"orig.ident\")\n\n# preparing both objects for SCTransform\nfor(slice in names(seu_list)) {\n  \n  # images aren't split with SplitObject. Resetting the images. \n  seu_list[[slice]]@images &lt;- setNames(\n    list(seu_list[[slice]]@images[[slice]]),\n    slice)\n  \n  # bugfix based on https://github.com/satijalab/seurat/issues/8216\n  seu_list[[slice]][[\"RNA\"]] &lt;- seu_list[[slice]][[\"Spatial\"]]\n  DefaultAssay(seu_list[[slice]]) &lt;- \"RNA\"\n  \n}\n\nseu_list &lt;- lapply(X = seu_list, FUN = SCTransform, assay = \"RNA\",\n                   vars.to.regress = \"percent_mt\")\n\n\n\n\n\n\n\nExercise\n\n\n\nAfter running the code, to do the SCT transformation, which assays have been added to the seurat object? Note that you can get assay data with the function Assays.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nJust by typing the object name (seu) we see which layers are in there:\n\nAssays(seu_list[[1]])\n\n[1] \"Spatial\" \"RNA\"     \"SCT\"    \n\n\nShowing us that an assay called SCT has appeared.\n\n\n\nNow that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. Myl4:\n\nSpatialPlot(seu_list$Anterior,\n            features = \"Myl4\") + \n  SpatialPlot(seu_list$Posterior, \n              features = \"Myl4\") + \n  plot_layout(guides = \"collect\") & \n  theme(legend.position = \"right\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nCreate the same plot, but now for the gene Calb2. In which two parts of the brain is it primarily expressed?\nHint: check out Allen Brain Atlas for the names of the different parts of the brain.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\ngene &lt;- \"Calb2\"\nSpatialPlot(seu_list$Anterior,\n            features = gene) + \n  SpatialPlot(seu_list$Posterior, \n              features = gene) + \n  plot_layout(guides = \"collect\") & \n  theme(legend.position = \"right\")\n\n\n\n\n\n\n\n\nIt’s mainly expressed in the olfactory bulb (left of the anterior slice) and cerebellum (right of the posterior slice).\n\n\n\nAfter quality control and transformation, we can save the output as an rds files:\n\nsaveRDS(seu_list,\n        paste0(\"output/seu_part3.rds\"))"
   },
   {
     "objectID": "2_quality_control.html",
@@ -180,5 +96,89 @@
     "title": "Quality control",
     "section": "Filtering",
     "text": "Filtering\n\nIdentifying low-quality spots\nWe decide to filter out the spot that is high in UMI counts in the Anterior slice and in addition, we will filter spots that have fewer than 500 genes expressed. In order to visualize the spots we create two more columns in the @meta.data slot that represent which cell are filtered out. s\n\n# defining the high mt spot in anterior\nseu$percent_mt_keep &lt;- !(seu$orig.ident == \"Anterior\" & seu$percent_mt &gt; 38)\n\ncells_mt_keep &lt;- colnames(seu)[seu$percent_mt_keep]\n\nSpatialPlot(seu, cells.highlight = cells_mt_keep,\n            cols.highlight = c(\"grey50\", \"red\"),\n            pt.size.factor = 2.5) +\n  plot_annotation(title = \"Filter % mitochondrial UMI\") +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") \n\n\n\n\n\n\n\n# defining the low number of genes\nseu$nFeature_Spatial_keep &lt;- seu$nFeature_Spatial &gt; 100\n\ncells_nfeature_keep &lt;- colnames(seu)[seu$nFeature_Spatial_keep]\n\nSpatialPlot(seu, cells.highlight = cells_nfeature_keep,\n            cols.highlight = c(\"grey50\", \"red\"),\n            pt.size.factor = 2.5) +\n  plot_annotation(title = \"Filter % low number of features\") +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") \n\n\n\n\n\n\n\n\nNow, we remove the spots, and visualize the spots that are left over:\n\nseu &lt;- seu[, seu$percent_mt_keep & seu$nFeature_Spatial_keep]\n\nSpatialPlot(seu, group.by = \"percent_mt_keep\", pt.size.factor = 2.5)  +\n  plot_layout(guides='collect') & theme(legend.position = \"none\") & \n  scale_fill_manual(values = c(\"black\"))\n\n\n\n\n\n\n\n\n\n\nGene-level QC\nSome genes can be expressed in very high percentages and therefore have a large effect on the normalization. In order to see whether there are genes that are very high expressed we can plot them by percentage of the total counts per spot:\n\nmost_expressed_boxplot &lt;- function(raw_counts) {\n  raw_counts@x &lt;-\n    raw_counts@x / rep.int(colSums(raw_counts), diff(raw_counts@p)) * 100\n  most_expressed &lt;-\n    order(Matrix::rowSums(raw_counts), decreasing = TRUE)[30:1]\n  \n  raw_counts[most_expressed,] |&gt;\n    as.matrix() |&gt;\n    t() |&gt;\n    boxplot(\n      cex.axis = 0.5,\n      cex.lab = 0.8,\n      cex = 0.1,\n      las = 1,\n      xlab = \"% total count per spot\",\n      col = (scales::hue_pal())(30)[30:1],\n      horizontal = TRUE\n    )\n}\n\n\nmost_expressed_boxplot(seu[[\"Spatial\"]]$counts.1)\n\n\n\n\n\n\n\nmost_expressed_boxplot(seu[[\"Spatial\"]]$counts.2)\n\n\n\n\n\n\n\n\nAs we don’t see very high expression percentages, and it happens for expected genes (e.g. Bc1), we decide to keep all genes in the analysis.\nAfter quality control, we can save the output as an rds files:\n\noutput_folder &lt;- \"output\"\ndir.create(output_folder, showWarnings = FALSE)\n\nsaveRDS(seu,\n        paste0(\"output/seu_part2.rds\"))"
+  },
+  {
+    "objectID": "1_setup.html",
+    "href": "1_setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "Download the presentation"
+  },
+  {
+    "objectID": "1_setup.html#material",
+    "href": "1_setup.html#material",
+    "title": "Setup",
+    "section": "",
+    "text": "Download the presentation"
+  },
+  {
+    "objectID": "1_setup.html#exercises",
+    "href": "1_setup.html#exercises",
+    "title": "Setup",
+    "section": "Exercises",
+    "text": "Exercises\n\nLogin and set up\nLog in to Rstudio server with the provided link, username and password.\n\n\nCreate a project\nNow that you have access to an environment with the required installations, we will set up a project in a new directory. On the top right choose the button Project (None) and select New Project…\n\nContinue by choosing New Directory\n\nAs project type select New Project\n\nFinally, type in the project name. This should be spatial_transcriptomics_course. Finish by clicking Create Project.\n\nNow that we have setup a project and a project directory (it is in /home/rstudio/spatial_transcriptomics_course), we can download the data that is required for this course. We will use the built-in terminal of Rstudio. To do this, select the Terminal tab:\n\n\n\nDownloading the course data\nTo download and extract the dataset, copy-paste these commands inside the terminal tab:\n\nmkdir -p course_data/Anterior\nmkdir -p course_data/Posterior\n\n# Anterior\ncd course_data/Anterior\n\nLINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Anterior/V1_Mouse_Brain_Sagittal_Anterior\n\ncurl -o filtered_feature_bc_matrix.h5 \"$LINK_PREFIX\"_filtered_feature_bc_matrix.h5\ncurl -o spatial.tar.gz \"$LINK_PREFIX\"_spatial.tar.gz\ncurl -o web_summary.html \"$LINK_PREFIX\"_web_summary.html\n\ntar -xf spatial.tar.gz\nrm spatial.tar.gz\n\n# Posterior\ncd ../Posterior\n\nLINK_PREFIX=https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Mouse_Brain_Sagittal_Posterior/V1_Mouse_Brain_Sagittal_Posterior\n\ncurl -o filtered_feature_bc_matrix.h5 \"$LINK_PREFIX\"_filtered_feature_bc_matrix.h5\ncurl -o spatial.tar.gz \"$LINK_PREFIX\"_spatial.tar.gz\ncurl -o web_summary.html \"$LINK_PREFIX\"_web_summary.html\n\ntar -xf spatial.tar.gz\nrm spatial.tar.gz\n\nHave a look at the data directory you have downloaded. It should contain the required data for two slices, the anterior side of a sagittal brain slice, and a posterior side:\ncourse_data/\n├── Anterior\n│   ├── filtered_feature_bc_matrix.h5\n│   ├── spatial\n│   │   ├── aligned_fiducials.jpg\n│   │   ├── detected_tissue_image.jpg\n│   │   ├── scalefactors_json.json\n│   │   ├── tissue_hires_image.png\n│   │   ├── tissue_lowres_image.png\n│   │   └── tissue_positions_list.csv\n│   └── web_summary.html\n└── Posterior\n    ├── filtered_feature_bc_matrix.h5\n    ├── spatial\n    │   ├── aligned_fiducials.jpg\n    │   ├── detected_tissue_image.jpg\n    │   ├── scalefactors_json.json\n    │   ├── tissue_hires_image.png\n    │   ├── tissue_lowres_image.png\n    │   └── tissue_positions_list.csv\n    └── web_summary.html\n\n4 directories, 16 files\nThis data is provided by 10x genomics, and further information, like material and methods can be found here:\n\nAnterior: https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-anterior-1-standard-1-1-0\nPosterior: https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-1-0"
+  },
+  {
+    "objectID": "3_normalization_scaling.html",
+    "href": "3_normalization_scaling.html",
+    "title": "Normalization and scaling",
+    "section": "",
+    "text": "Loading the required packages:\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\nWe load the object that was output of the quality control part:\nseu &lt;- readRDS(\"output/seu_part2.rds\")"
+  },
+  {
+    "objectID": "3_normalization_scaling.html#normalization-and-scaling-with-sctransform",
+    "href": "3_normalization_scaling.html#normalization-and-scaling-with-sctransform",
+    "title": "Normalization and scaling",
+    "section": "Normalization and scaling with SCTransform",
+    "text": "Normalization and scaling with SCTransform\nBiological heterogeneity in spatial RNA-seq data is often confounded by technical factors including sequencing depth. The number of molecules detected in each spot can vary significantly between spots, even within the same celltype. Note that the variance in molecular counts/spot can be substantial for spatial datasets, particularly if there are differences in cell density across the tissue.\nTherefore, we apply sctransform normalization (Hafemeister and Satija, Genome Biology 2019), which builds regularized negative binomial models of gene expression in order to account for technical artifacts while preserving biological variance. During the normalization, we also remove confounding sources of variation (here we take mitochondrial mapping percentage).\nWe need to apply SCTransform on each individual slice. Therefore, we split the object back into a list (with SplitObject). Next, we run into a small issue that both slice images are maintained in the split object, so we have keep only the image corresponding to the count table. Then, we apply SCTransform on the individual slices and merge the objects back together with merge:\n\nseu_list &lt;- SplitObject(seu, split.by = \"orig.ident\")\n\n# preparing both objects for SCTransform\nfor(slice in names(seu_list)) {\n  \n  # images aren't split with SplitObject. Resetting the images. \n  seu_list[[slice]]@images &lt;- setNames(\n    list(seu_list[[slice]]@images[[slice]]),\n    slice)\n  \n  # bugfix based on https://github.com/satijalab/seurat/issues/8216\n  seu_list[[slice]][[\"RNA\"]] &lt;- seu_list[[slice]][[\"Spatial\"]]\n  DefaultAssay(seu_list[[slice]]) &lt;- \"RNA\"\n  \n}\n\nseu_list &lt;- lapply(X = seu_list, FUN = SCTransform, assay = \"RNA\",\n                   vars.to.regress = \"percent_mt\")\n\n\n\n\n\n\n\nExercise\n\n\n\nAfter running the code, to do the SCT transformation, which assays have been added to the seurat object? Note that you can get assay data with the function Assays.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nJust by typing the object name (seu) we see which layers are in there:\n\nAssays(seu_list[[1]])\n\n[1] \"Spatial\" \"RNA\"     \"SCT\"    \n\n\nShowing us that an assay called SCT has appeared.\n\n\n\nNow that we have done the transformation it is also possible to plot gene experssion information in a spatial context, e.g. Myl4:\n\nSpatialPlot(seu_list$Anterior,\n            features = \"Myl4\") + \n  SpatialPlot(seu_list$Posterior, \n              features = \"Myl4\") + \n  plot_layout(guides = \"collect\") & \n  theme(legend.position = \"right\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nCreate the same plot, but now for the gene Calb2. In which two parts of the brain is it primarily expressed?\nHint: check out Allen Brain Atlas for the names of the different parts of the brain.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\ngene &lt;- \"Calb2\"\nSpatialPlot(seu_list$Anterior,\n            features = gene) + \n  SpatialPlot(seu_list$Posterior, \n              features = gene) + \n  plot_layout(guides = \"collect\") & \n  theme(legend.position = \"right\")\n\n\n\n\n\n\n\n\nIt’s mainly expressed in the olfactory bulb (left of the anterior slice) and cerebellum (right of the posterior slice).\n\n\n\nAfter quality control and transformation, we can save the output as an rds files:\n\nsaveRDS(seu_list,\n        paste0(\"output/seu_part3.rds\"))"
+  },
+  {
+    "objectID": "5_marker_gene_identification.html",
+    "href": "5_marker_gene_identification.html",
+    "title": "Marker gene identification",
+    "section": "",
+    "text": "We load the required packages:\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(clustree)\nlibrary(patchwork)\nlibrary(dplyr)\nAnd we load the list created after normalization and scaling, followed by a merge:\nseu &lt;- readRDS(\"output/seu_part4.rds\")"
+  },
+  {
+    "objectID": "5_marker_gene_identification.html#marker-genes",
+    "href": "5_marker_gene_identification.html#marker-genes",
+    "title": "Marker gene identification",
+    "section": "Marker genes",
+    "text": "Marker genes\nFinally, we can identify marker genes for each cluster. For that, we move away from the integrated assay, and use SCT as default again. Because our object is a merge between two slices, each with their own SCT model, we need to correct the counts and data slots. This is done by PrepSCTFindMakers. After that, we use FindAllMarkers to identify markers for each cluster versus all other spots.\n\nDefaultAssay(seu) &lt;- \"SCT\"\nseu &lt;- PrepSCTFindMarkers(seu)\nall_marks &lt;- FindAllMarkers(seu, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n\n\n\n\n\n\nExercise\n\n\n\nCheck out the results in all_marks. What is the top marker for cluster 4?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nHere’s a oneliner for a table representation:\n\nall_marks |&gt;\n  filter(cluster == 4) |&gt;\n  arrange(desc(avg_log2FC)) |&gt;\n  head(5) |&gt;\n  knitr::kable()\n\n\n\n\n\np_val\navg_log2FC\npct.1\npct.2\np_val_adj\ncluster\ngene\n\n\n\n\nLtbp2\n0\n4.103064\n0.368\n0.030\n0\n4\nLtbp2\n\n\nCnpy11\n0\n4.084387\n0.596\n0.097\n0\n4\nCnpy1\n\n\nCbln31\n0\n4.075309\n0.609\n0.161\n0\n4\nCbln3\n\n\nIl20rb1\n0\n4.036047\n0.488\n0.059\n0\n4\nIl20rb\n\n\nGabra61\n0\n4.031573\n0.604\n0.150\n0\n4\nGabra6\n\n\n\n\n\n\n\n\nTo get a broad overview of all marker genes we can do the following:\n\nFind the top 3 marker genes for each cluster. Here, we take an approximation of the test statistic (avg_log2FC * -log10(p_val_adj + 1e-300)) to sort the genes.\nThen we create a dotplot of the expression of each gene per cluster\n\n\ntop_markers &lt;- all_marks |&gt;\n  mutate(order_value = avg_log2FC * -log10(p_val_adj + 1e-300)) |&gt;\n  group_by(cluster) |&gt;\n  slice_max(n = 3, order_by = order_value)\n\nDotPlot(seu, features = unique(top_markers$gene)) +\n  scale_x_discrete(guide = guide_axis(angle = 45))\n\n\n\n\n\n\n\n\nNow, we can check whether the expression pattern corresponds with the cluster, e.g. the top marker of cluster 3:\n\nSpatialDimPlot(seu, \n               cells.highlight = CellsByIdentities(object = seu,\n                                                   idents = 7)) + \n  plot_layout(guides='collect') &\n  theme(legend.position = \"none\") \n\n\n\n\n\n\n\nSpatialPlot(seu,\n            features = top_markers$gene[top_markers$cluster == 7][1],\n            pt.size.factor = 2) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nWhat kind of tissue is cluster 7 you think? Does the mouse brain atlas show similar patterns for this gene?\nCompare the expression to the images at Allen Brain Atlas to figure out the tissue type.\nTo compare the expression, go to mouse.brain-map.org, type the gene name in the search box. Select the gene entry in the sagittal plane, click ‘View selections’ at the left bottom of the page. Select a similar slice (i.e. in the middle of the brain).\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nBased on the comparison of the brain atlas it seems to be layer 2/3 of the isocortex.\nIt has similar expression based on in-situ hybridization from the brain atlas. Also expression in the striatium and medulla correspond.\n\n\n\n\n\n\n\n\n\n\nExercise\n\n\n\nCreate the same visualization for cluster 0. What is the top marker? Can you guess what kind of cells this tissue is mostly comprised of?\nThe marker is expressed in many spots, and therefore it is not part of specific cell groups. Therefore, check out the gene at e.g. wikipedia.\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\nSpatialDimPlot(seu, \n               cells.highlight = CellsByIdentities(object = seu,\n                                                   idents = 0)) + \n  plot_layout(guides='collect') &\n  theme(legend.position = \"none\") \n\n\n\n\n\n\n\nSpatialPlot(seu,\n            features = top_markers$gene[top_markers$cluster == 0][1],\n            pt.size.factor = 2) \n\n\n\n\n\n\n\n\nThe top gene is Plp1 which protein is an important component of the myelin sheets of neurons. Therefore cluster 0 seems to represent the white matter of the brain."
+  },
+  {
+    "objectID": "5_marker_gene_identification.html#bonus-exercise-spatially-variable-features",
+    "href": "5_marker_gene_identification.html#bonus-exercise-spatially-variable-features",
+    "title": "Marker gene identification",
+    "section": "Bonus exercise: spatially variable features",
+    "text": "Bonus exercise: spatially variable features\nIn stead of looking for features that are variable among all spots, you can also identify that mainly vary in space, i.e. while taking spot distance into account:\n\n# take the output of part 3 (non-integrated and non-clustered)\nseu_list &lt;- readRDS(\"output/seu_part3.rds\")\n\n# we only do Anterior for now\nDefaultAssay(seu_list$Anterior) &lt;- \"SCT\"\n\nseu_list$Anterior &lt;-\n  FindSpatiallyVariableFeatures(\n    seu_list$Anterior,\n    selection.method = \"moransi\",\n    features = VariableFeatures(seu_list$Anterior)\n  )\n\nspatialFeatures &lt;-\n  SVFInfo(seu_list$Anterior, method = \"moransi\", status = TRUE)\n\nspatialFeatures &lt;-\n  spatialFeatures |&gt; arrange(rank)\n\n\n\n\n\n\n\nExercise\n\n\n\nRun the code and plot the top spatial variable genes.\nThe spatial features are ordered already ordered, so you can get them with e.g.\n\nrownames(spatialFeatures)[1:4]\n\nAny interesting marker genes in there?\n\n\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n\nSpatialPlot(seu_list$Anterior,\n            features = rownames(spatialFeatures)[1:4],\n            ncol = 2)"
+  },
+  {
+    "objectID": "index.html#teachers",
+    "href": "index.html#teachers",
+    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
+    "section": "Teachers",
+    "text": "Teachers\n\nHeidi Tschanz-Lischer\nDavid Ferreira Francisco\nGeert van Geest ORCiD"
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
+    "section": "Introduction",
+    "text": "Introduction\nSpatial transcriptomics has emerged as a transformative technique in biology, revolutionizing our ability to study cellular organization and function within tissues. With varying spatial transcriptomics techniques, we can measure transcriptome-scale gene expression in a two-dimensionally resolved resolution. This workshop will provide an in-depth introduction to the analysis of spatial transcriptomics data, equipping participants with the skills and knowledge to confidently handle, analyze, and interpret spatial transcriptomics data sets. In the tutorial, there will be an overview of different spatial transcriptomics techniques, but the hands-on exercises will be using 10x Visium data."
+  },
+  {
+    "objectID": "index.html#license-copyright",
+    "href": "index.html#license-copyright",
+    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
+    "section": "License & copyright",
+    "text": "License & copyright\nLicense: CC BY 4.0"
+  },
+  {
+    "objectID": "index.html#learning-outcomes",
+    "href": "index.html#learning-outcomes",
+    "title": "SIB Days tutorial: Analysis of spatial transcriptomics data",
+    "section": "Learning outcomes",
+    "text": "Learning outcomes\n\nGeneral learning outcomes\nAfter this course, you will be able to:\n\nUnderstand the general concepts behind the most-used methods to obtain spatial transcriptomics data.\nUnderstand the methods behind 10x Visium and the resulting data in depth.\nPerform quality control on spatial transcriptomics data.\nPerform dimensionality reduction and clustering on spatial transcriptomics data.\nPerform marker genes identification and understand its biological meaning and limitations.\n\n\n\nExercises\nEach block has practical work involved. Some more than others. The practicals are subdivided into chapters, and we’ll have a (short) discussion after each chapter. All answers to the practicals are incorporated, but they are hidden. Do the exercise first by yourself, before checking out the answer. If your answer is different from the answer in the practicals, try to figure out why they are different."
   }
 ]
