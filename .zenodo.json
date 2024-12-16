@@ -1,0 +1,29 @@
+{
+    "upload_type": "lesson",
+    "license": "cc-by-4.0",
+    "title": "Course material Analysis of spatial transcriptomics data",
+    "keywords": [
+      "NGS",
+      "spatial transcriptomics",
+      "Seurat",
+      "transcriptomics",
+      "course",
+      "training"
+    ],
+    "creators": [
+      {
+        "name": "Tschanz-Lischer, Heidi",
+        "affiliation": "Interfactulty Bioinformatics Unit, University of Bern"
+      },
+      {
+        "name": "Ferreira Francisco, David",
+        "affiliation": "Interfactulty Bioinformatics Unit, University of Bern"
+      },
+      {
+        "name": "Geert van Geest",
+        "affiliation": "SIB Swiss Institute of Bioinformatics",
+        "orcid": "0000-0002-1561-078X"
+      }
+    ]
+  }
+  
